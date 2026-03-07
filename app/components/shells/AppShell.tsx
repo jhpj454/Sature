@@ -67,6 +67,12 @@ function NavLinks({
   );
 }
 
+function splitNavItems(items: NavItem[]) {
+  const settingsItem = items.find((item) => item.label === "Settings");
+  const primaryItems = items.filter((item) => item.label !== "Settings");
+  return { primaryItems, settingsItem };
+}
+
 export function AppShell({
   appName,
   role,
@@ -79,20 +85,22 @@ export function AppShell({
   const pathname = usePathname();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const navItems = useMemo(() => getNavForRole(role), [role]);
+  const { primaryItems, settingsItem } = useMemo(() => splitNavItems(navItems), [navItems]);
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-zinc-200 bg-white p-5 md:flex md:flex-col">
-        <div>
+        <div className="flex h-full flex-col">
           <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">{appName}</p>
           <p className="mt-1 text-sm text-zinc-600">{role}</p>
           <div className="mt-6">
-            <NavLinks items={navItems} pathname={pathname} />
+            <NavLinks items={primaryItems} pathname={pathname} />
           </div>
-        </div>
-
-        <div className="mt-auto border-t border-zinc-200 pt-4">
-          <LogoutButton className="w-full" />
+          {settingsItem ? (
+            <div className="mt-auto border-t border-zinc-200 pt-4">
+              <NavLinks items={[settingsItem]} pathname={pathname} />
+            </div>
+          ) : null}
         </div>
       </aside>
 
@@ -165,9 +173,6 @@ export function AppShell({
             onNavigate={() => setMobileNavOpen(false)}
             pathname={pathname}
           />
-        </div>
-        <div className="mt-6 border-t border-zinc-200 pt-4">
-          <LogoutButton className="w-full" />
         </div>
       </Sheet>
     </div>

@@ -37,15 +37,19 @@ async function fetchWithSessionCookies(path: string, init?: RequestInit) {
     requestHeaders.set("cookie", cookieHeader);
   }
 
-  return fetch(`${baseUrl}${path}`, {
+  const requestUrl = `${baseUrl}${path}`;
+
+  const response = await fetch(requestUrl, {
     ...init,
     headers: requestHeaders,
     cache: "no-store",
   });
+
+  return { response, requestUrl };
 }
 
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetchWithSessionCookies(path, init);
+  const { response } = await fetchWithSessionCookies(path, init);
 
   if (response.status === 401) {
     redirect("/login");
@@ -66,35 +70,67 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
 }
 
 export type SafeApiFetchResult<T> =
-  | { ok: true; status: number; data: T }
-  | { ok: false; status: number; errorMessage: string };
+  | {
+      ok: true;
+      status: number;
+      data: T;
+      requestUrl: string;
+      responsePreview: string;
+    }
+  | {
+      ok: false;
+      status: number;
+      errorMessage: string;
+      requestUrl: string;
+      responsePreview: string;
+    };
 
 export async function safeApiFetchJson<T>(
   path: string,
   init?: RequestInit,
 ): Promise<SafeApiFetchResult<T>> {
   try {
-    const response = await fetchWithSessionCookies(path, init);
-    const payload = (await response.json().catch(() => null)) as
-      | T
-      | { error?: string; message?: string }
-      | null;
+    const { response, requestUrl } = await fetchWithSessionCookies(path, init);
+    const rawText = await response.text();
+    const parsedPayload = (() => {
+      if (!rawText) return null;
+      try {
+        return JSON.parse(rawText) as T | { error?: string; message?: string };
+      } catch {
+        return null;
+      }
+    })();
+    const responsePreview = rawText.slice(0, 500);
 
     if (!response.ok) {
       const message =
-        (payload as { error?: string; message?: string } | null)?.error ??
-        (payload as { error?: string; message?: string } | null)?.message ??
+        (parsedPayload as { error?: string; message?: string } | null)?.error ??
+        (parsedPayload as { error?: string; message?: string } | null)?.message ??
         `API request failed for ${path}: ${response.status}`;
 
-      return { ok: false, status: response.status, errorMessage: message };
+      return {
+        ok: false,
+        status: response.status,
+        errorMessage: message,
+        requestUrl,
+        responsePreview,
+      };
     }
 
-    return { ok: true, status: response.status, data: payload as T };
+    return {
+      ok: true,
+      status: response.status,
+      data: parsedPayload as T,
+      requestUrl,
+      responsePreview,
+    };
   } catch {
     return {
       ok: false,
       status: 0,
       errorMessage: `Network error while calling ${path}`,
+      requestUrl: path,
+      responsePreview: "",
     };
   }
 }
