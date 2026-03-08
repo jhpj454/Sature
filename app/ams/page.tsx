@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { safeApiFetchJson } from "@/app/ams/_lib/api";
 import { buildRenewalsSnapshotQueryString } from "@/app/ams/_lib/policyQueries";
+import type { AmsDashboardData } from "@/app/api/ams/dashboard/route";
 
 type RenewalRow = {
   id: string;
@@ -25,9 +26,12 @@ export default async function AmsDashboardPage() {
     to: toIsoDate(endOfWindow),
   });
 
-  const renewalsRequest = await safeApiFetchJson<{ ok: true; data: RenewalRow[] }>(
-    `/api/ams/renewals/snapshot${renewalsQuery}`,
-  );
+  const [renewalsRequest, dashboardRequest] = await Promise.all([
+    safeApiFetchJson<{ ok: true; data: RenewalRow[] }>(
+      `/api/ams/renewals/snapshot${renewalsQuery}`,
+    ),
+    safeApiFetchJson<{ ok: true; data: AmsDashboardData }>("/api/ams/dashboard"),
+  ]);
 
   const renewalsCount =
     renewalsRequest.ok && Array.isArray(renewalsRequest.data.data)
@@ -37,6 +41,8 @@ export default async function AmsDashboardPage() {
     renewalsRequest.ok && renewalsRequest.data.data.length > 0
       ? renewalsRequest.data.data[0]
       : null;
+
+  const dashboard = dashboardRequest.ok ? dashboardRequest.data.data : null;
 
   return (
     <div className="space-y-5">
@@ -58,14 +64,22 @@ export default async function AmsDashboardPage() {
         </div>
       </div>
 
+      {!dashboardRequest.ok && (
+        <p className="text-sm text-rose-600">{dashboardRequest.errorMessage}</p>
+      )}
+
       <section className="grid gap-4 md:grid-cols-4">
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
           <h2 className="text-sm font-medium text-zinc-700">Cases Open</h2>
-          <p className="mt-3 text-2xl font-semibold text-zinc-900">--</p>
+          <p className="mt-3 text-2xl font-semibold text-zinc-900">
+            {dashboard != null ? dashboard.open_cases_mine : "—"}
+          </p>
         </article>
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
           <h2 className="text-sm font-medium text-zinc-700">Tasks Due Today</h2>
-          <p className="mt-3 text-2xl font-semibold text-zinc-900">--</p>
+          <p className="mt-3 text-2xl font-semibold text-zinc-900">
+            {dashboard != null ? dashboard.tasks_due_today_mine : "—"}
+          </p>
         </article>
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
           <div className="flex items-start justify-between gap-3">
@@ -82,7 +96,7 @@ export default async function AmsDashboardPage() {
                 </>
               ) : (
                 <>
-                  <p className="mt-3 text-2xl font-semibold text-zinc-900">--</p>
+                  <p className="mt-3 text-2xl font-semibold text-zinc-900">—</p>
                   <p className="mt-2 text-xs text-rose-600">{renewalsRequest.errorMessage}</p>
                 </>
               )}
@@ -96,8 +110,10 @@ export default async function AmsDashboardPage() {
           </div>
         </article>
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
-          <h2 className="text-sm font-medium text-zinc-700">Unassigned Work</h2>
-          <p className="mt-3 text-2xl font-semibold text-zinc-900">--</p>
+          <h2 className="text-sm font-medium text-zinc-700">Policies Expiring (30 days)</h2>
+          <p className="mt-3 text-2xl font-semibold text-zinc-900">
+            {dashboard != null ? dashboard.policies_expiring_30_days : "—"}
+          </p>
         </article>
       </section>
     </div>
