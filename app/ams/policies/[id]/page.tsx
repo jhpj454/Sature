@@ -7,6 +7,16 @@ import { DetailHeader } from "@/app/ams/_components/DetailHeader";
 import { InlineError } from "@/app/ams/_components/InlineError";
 import { PriorityBadge } from "@/app/ams/_components/PriorityBadge";
 import { StatusBadge } from "@/app/ams/_components/StatusBadge";
+import { InterestedPartiesPanel } from "./InterestedPartiesPanel";
+import { LimitsPanel } from "./LimitsPanel";
+import { CoveragesPanel } from "./CoveragesPanel";
+import { EndorsementsPanel } from "./EndorsementsPanel";
+import { ScheduleItemsPanel } from "./ScheduleItemsPanel";
+import type { InterestedParty } from "./InterestedPartiesPanel";
+import type { PolicyLimit } from "./LimitsPanel";
+import type { PolicyCoverage } from "./CoveragesPanel";
+import type { PolicyEndorsement } from "./EndorsementsPanel";
+import type { PolicyScheduleItem } from "./ScheduleItemsPanel";
 
 type Policy = {
   id: string;
@@ -78,8 +88,19 @@ type RenewalRule = {
   case_priority: string;
 };
 
-const TABS = ["overview", "exposures", "transactions", "renewal"] as const;
+const TABS = ["overview", "exposures", "transactions", "renewal", "parties", "limits", "coverages", "endorsements", "schedule"] as const;
 type Tab = (typeof TABS)[number];
+const TAB_LABELS: Record<Tab, string> = {
+  overview: "Overview",
+  exposures: "Exposures",
+  transactions: "Transactions",
+  renewal: "Renewal",
+  parties: "Interested Parties",
+  limits: "Limits",
+  coverages: "Coverages",
+  endorsements: "Endorsements",
+  schedule: "Schedule",
+};
 const RENEWAL_OFFSETS = [120, 90, 60, 30, 14, 7, 1] as const;
 
 function normalizeTab(value: string | undefined): Tab {
@@ -147,7 +168,17 @@ export default async function PolicyDetailPage({
     (usersRequest.ok ? usersRequest.data.data : []).map((row) => [row.id, row.display_name]),
   );
 
-  const [exposuresRes, transactionsRes, rulesRes, serviceCasesRes] = await Promise.all([
+  const [
+    exposuresRes,
+    transactionsRes,
+    rulesRes,
+    serviceCasesRes,
+    partiesRes,
+    limitsRes,
+    coveragesRes,
+    endorsementsRes,
+    scheduleRes,
+  ] = await Promise.all([
     tab === "exposures"
       ? safeApiFetchJson<{ ok: true; data: PolicyExposure[] }>(`/api/policies/${id}/exposures`)
       : Promise.resolve({
@@ -178,12 +209,52 @@ export default async function PolicyDetailPage({
           status: 200,
           data: { ok: true as const, data: [] as ServiceCase[] },
         }),
+    tab === "parties"
+      ? safeApiFetchJson<{ ok: true; data: InterestedParty[] }>(`/api/policies/${id}/interested-parties`)
+      : Promise.resolve({
+          ok: true as const,
+          status: 200,
+          data: { ok: true as const, data: [] as InterestedParty[] },
+        }),
+    tab === "limits"
+      ? safeApiFetchJson<{ ok: true; data: PolicyLimit[] }>(`/api/policies/${id}/limits`)
+      : Promise.resolve({
+          ok: true as const,
+          status: 200,
+          data: { ok: true as const, data: [] as PolicyLimit[] },
+        }),
+    tab === "coverages"
+      ? safeApiFetchJson<{ ok: true; data: PolicyCoverage[] }>(`/api/policies/${id}/coverages`)
+      : Promise.resolve({
+          ok: true as const,
+          status: 200,
+          data: { ok: true as const, data: [] as PolicyCoverage[] },
+        }),
+    tab === "endorsements"
+      ? safeApiFetchJson<{ ok: true; data: PolicyEndorsement[] }>(`/api/policies/${id}/endorsements`)
+      : Promise.resolve({
+          ok: true as const,
+          status: 200,
+          data: { ok: true as const, data: [] as PolicyEndorsement[] },
+        }),
+    tab === "schedule"
+      ? safeApiFetchJson<{ ok: true; data: PolicyScheduleItem[] }>(`/api/policies/${id}/schedule-items`)
+      : Promise.resolve({
+          ok: true as const,
+          status: 200,
+          data: { ok: true as const, data: [] as PolicyScheduleItem[] },
+        }),
   ]);
 
   const exposuresData = exposuresRes.ok ? exposuresRes.data.data : [];
   const transactionsData = transactionsRes.ok ? transactionsRes.data.data : [];
   const rulesData = rulesRes.ok ? rulesRes.data.data : [];
   const serviceCasesData = serviceCasesRes.ok ? serviceCasesRes.data.data : [];
+  const partiesData = partiesRes.ok ? partiesRes.data.data : [];
+  const limitsData = limitsRes.ok ? limitsRes.data.data : [];
+  const coveragesData = coveragesRes.ok ? coveragesRes.data.data : [];
+  const endorsementsData = endorsementsRes.ok ? endorsementsRes.data.data : [];
+  const scheduleData = scheduleRes.ok ? scheduleRes.data.data : [];
 
   const ruleByOffset = new Map(
     rulesData
@@ -224,7 +295,7 @@ export default async function PolicyDetailPage({
             href={`/ams/policies/${id}?tab=${tabKey}`}
             key={tabKey}
           >
-            {tabKey}
+            {TAB_LABELS[tabKey]}
           </Link>
         ))}
       </div>
@@ -337,6 +408,46 @@ export default async function PolicyDetailPage({
             details={transactionsRes.errorMessage}
             retryHref={`/ams/policies/${id}?tab=transactions`}
           />
+        )
+      ) : null}
+
+      {tab === "parties" ? (
+        partiesRes.ok ? (
+          <InterestedPartiesPanel initialData={partiesData} policyId={id} />
+        ) : (
+          <InlineError details={partiesRes.errorMessage} retryHref={`/ams/policies/${id}?tab=parties`} />
+        )
+      ) : null}
+
+      {tab === "limits" ? (
+        limitsRes.ok ? (
+          <LimitsPanel initialData={limitsData} policyId={id} />
+        ) : (
+          <InlineError details={limitsRes.errorMessage} retryHref={`/ams/policies/${id}?tab=limits`} />
+        )
+      ) : null}
+
+      {tab === "coverages" ? (
+        coveragesRes.ok ? (
+          <CoveragesPanel initialData={coveragesData} policyId={id} />
+        ) : (
+          <InlineError details={coveragesRes.errorMessage} retryHref={`/ams/policies/${id}?tab=coverages`} />
+        )
+      ) : null}
+
+      {tab === "endorsements" ? (
+        endorsementsRes.ok ? (
+          <EndorsementsPanel initialData={endorsementsData} policyId={id} />
+        ) : (
+          <InlineError details={endorsementsRes.errorMessage} retryHref={`/ams/policies/${id}?tab=endorsements`} />
+        )
+      ) : null}
+
+      {tab === "schedule" ? (
+        scheduleRes.ok ? (
+          <ScheduleItemsPanel initialData={scheduleData} policyId={id} />
+        ) : (
+          <InlineError details={scheduleRes.errorMessage} retryHref={`/ams/policies/${id}?tab=schedule`} />
         )
       ) : null}
 
