@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DataTable } from "@/app/ams/_components/DataTable";
 import { FilterBar } from "@/app/ams/_components/FilterBar";
@@ -511,7 +512,12 @@ export function LeadsWorkspace({
             header: "Lead",
             render: (lead) => (
               <div className="space-y-1">
-                <p className="font-medium text-zinc-900">{leadDisplayName(lead)}</p>
+                <Link
+                  className="font-medium text-zinc-900 hover:text-blue-700 hover:underline"
+                  href={`/crm/leads/${lead.id}`}
+                >
+                  {leadDisplayName(lead)}
+                </Link>
                 <p className="text-xs text-zinc-500">{lead.company_name || lead.email || lead.phone || "No company yet"}</p>
               </div>
             ),
