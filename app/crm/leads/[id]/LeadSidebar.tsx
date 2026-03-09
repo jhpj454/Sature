@@ -65,7 +65,8 @@ export function LeadSidebar({
   const [statusError, setStatusError] = useState<string | null>(null);
 
   const isConverted = lead.status === "converted";
-  const isTerminal = lead.status === "converted" || lead.status === "archived";
+  const isTerminal =
+    lead.status === "converted" || lead.status === "lost" || lead.status === "archived";
 
   const displayName =
     lead.company_name ||

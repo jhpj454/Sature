@@ -2,13 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { logAudit } from "@/src/server/audit";
 import {
-  activeAgencyUserExists,
   assertCrmUser,
-  deriveLeadAssignmentStatus,
   ForbiddenError,
   getLeadById,
-  getStageById,
-  getVisiblePipeline,
   mapDealStatusFromStageType,
 } from "@/src/server/crm";
 import { emitEvent } from "@/src/server/events";
@@ -17,37 +13,20 @@ import { UnauthorizedError, withTenantClientFromRequest } from "@/src/server/ten
 type RouteContext = { params: Promise<{ id: string }> };
 
 const convertLeadSchema = z.object({
-  pipeline_id: z.string().uuid(),
-  pipeline_stage_id: z.string().uuid(),
-  create_account: z.boolean().default(false),
-  account_id: z.string().uuid().nullable().optional(),
-  account_type: z.enum(["commercial", "personal"]).optional(),
-  account_name: z.string().trim().min(1).optional(),
-  deal_name: z.string().trim().min(1).optional(),
-  estimated_revenue: z.coerce.number().min(0).default(0),
-  estimated_premium: z.coerce.number().min(0).nullable().optional(),
-  estimated_commission_pct: z.coerce.number().min(0).max(1).nullable().optional(),
-  expected_close_date: z
+  title: z.string().trim().min(1, "Deal title is required."),
+  estimated_revenue: z.coerce.number().min(0, "Estimated revenue must be 0 or greater."),
+  pipeline_id: z.string().uuid("Invalid pipeline."),
+  close_date: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Close date must be YYYY-MM-DD.")
     .nullable()
     .optional(),
-  next_step: z.string().trim().nullable().optional(),
+  notes: z.string().trim().nullable().optional(),
+  create_account: z.boolean().optional().default(false),
 });
 
 function jsonError(status: number, error: string) {
   return NextResponse.json({ ok: false, error }, { status });
-}
-
-function buildAccountName(lead: Record<string, string | null>) {
-  if (lead.company_name) return lead.company_name;
-  const fullName = [lead.first_name, lead.last_name].filter(Boolean).join(" ").trim();
-  return fullName || lead.email || lead.phone || "Converted Lead";
-}
-
-function buildDealName(lead: Record<string, string | null>, accountName?: string) {
-  const base = accountName || buildAccountName(lead);
-  return `${base} Opportunity`;
 }
 
 export async function POST(request: NextRequest, context: RouteContext) {
@@ -64,53 +43,54 @@ export async function POST(request: NextRequest, context: RouteContext) {
       return jsonError(400, issue);
     }
 
-    const converted = await withTenantClientFromRequest(request, async (client, session) => {
+    // withTenantClientFromRequest wraps in a transaction — the entire conversion
+    // either fully commits or fully rolls back.
+    const result = await withTenantClientFromRequest(request, async (client, session) => {
       assertCrmUser(session);
+
+      // 1. Load and validate the lead
       const lead = await getLeadById(client, session.agency_id, id, true);
       if (!lead) {
-        return { error: "Lead not found." as const };
+        return { error: "Lead not found.", status: 404 as const };
+      }
+      if (lead.status === "converted" || lead.status === "lost" || lead.status === "archived") {
+        return {
+          error: `Lead cannot be converted — current status is '${lead.status}'.`,
+          status: 422 as const,
+        };
       }
 
-      const pipeline = await getVisiblePipeline(client, session.agency_id, parsed.data.pipeline_id, session);
-      if (!pipeline) {
-        return { error: "Pipeline not found." as const };
-      }
-
-      const stage = await getStageById(client, session.agency_id, parsed.data.pipeline_stage_id);
-      if (!stage || stage.pipeline_id !== parsed.data.pipeline_id) {
-        return { error: "Pipeline stage not found." as const };
-      }
-
-      const producerUserId = lead.assigned_producer_id ?? session.user_id;
-      const producerExists = await activeAgencyUserExists(
-        client,
-        producerUserId,
-        session.agency_id,
-        ["producer", "admin"],
+      // 2. Verify the pipeline belongs to this agency
+      const pipelineRes = await client.query(
+        `SELECT id FROM crm_pipelines WHERE id = $1 AND agency_id = $2 LIMIT 1`,
+        [parsed.data.pipeline_id, session.agency_id],
       );
-      if (!producerExists) {
-        return { error: "Producer not found." as const };
+      if ((pipelineRes.rowCount ?? 0) === 0) {
+        return { error: "Pipeline not found.", status: 404 as const };
       }
 
-      let accountId = parsed.data.account_id ?? null;
+      // 3. Select the first stage of the pipeline ordered by sort_order
+      const stageRes = await client.query(
+        `
+          SELECT id, stage_type
+          FROM crm_pipeline_stages
+          WHERE pipeline_id = $1
+            AND agency_id = $2
+          ORDER BY sort_order ASC
+          LIMIT 1
+        `,
+        [parsed.data.pipeline_id, session.agency_id],
+      );
+      if ((stageRes.rowCount ?? 0) === 0) {
+        return { error: "Pipeline has no stages.", status: 422 as const };
+      }
+      const firstStage = stageRes.rows[0];
+
+      // 4. Optionally create an account
+      let accountId: string | null = null;
       let createdAccount = null;
-      if (accountId) {
-        const accountRes = await client.query(
-          `
-            SELECT *
-            FROM accounts
-            WHERE id = $1
-              AND agency_id = $2
-            LIMIT 1
-          `,
-          [accountId, session.agency_id],
-        );
-        if ((accountRes.rowCount ?? 0) === 0) {
-          return { error: "Customer not found." as const };
-        }
-      } else if (parsed.data.create_account) {
-        const accountName = parsed.data.account_name?.trim() || buildAccountName(lead);
-        const accountType = parsed.data.account_type ?? (lead.company_name ? "commercial" : "personal");
+      if (parsed.data.create_account) {
+        const accountName = lead.company_name?.trim() || "New Customer";
         const accountRes = await client.query(
           `
             INSERT INTO accounts (
@@ -122,14 +102,13 @@ export async function POST(request: NextRequest, context: RouteContext) {
               assigned_csr_id,
               industry_segment,
               notes
-            ) VALUES ($1, $2, $3, 'prospect', $4, NULL, NULL, $5)
+            ) VALUES ($1, 'commercial', $2, 'active', $3, NULL, NULL, $4)
             RETURNING *
           `,
           [
             session.agency_id,
-            accountType,
             accountName,
-            producerUserId,
+            session.user_id,
             `Created from lead ${lead.id}`,
           ],
         );
@@ -161,8 +140,8 @@ export async function POST(request: NextRequest, context: RouteContext) {
         });
       }
 
-      const dealName = parsed.data.deal_name?.trim() || buildDealName(lead, createdAccount?.account_name);
-      const dealStatus = mapDealStatusFromStageType(stage.stage_type);
+      // 5. Create the deal
+      const dealStatus = mapDealStatusFromStageType(firstStage.stage_type);
       const dealRes = await client.query(
         `
           INSERT INTO crm_deals (
@@ -174,48 +153,42 @@ export async function POST(request: NextRequest, context: RouteContext) {
             producer_user_id,
             name,
             estimated_revenue,
-            estimated_premium,
-            estimated_commission_pct,
             expected_close_date,
             next_step,
-            next_step_due_at,
             status
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NULL, $13)
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
           RETURNING *
         `,
         [
           session.agency_id,
           parsed.data.pipeline_id,
-          parsed.data.pipeline_stage_id,
+          firstStage.id,
           accountId,
           lead.id,
-          producerUserId,
-          dealName,
+          session.user_id,
+          parsed.data.title,
           parsed.data.estimated_revenue,
-          parsed.data.estimated_premium ?? null,
-          parsed.data.estimated_commission_pct ?? null,
-          parsed.data.expected_close_date ?? null,
-          parsed.data.next_step ?? null,
+          parsed.data.close_date ?? null,
+          parsed.data.notes ?? null,
           dealStatus,
         ],
       );
       const deal = dealRes.rows[0];
 
+      // 6. Update lead status to converted
       const leadUpdateRes = await client.query(
         `
           UPDATE crm_leads
-          SET
-            status = 'converted',
-            assigned_producer_id = $2,
-            assignment_status = $3
+          SET status = 'converted'
           WHERE id = $1
-            AND agency_id = $4
+            AND agency_id = $2
           RETURNING *
         `,
-        [id, producerUserId, deriveLeadAssignmentStatus(producerUserId), session.agency_id],
+        [id, session.agency_id],
       );
       const updatedLead = leadUpdateRes.rows[0];
 
+      // 7. Audit and events
       await logAudit(client, {
         agencyId: session.agency_id,
         actorUserId: session.user_id,
@@ -249,7 +222,7 @@ export async function POST(request: NextRequest, context: RouteContext) {
         metaJson: {
           deal_id: deal.id,
           account_id: accountId,
-          producer_user_id: producerUserId,
+          producer_user_id: session.user_id,
         },
       });
 
@@ -266,22 +239,14 @@ export async function POST(request: NextRequest, context: RouteContext) {
         },
       });
 
-      return { data: { lead: updatedLead, deal, account: createdAccount } };
+      return { data: { deal_id: deal.id, account_id: accountId } };
     });
 
-    if ("error" in converted) {
-      const statusMap: Record<string, number> = {
-        "Lead not found.": 404,
-        "Pipeline not found.": 404,
-        "Pipeline stage not found.": 404,
-        "Producer not found.": 400,
-        "Customer not found.": 404,
-      };
-      const message = converted.error ?? "Unable to convert lead.";
-      return jsonError(statusMap[message] ?? 400, message);
+    if ("error" in result) {
+      return jsonError(result.status ?? 400, result.error ?? "Unable to convert lead.");
     }
 
-    return NextResponse.json({ ok: true, data: converted.data }, { status: 201 });
+    return NextResponse.json({ ok: true, data: result.data }, { status: 201 });
   } catch (error) {
     if (error instanceof UnauthorizedError) return jsonError(401, "Unauthorized");
     if (error instanceof ForbiddenError) return jsonError(403, "Forbidden");
