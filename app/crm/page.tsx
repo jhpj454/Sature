@@ -100,9 +100,9 @@ export default async function CrmDashboardPage() {
                   <p className="truncate text-sm text-zinc-900">
                     {activity.summary ?? "(no summary)"}
                   </p>
-                  {activity.related_to_type ? (
+                  {activity.entity_type ? (
                     <p className="text-xs text-zinc-400">
-                      {activity.related_to_type}
+                      {activity.entity_type.replace(/_/g, " ")}
                     </p>
                   ) : null}
                 </div>

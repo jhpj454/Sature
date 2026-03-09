@@ -72,13 +72,13 @@ export default async function AmsDashboardPage() {
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
           <h2 className="text-sm font-medium text-zinc-700">Cases Open</h2>
           <p className="mt-3 text-2xl font-semibold text-zinc-900">
-            {dashboard != null ? dashboard.open_cases_mine : "—"}
+            {dashboard?.open_cases_mine ?? "—"}
           </p>
         </article>
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
           <h2 className="text-sm font-medium text-zinc-700">Tasks Due Today</h2>
           <p className="mt-3 text-2xl font-semibold text-zinc-900">
-            {dashboard != null ? dashboard.tasks_due_today_mine : "—"}
+            {dashboard?.tasks_due_today_mine ?? "—"}
           </p>
         </article>
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
@@ -112,7 +112,7 @@ export default async function AmsDashboardPage() {
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
           <h2 className="text-sm font-medium text-zinc-700">Policies Expiring (30 days)</h2>
           <p className="mt-3 text-2xl font-semibold text-zinc-900">
-            {dashboard != null ? dashboard.policies_expiring_30_days : "—"}
+            {dashboard?.policies_expiring_30_days ?? "—"}
           </p>
         </article>
       </section>

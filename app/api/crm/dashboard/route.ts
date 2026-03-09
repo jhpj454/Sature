@@ -12,10 +12,10 @@ export interface CrmDashboardData {
     id: string;
     activity_type: string;
     summary: string | null;
-    related_to_type: string | null;
-    related_to_id: string | null;
+    entity_type: string;
+    entity_id: string;
     created_at: string;
-    created_by: string;
+    created_by: string | null;
   }[];
 }
 
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
           [agency_id, user_id],
         ),
         client.query<CrmDashboardData["recent_activities"][number]>(
-          `SELECT id, activity_type, summary, related_to_type, related_to_id, created_at, created_by
+          `SELECT id, activity_type, summary, entity_type, entity_id, created_at, created_by
            FROM activities
            WHERE agency_id = $1
            ORDER BY created_at DESC
