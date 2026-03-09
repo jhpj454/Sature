@@ -62,7 +62,10 @@ export async function GET(request: NextRequest, context: RouteContext) {
             stage.name AS stage_name,
             stage.stage_type,
             a.account_name,
-            producer.display_name AS producer_display_name
+            producer.display_name AS producer_display_name,
+            l.first_name AS lead_first_name,
+            l.last_name AS lead_last_name,
+            l.company_name AS lead_company_name
           FROM crm_deals d
           JOIN crm_pipelines p
             ON p.id = d.pipeline_id
@@ -76,6 +79,9 @@ export async function GET(request: NextRequest, context: RouteContext) {
           LEFT JOIN users producer
             ON producer.id = d.producer_user_id
            AND producer.agency_id = d.agency_id
+          LEFT JOIN crm_leads l
+            ON l.id = d.lead_id
+           AND l.agency_id = d.agency_id
           WHERE d.id = $1
             AND d.agency_id = $2
           LIMIT 1
