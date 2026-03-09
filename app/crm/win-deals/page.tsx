@@ -4,14 +4,13 @@ import { FilterBar } from "@/app/ams/_components/FilterBar";
 import { InlineError } from "@/app/ams/_components/InlineError";
 import { PageHeader } from "@/app/ams/_components/PageHeader";
 import { formatCurrency, formatDate, formatDateTime } from "@/app/ams/_lib/format";
-import { Badge } from "@/app/components/ui/badge";
 import { Button } from "@/app/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Select } from "@/app/components/ui/select";
 import { Tabs } from "@/app/components/ui/tabs";
 import { CreateDealModal } from "@/app/crm/_components/CreateDealModal";
-import { DealStageSelect } from "@/app/crm/_components/DealStageSelect";
+import { KanbanBoard } from "@/app/crm/_components/KanbanBoard";
 import { PipelineSwitcher } from "@/app/crm/_components/PipelineSwitcher";
 import { buildCrmQuery, requireSession, safeApiFetchJson } from "@/app/crm/_lib/api";
 
@@ -182,17 +181,19 @@ export default async function CrmWinDealsPage({
       />
 
       <div className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-4 md:flex-row md:items-center md:justify-between">
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-zinc-700">Pipeline</p>
-          {pipelines.length > 0 ? (
-            <PipelineSwitcher
-              pipelines={pipelines.map((pipeline) => ({ id: pipeline.id, name: pipeline.name }))}
-              selectedPipelineId={selectedPipelineId}
-            />
-          ) : (
-            <p className="text-sm text-zinc-500">No visible pipelines yet.</p>
-          )}
-        </div>
+        {view === "table" ? (
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-zinc-700">Pipeline</p>
+            {pipelines.length > 0 ? (
+              <PipelineSwitcher
+                pipelines={pipelines.map((pipeline) => ({ id: pipeline.id, name: pipeline.name }))}
+                selectedPipelineId={selectedPipelineId}
+              />
+            ) : (
+              <p className="text-sm text-zinc-500">No visible pipelines yet.</p>
+            )}
+          </div>
+        ) : null}
         <Tabs
           active={view}
           items={[
@@ -297,66 +298,26 @@ export default async function CrmWinDealsPage({
               </CardContent>
             </Card>
           ) : view === "board" ? (
-            <div className="grid gap-4 xl:grid-cols-4 2xl:grid-cols-5">
-              {boardColumns.map(({ stage, deals, totalRevenue }) => (
-                <Card key={stage.id} className="flex min-h-[260px] flex-col">
-                  <CardHeader>
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <CardTitle className="text-base text-zinc-900">{stage.name}</CardTitle>
-                        <p className="mt-1 text-sm text-zinc-500">
-                          {deals.length} deal{deals.length === 1 ? "" : "s"}
-                        </p>
-                      </div>
-                      <Badge>{formatCurrency(totalRevenue)}</Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    {deals.length === 0 ? (
-                      <div className="rounded-md border border-dashed border-zinc-200 bg-zinc-50 p-3 text-sm text-zinc-500">
-                        No deals in this stage.
-                      </div>
-                    ) : (
-                      deals.map((deal) => (
-                        <div key={deal.id} className="space-y-3 rounded-lg border border-zinc-200 p-3">
-                          <div className="space-y-1">
-                            <div className="flex items-start justify-between gap-2">
-                              <div>
-                                <p className="text-sm font-semibold text-zinc-900">
-                                  {deal.account_name ?? deal.name}
-                                </p>
-                                {deal.account_name ? (
-                                  <p className="text-xs text-zinc-500">{deal.name}</p>
-                                ) : null}
-                              </div>
-                              <Badge variant="outline">{formatCurrency(deal.estimated_revenue)}</Badge>
-                            </div>
-                            <p className="text-xs text-zinc-500">
-                              Close: {formatDate(deal.expected_close_date)}
-                            </p>
-                          </div>
-                          <div className="space-y-1 text-xs text-zinc-600">
-                            <p>
-                              <span className="font-medium text-zinc-700">Next step:</span>{" "}
-                              {deal.next_step ?? "-"}
-                            </p>
-                            <p>
-                              <span className="font-medium text-zinc-700">Owner:</span>{" "}
-                              {deal.producer_display_name ?? "-"}
-                            </p>
-                          </div>
-                          <DealStageSelect
-                            currentStageId={deal.pipeline_stage_id}
-                            dealId={deal.id}
-                            stages={stageOptions.map((option) => ({ id: option.id, name: option.name }))}
-                          />
-                        </div>
-                      ))
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <KanbanBoard
+              initialColumns={boardColumns.map(({ stage, deals }) => ({
+                stage: {
+                  id: stage.id,
+                  name: stage.name,
+                  sort_order: stage.sort_order,
+                  stage_type: stage.stage_type,
+                },
+                deals: deals.map((deal) => ({
+                  id: deal.id,
+                  name: deal.name,
+                  estimated_revenue: deal.estimated_revenue,
+                  expected_close_date: deal.expected_close_date,
+                  account_name: deal.account_name,
+                  account_id: null,
+                })),
+              }))}
+              initialPipelineId={selectedPipelineId ?? ""}
+              pipelines={pipelines.map((p) => ({ id: p.id, name: p.name }))}
+            />
           ) : (
             <DataTable
               columns={[
