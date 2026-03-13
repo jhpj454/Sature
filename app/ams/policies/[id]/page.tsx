@@ -12,11 +12,13 @@ import { LimitsPanel } from "./LimitsPanel";
 import { CoveragesPanel } from "./CoveragesPanel";
 import { EndorsementsPanel } from "./EndorsementsPanel";
 import { ScheduleItemsPanel } from "./ScheduleItemsPanel";
+import { CertificatesPanel } from "./CertificatesPanel";
 import type { InterestedParty } from "./InterestedPartiesPanel";
 import type { PolicyLimit } from "./LimitsPanel";
 import type { PolicyCoverage } from "./CoveragesPanel";
 import type { PolicyEndorsement } from "./EndorsementsPanel";
 import type { PolicyScheduleItem } from "./ScheduleItemsPanel";
+import type { IssuedCoi } from "./CertificatesPanel";
 
 type Policy = {
   id: string;
@@ -88,7 +90,7 @@ type RenewalRule = {
   case_priority: string;
 };
 
-const TABS = ["overview", "exposures", "transactions", "renewal", "parties", "limits", "coverages", "endorsements", "schedule"] as const;
+const TABS = ["overview", "exposures", "transactions", "renewal", "parties", "limits", "coverages", "endorsements", "schedule", "coi"] as const;
 type Tab = (typeof TABS)[number];
 const TAB_LABELS: Record<Tab, string> = {
   overview: "Overview",
@@ -100,6 +102,7 @@ const TAB_LABELS: Record<Tab, string> = {
   coverages: "Coverages",
   endorsements: "Endorsements",
   schedule: "Schedule",
+  coi: "Certificates",
 };
 const RENEWAL_OFFSETS = [120, 90, 60, 30, 14, 7, 1] as const;
 
@@ -178,6 +181,7 @@ export default async function PolicyDetailPage({
     coveragesRes,
     endorsementsRes,
     scheduleRes,
+    coiRes,
   ] = await Promise.all([
     tab === "exposures"
       ? safeApiFetchJson<{ ok: true; data: PolicyExposure[] }>(`/api/policies/${id}/exposures`)
@@ -244,6 +248,13 @@ export default async function PolicyDetailPage({
           status: 200,
           data: { ok: true as const, data: [] as PolicyScheduleItem[] },
         }),
+    tab === "coi"
+      ? safeApiFetchJson<{ ok: true; data: IssuedCoi[] }>(`/api/ams/policies/${id}/coi`)
+      : Promise.resolve({
+          ok: true as const,
+          status: 200,
+          data: { ok: true as const, data: [] as IssuedCoi[] },
+        }),
   ]);
 
   const exposuresData = exposuresRes.ok ? exposuresRes.data.data : [];
@@ -255,6 +266,7 @@ export default async function PolicyDetailPage({
   const coveragesData = coveragesRes.ok ? coveragesRes.data.data : [];
   const endorsementsData = endorsementsRes.ok ? endorsementsRes.data.data : [];
   const scheduleData = scheduleRes.ok ? scheduleRes.data.data : [];
+  const coiData = coiRes.ok ? coiRes.data.data : [];
 
   const ruleByOffset = new Map(
     rulesData
@@ -448,6 +460,14 @@ export default async function PolicyDetailPage({
           <ScheduleItemsPanel initialData={scheduleData} policyId={id} />
         ) : (
           <InlineError details={scheduleRes.errorMessage} retryHref={`/ams/policies/${id}?tab=schedule`} />
+        )
+      ) : null}
+
+      {tab === "coi" ? (
+        coiRes.ok ? (
+          <CertificatesPanel initialData={coiData} policyId={id} />
+        ) : (
+          <InlineError details={coiRes.errorMessage} retryHref={`/ams/policies/${id}?tab=coi`} />
         )
       ) : null}
 
