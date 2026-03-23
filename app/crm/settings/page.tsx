@@ -11,7 +11,7 @@ export default async function CrmSettingsPage() {
       <SettingsContent
         placeholderTitle="Sales preferences coming soon"
         user={user}
-        workspaceLabel="Saturate CRM"
+        workspaceLabel="Sature CRM"
       />
       <div className="rounded-lg border border-zinc-200 bg-white p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">

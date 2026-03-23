@@ -8,7 +8,7 @@ export default async function AdminSettingsPage() {
     <SettingsContent
       placeholderTitle="Workspace configuration coming soon"
       user={user}
-      workspaceLabel="Saturate Admin"
+      workspaceLabel="Sature Admin"
     />
   );
 }

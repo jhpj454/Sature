@@ -49,7 +49,7 @@ export default async function AmsDashboardPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-zinc-900">AMS Dashboard</h1>
-          <p className="text-sm text-zinc-500">Role: csr</p>
+          <p className="text-sm text-zinc-500">Your agency at a glance.</p>
         </div>
         <div className="flex gap-2">
           <Link

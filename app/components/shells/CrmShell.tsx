@@ -5,7 +5,7 @@ import type { AuthMeResponse } from "@/app/lib/auth";
 export function CrmShell({ user, children }: { user: AuthMeResponse; children: ReactNode }) {
   return (
     <AppShell
-      appName="Saturate CRM"
+      appName="Sature CRM"
       role={user.role}
       userEmail={user.email}
       userName={user.display_name}

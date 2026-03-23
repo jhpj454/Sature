@@ -8,7 +8,7 @@ export default async function MarketingSettingsPage() {
     <SettingsContent
       placeholderTitle="Marketing preferences coming soon"
       user={user}
-      workspaceLabel="Saturate Marketing"
+      workspaceLabel="Sature Marketing"
     />
   );
 }

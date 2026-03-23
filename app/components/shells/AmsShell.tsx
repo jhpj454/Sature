@@ -5,7 +5,7 @@ import type { AuthMeResponse } from "@/app/lib/auth";
 export function AmsShell({ user, children }: { user: AuthMeResponse; children: ReactNode }) {
   return (
     <AppShell
-      appName="Saturate AMS"
+      appName="Sature AMS"
       role={user.role}
       showTopBar
       dense

@@ -8,7 +8,7 @@ export default async function AmsSettingsPage() {
     <SettingsContent
       placeholderTitle="Preferences coming soon"
       user={user}
-      workspaceLabel="Saturate AMS"
+      workspaceLabel="Sature AMS"
     />
   );
 }

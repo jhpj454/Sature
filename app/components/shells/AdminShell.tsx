@@ -5,7 +5,7 @@ import type { AuthMeResponse } from "@/app/lib/auth";
 export function AdminShell({ user, children }: { user: AuthMeResponse; children: ReactNode }) {
   return (
     <AppShell
-      appName="Saturate Admin"
+      appName="Sature Admin"
       role={user.role}
       showTopBar
       userEmail={user.email}

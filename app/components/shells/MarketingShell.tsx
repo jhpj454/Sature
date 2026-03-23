@@ -5,7 +5,7 @@ import type { AuthMeResponse } from "@/app/lib/auth";
 export function MarketingShell({ user, children }: { user: AuthMeResponse; children: ReactNode }) {
   return (
     <AppShell
-      appName="Saturate Marketing"
+      appName="Sature Marketing"
       role={user.role}
       userEmail={user.email}
       userName={user.display_name}
