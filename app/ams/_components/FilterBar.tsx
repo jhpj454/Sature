@@ -9,18 +9,21 @@ type FilterBarProps = {
 
 export function FilterBar({ children, resetHref, submitLabel = "Apply" }: FilterBarProps) {
   return (
-    <form className="grid gap-3 rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm md:grid-cols-5">
+    <form
+      className="grid gap-3 rounded-2xl border border-white/50 bg-white/45 p-4 backdrop-blur-xl md:grid-cols-5"
+      style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+    >
       {children}
       <div className="flex items-end gap-2">
         <button
-          className="rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
+          className="rounded-lg bg-slate-800 px-3 py-2 text-[13px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-700"
           type="submit"
         >
           {submitLabel}
         </button>
         {resetHref ? (
           <Link
-            className="rounded-lg border border-white/60 bg-white/50 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-white/80"
+            className="rounded-lg border border-white/50 bg-white/30 px-3 py-2 text-[13px] text-slate-500 transition-all duration-200 hover:bg-white/50 hover:text-slate-700"
             href={resetHref}
           >
             Reset

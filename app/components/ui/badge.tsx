@@ -4,9 +4,9 @@ import { cn } from "@/app/lib/cn";
 type BadgeVariant = "default" | "secondary" | "outline";
 
 const VARIANT_STYLES: Record<BadgeVariant, string> = {
-  default: "bg-zinc-900 text-white",
-  secondary: "bg-zinc-100 text-zinc-700",
-  outline: "border border-zinc-300 bg-white text-zinc-700",
+  default: "bg-slate-800 text-white",
+  secondary: "bg-white/50 text-slate-600 backdrop-blur-sm",
+  outline: "border border-white/50 bg-white/30 text-slate-600 backdrop-blur-sm",
 };
 
 export function Badge({
@@ -18,7 +18,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         VARIANT_STYLES[variant],
         className,
       )}

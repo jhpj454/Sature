@@ -3,10 +3,10 @@ type PriorityBadgeProps = {
 };
 
 const PRIORITY_STYLES: Record<string, string> = {
-  low: "bg-zinc-100 text-zinc-700 ring-zinc-200",
-  normal: "bg-blue-50 text-blue-700 ring-blue-200",
-  high: "bg-amber-50 text-amber-700 ring-amber-200",
-  urgent: "bg-rose-50 text-rose-700 ring-rose-200",
+  low: "bg-slate-100/60 text-slate-500",
+  normal: "bg-blue-50/60 text-blue-600",
+  high: "bg-amber-50/60 text-amber-600",
+  urgent: "bg-rose-50/60 text-rose-500",
 };
 
 export function PriorityBadge({ value }: PriorityBadgeProps) {
@@ -14,7 +14,7 @@ export function PriorityBadge({ value }: PriorityBadgeProps) {
   const style = PRIORITY_STYLES[priority] ?? PRIORITY_STYLES.normal;
 
   return (
-    <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${style}`}>
+    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${style}`}>
       {priority}
     </span>
   );

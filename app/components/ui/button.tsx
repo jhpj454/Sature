@@ -11,15 +11,15 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
-  default: "bg-zinc-800 text-white hover:bg-zinc-700",
-  secondary: "bg-white/60 text-zinc-900 hover:bg-white/80 border border-white/60 backdrop-blur-sm",
-  outline: "border border-white/60 bg-white/50 text-zinc-900 hover:bg-white/70 backdrop-blur-sm",
-  ghost: "bg-transparent text-zinc-700 hover:bg-white/50",
-  destructive: "bg-rose-600 text-white hover:bg-rose-500",
+  default: "bg-slate-800 text-white hover:bg-slate-700 shadow-sm",
+  secondary: "bg-white/50 text-slate-700 hover:bg-white/70 border border-white/50 backdrop-blur-sm shadow-sm",
+  outline: "border border-white/50 bg-white/30 text-slate-700 hover:bg-white/50 backdrop-blur-sm",
+  ghost: "bg-transparent text-slate-500 hover:bg-white/30 hover:text-slate-700",
+  destructive: "bg-rose-500 text-white hover:bg-rose-400 shadow-sm",
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-sm",
+  sm: "h-8 px-3 text-[13px]",
   md: "h-10 px-4 text-sm",
 };
 
@@ -34,7 +34,7 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center rounded-md font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+        "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50",
         VARIANT_STYLES[variant],
         SIZE_STYLES[size],
         className,

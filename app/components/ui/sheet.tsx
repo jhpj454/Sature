@@ -17,14 +17,14 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
     <div className="fixed inset-0 z-50 sm:hidden" role="dialog" aria-modal="true">
       <button
         aria-label="Close panel"
-        className="absolute inset-0 bg-black/40"
+        className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm"
         onClick={onClose}
         type="button"
       />
-      <div className="relative h-full w-72 border-r border-white/50 bg-white/80 p-5 shadow-2xl backdrop-blur-xl">
+      <div className="glass-elevated relative h-full w-72 p-5 shadow-2xl">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-zinc-900">{title}</h2>
-          <Button aria-label="Close panel" onClick={onClose} size="sm" variant="outline">
+          <h2 className="text-sm font-semibold text-slate-800">{title}</h2>
+          <Button aria-label="Close panel" onClick={onClose} size="sm" variant="ghost">
             ×
           </Button>
         </div>

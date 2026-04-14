@@ -37,7 +37,7 @@ export function LogoutButton({ className }: LogoutButtonProps) {
     <div className="space-y-1">
       <button
         className={cn(
-          "rounded border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-100",
+          "rounded-lg border border-white/50 bg-white/30 px-3 py-1.5 text-[13px] font-medium text-slate-500 backdrop-blur-sm transition-all duration-200 hover:bg-white/50 hover:text-slate-700",
           className,
         )}
         disabled={isPending}
@@ -46,7 +46,7 @@ export function LogoutButton({ className }: LogoutButtonProps) {
       >
         {isPending ? "Signing out..." : "Logout"}
       </button>
-      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
+      {error ? <p className="text-xs text-rose-500">{error}</p> : null}
     </div>
   );
 }

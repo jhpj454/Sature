@@ -35,19 +35,19 @@ type BoardApiData = {
 };
 
 const COLUMN_HEADER_STYLES: Record<string, string> = {
-  open: "border-b border-zinc-200 bg-zinc-50",
+  open: "border-b border-slate-200/20 bg-slate-50",
   won: "border-b border-emerald-200 bg-emerald-50",
   lost: "border-b border-rose-200 bg-rose-50",
 };
 
 const COLUMN_BORDER_STYLES: Record<string, string> = {
-  open: "border-zinc-200",
+  open: "border-slate-200/20",
   won: "border-emerald-200",
   lost: "border-rose-200",
 };
 
 const COLUMN_TITLE_STYLES: Record<string, string> = {
-  open: "text-zinc-700",
+  open: "text-slate-700",
   won: "text-emerald-800",
   lost: "text-rose-800",
 };
@@ -169,7 +169,7 @@ export function KanbanBoard({
       {/* Pipeline switcher — only shown when there are multiple pipelines */}
       {pipelines.length > 1 ? (
         <div className="flex items-center gap-3">
-          <span className="shrink-0 text-sm font-medium text-zinc-600">Pipeline</span>
+          <span className="shrink-0 text-[13px] font-semibold text-slate-500">Pipeline</span>
           <Select
             className="min-w-[220px]"
             disabled={loadingPipeline}
@@ -183,7 +183,7 @@ export function KanbanBoard({
             ))}
           </Select>
           {loadingPipeline ? (
-            <span className="text-sm text-zinc-400">Loading…</span>
+            <span className="text-sm text-slate-400">Loading…</span>
           ) : null}
         </div>
       ) : null}
@@ -194,7 +194,7 @@ export function KanbanBoard({
       {/* Horizontal scrolling board */}
       <div className="flex gap-4 overflow-x-auto pb-4">
         {columns.length === 0 ? (
-          <p className="text-sm text-zinc-400">No stages configured for this pipeline.</p>
+          <p className="text-sm text-slate-400">No stages configured for this pipeline.</p>
         ) : (
           columns.map((col) => {
             const stageType = col.stage.stage_type;
@@ -238,7 +238,7 @@ export function KanbanBoard({
                     <span className={`text-sm font-semibold ${titleStyle}`}>
                       {col.stage.name}
                     </span>
-                    <span className="text-xs text-zinc-500">
+                    <span className="text-xs text-slate-400">
                       {col.deals.length} · {formatCurrency(totalRevenue)}
                     </span>
                   </div>
@@ -247,7 +247,7 @@ export function KanbanBoard({
                 {/* Deal cards */}
                 <div className="flex flex-1 flex-col gap-2 p-3">
                   {col.deals.length === 0 ? (
-                    <div className="flex min-h-[80px] items-center justify-center rounded-md border border-dashed border-zinc-200 text-xs text-zinc-400">
+                    <div className="flex min-h-[80px] items-center justify-center rounded-md border border-dashed border-slate-200/20 text-xs text-slate-400">
                       No deals in this stage
                     </div>
                   ) : (
@@ -259,7 +259,7 @@ export function KanbanBoard({
                       return (
                         <div
                           key={deal.id}
-                          className={`cursor-grab select-none rounded-md border border-zinc-200 bg-white p-3 shadow-sm transition-opacity active:cursor-grabbing ${
+                          className={`cursor-grab select-none rounded-md border border-slate-200/20 bg-white p-3 shadow-sm transition-opacity active:cursor-grabbing ${
                             isMoving ? "animate-pulse opacity-50" : "opacity-100"
                           }`}
                           draggable={!isMoving}
@@ -281,15 +281,15 @@ export function KanbanBoard({
                             href={`/crm/deals/${deal.id}`}
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <p className="text-sm font-medium text-zinc-900 hover:text-blue-700 hover:underline">
+                            <p className="text-sm font-medium text-slate-800 hover:text-blue-700 hover:underline">
                               {deal.account_name ?? deal.name}
                             </p>
                             {deal.account_name ? (
-                              <p className="mt-0.5 text-xs text-zinc-500">{deal.name}</p>
+                              <p className="mt-0.5 text-xs text-slate-400">{deal.name}</p>
                             ) : null}
                           </Link>
 
-                          <p className="mt-2 text-sm font-semibold text-zinc-800">
+                          <p className="mt-2 text-sm font-semibold text-slate-800">
                             {formatCurrency(deal.estimated_revenue)}
                           </p>
 
@@ -298,7 +298,7 @@ export function KanbanBoard({
                               className={`mt-1 text-xs ${
                                 isOverdue
                                   ? "font-medium text-rose-600"
-                                  : "text-zinc-400"
+                                  : "text-slate-400"
                               }`}
                             >
                               Close: {formatDate(deal.expected_close_date)}
@@ -318,12 +318,12 @@ export function KanbanBoard({
 
       {/* Won / Lost confirmation dialog */}
       {confirmMove ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-sm rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
-            <h3 className="mb-2 font-semibold text-zinc-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-slate-200/20 bg-white p-6 shadow-xl">
+            <h3 className="mb-2 font-semibold text-slate-800">
               Mark as {confirmMove.toStage.stage_type === "won" ? "Won" : "Lost"}?
             </h3>
-            <p className="mb-5 text-sm text-zinc-600">
+            <p className="mb-5 text-sm text-slate-500">
               Moving &ldquo;{confirmMove.deal.account_name ?? confirmMove.deal.name}&rdquo; to{" "}
               <strong>{confirmMove.toStage.name}</strong> will mark this deal as{" "}
               <strong>{confirmMove.toStage.stage_type}</strong>. This action updates the deal

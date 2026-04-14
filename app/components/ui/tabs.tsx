@@ -15,17 +15,18 @@ export function Tabs({
   active: string;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       {items.map((item) => (
         <Link
           className={cn(
-            "rounded border px-3 py-1.5 text-sm",
+            "rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200",
             active === item.value
-              ? "border-zinc-900 bg-zinc-900 text-white"
-              : "border-zinc-300 bg-white text-zinc-700",
+              ? "bg-white/60 text-slate-800 shadow-sm backdrop-blur-sm"
+              : "text-slate-400 hover:bg-white/30 hover:text-slate-600",
           )}
           href={item.href}
           key={item.href}
+          style={active === item.value ? { boxShadow: "0 1px 3px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)" } : undefined}
         >
           {item.label}
         </Link>

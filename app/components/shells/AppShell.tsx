@@ -41,21 +41,22 @@ function NavLinks({
   onNavigate?: () => void;
 }) {
   return (
-    <nav className="space-y-1">
+    <nav className="space-y-0.5">
       {items.map((item) => {
         const active = isNavActive(pathname, item);
 
         return (
           <Link
             className={cn(
-              "block rounded-md px-3 py-2 text-sm transition-colors",
+              "block rounded-lg px-3 py-2 text-[13px] font-medium transition-all duration-200",
               active
-                ? "bg-sky-600 text-white shadow-sm"
-                : "text-zinc-700 hover:bg-white/60 hover:text-zinc-900",
+                ? "bg-white/60 text-slate-900 shadow-sm"
+                : "text-slate-500 hover:bg-white/30 hover:text-slate-800",
             )}
             href={item.href}
             key={item.href}
             onClick={onNavigate}
+            style={active ? { boxShadow: "0 1px 3px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)" } : undefined}
           >
             {item.label}
           </Link>
@@ -86,67 +87,69 @@ export function AppShell({
   const { primaryItems, settingsItem } = useMemo(() => splitNavItems(navItems), [navItems]);
 
   return (
-    <div className="min-h-screen text-zinc-900">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/50 bg-white/70 p-5 backdrop-blur-xl md:flex md:flex-col" style={{boxShadow: "4px 0 24px rgba(59,130,246,0.07)"}}>
+    <div className="min-h-screen text-slate-800">
+      <aside className="glass-elevated fixed inset-y-0 left-0 z-30 hidden w-[240px] border-r-0 p-5 md:flex md:flex-col">
         <div className="flex h-full flex-col">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">{appName}</p>
-          <p className="mt-1 text-sm text-zinc-600">{role}</p>
-          <div className="mt-6">
+          <div className="mb-6">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">{appName}</p>
+            <p className="mt-0.5 text-xs text-slate-400">{role}</p>
+          </div>
+          <div className="flex-1">
             <NavLinks items={primaryItems} pathname={pathname} />
           </div>
           {settingsItem ? (
-            <div className="mt-auto border-t border-zinc-200 pt-4">
+            <div className="border-t border-white/40 pt-3">
               <NavLinks items={[settingsItem]} pathname={pathname} />
             </div>
           ) : null}
         </div>
       </aside>
 
-      <div className="flex min-h-screen flex-1 flex-col md:pl-64">
-        <header className="sticky top-0 z-20 border-b border-white/50 bg-white/70 backdrop-blur-xl">
-          <div className="flex items-center justify-between px-4 py-3 md:px-6">
+      <div className="flex min-h-screen flex-1 flex-col md:pl-[240px]">
+        <header className="glass-elevated sticky top-0 z-20 border-b-0">
+          <div className="flex items-center justify-between px-5 py-3 md:px-6">
             <div className="flex items-center gap-3">
               <Button
                 aria-label="Open navigation menu"
                 className="md:hidden"
                 onClick={() => setMobileNavOpen(true)}
                 size="sm"
-                variant="outline"
+                variant="ghost"
               >
                 ☰
               </Button>
 
               {showTopBar ? (
                 <div>
-                  <p className="text-sm text-zinc-500">Signed in as</p>
-                  <p className="text-sm font-semibold text-zinc-900">{userName}</p>
+                  <p className="text-xs text-slate-400">Signed in as</p>
+                  <p className="text-sm font-semibold text-slate-800">{userName}</p>
                 </div>
               ) : (
                 <div>
-                  <p className="text-sm font-semibold text-zinc-900">{appName}</p>
-                  <p className="text-xs text-zinc-500">{role}</p>
+                  <p className="text-sm font-semibold text-slate-800">{appName}</p>
+                  <p className="text-xs text-slate-400">{role}</p>
                 </div>
               )}
             </div>
 
             <div className="flex items-center gap-3">
-              <p className="hidden text-xs text-zinc-500 sm:block">{userEmail}</p>
+              <p className="hidden text-xs text-slate-400 sm:block">{userEmail}</p>
               <LogoutButton />
             </div>
           </div>
         </header>
 
-        <div className="border-b border-white/50 bg-white/60 px-4 py-2 backdrop-blur-xl md:hidden">
+        <div className="glass-subtle border-b-0 px-4 py-2 md:hidden">
           <div className="flex gap-2 overflow-x-auto">
             {navItems.map((item) => {
               const active = isNavActive(pathname, item);
               return (
                 <Link
                   className={cn(
-                    "shrink-0 rounded-md px-2.5 py-1.5 text-xs",
+                    "shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all",
                     active
-                      ? "bg-sky-600 text-white shadow-sm"
-                      : "border border-white/60 bg-white/50 text-zinc-700",
+                      ? "bg-white/60 text-slate-900 shadow-sm"
+                      : "text-slate-500 hover:bg-white/30",
                   )}
                   href={item.href}
                   key={`mobile-quick-${item.href}`}
@@ -158,13 +161,13 @@ export function AppShell({
           </div>
         </div>
 
-        <main className={cn("flex-1 p-4 md:p-6", dense ? "space-y-6" : "space-y-6", dense ? "max-w-7xl" : "max-w-6xl")}>
+        <main className={cn("flex-1 p-5 md:p-8", dense ? "space-y-6" : "space-y-6", dense ? "max-w-7xl" : "max-w-6xl")}>
           {children}
         </main>
       </div>
 
       <Sheet onClose={() => setMobileNavOpen(false)} open={mobileNavOpen} title={appName}>
-        <p className="text-xs text-zinc-500">{role}</p>
+        <p className="text-xs text-slate-400">{role}</p>
         <div className="mt-4">
           <NavLinks
             items={navItems}

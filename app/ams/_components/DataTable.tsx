@@ -16,13 +16,16 @@ type DataTableProps<T> = {
 
 export function DataTable<T>({ columns, rows, rowKey, emptyMessage = "No records." }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
+    <div
+      className="overflow-x-auto rounded-2xl border border-white/50 bg-white/45 backdrop-blur-xl"
+      style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+    >
       <table className="min-w-full text-sm">
-        <thead className="bg-white/40">
-          <tr className="border-b border-zinc-200/50">
+        <thead>
+          <tr className="border-b border-slate-200/30">
             {columns.map((column) => (
               <th
-                className={`px-3 py-2.5 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 ${column.className ?? ""}`}
+                className={`px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-400 ${column.className ?? ""}`}
                 key={column.key}
               >
                 {column.header}
@@ -32,9 +35,9 @@ export function DataTable<T>({ columns, rows, rowKey, emptyMessage = "No records
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr className="border-t border-zinc-200/40 transition-colors hover:bg-white/40" key={rowKey(row)}>
+            <tr className="border-t border-slate-200/20 transition-colors hover:bg-white/30" key={rowKey(row)}>
               {columns.map((column) => (
-                <td className={`px-3 py-2 align-top ${column.className ?? ""}`} key={column.key}>
+                <td className={`px-4 py-2.5 align-top text-slate-600 ${column.className ?? ""}`} key={column.key}>
                   {column.render(row)}
                 </td>
               ))}
@@ -42,7 +45,7 @@ export function DataTable<T>({ columns, rows, rowKey, emptyMessage = "No records
           ))}
           {rows.length === 0 ? (
             <tr>
-              <td className="px-3 py-8 text-center text-zinc-400" colSpan={columns.length}>
+              <td className="px-4 py-8 text-center text-slate-400" colSpan={columns.length}>
                 {emptyMessage}
               </td>
             </tr>

@@ -35,11 +35,11 @@ function formatCaseType(caseType: string) {
 
 function RenewalStatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
-    not_started: "bg-zinc-100 text-zinc-600",
-    in_progress: "bg-blue-50 text-blue-700",
-    quoted: "bg-amber-50 text-amber-700",
-    bound: "bg-emerald-50 text-emerald-700",
-    lost: "bg-rose-50 text-rose-700",
+    not_started: "bg-slate-100/60 text-slate-500",
+    in_progress: "bg-blue-50/60 text-blue-600",
+    quoted: "bg-amber-50/60 text-amber-600",
+    bound: "bg-emerald-50/60 text-emerald-600",
+    lost: "bg-rose-50/60 text-rose-500",
   };
   const labels: Record<string, string> = {
     not_started: "Not Started",
@@ -49,11 +49,11 @@ function RenewalStatusBadge({ status }: { status: string }) {
     lost: "Lost",
   };
 
-  const cls = styles[status] ?? "bg-zinc-100 text-zinc-600";
+  const cls = styles[status] ?? "bg-slate-100/60 text-slate-500";
   const label = labels[status] ?? status;
 
   return (
-    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls}`}>
+    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${cls}`}>
       {label}
     </span>
   );
@@ -73,18 +73,18 @@ export default async function AmsDashboardPage() {
       {/* Page header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">AMS Dashboard</h1>
-          <p className="text-sm text-zinc-500">Your agency at a glance.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-800">AMS Dashboard</h1>
+          <p className="text-sm text-slate-400">Your agency at a glance.</p>
         </div>
         <div className="flex gap-2">
           <Link
-            className="rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
+            className="rounded-lg bg-slate-800 px-3 py-2 text-[13px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-700"
             href="/ams/work-queue"
           >
             Open Work Queue
           </Link>
           <Link
-            className="rounded-lg border border-white/60 bg-white/50 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-white/80"
+            className="rounded-lg border border-white/50 bg-white/30 px-3 py-2 text-[13px] text-slate-500 backdrop-blur-sm transition-all duration-200 hover:bg-white/50 hover:text-slate-700"
             href="/ams/service-cases"
           >
             Service Cases
@@ -93,32 +93,44 @@ export default async function AmsDashboardPage() {
       </div>
 
       {!dashboardRequest.ok && (
-        <p className="text-sm text-rose-600">{dashboardRequest.errorMessage}</p>
+        <p className="text-sm text-rose-500">{dashboardRequest.errorMessage}</p>
       )}
 
       {/* Summary stats */}
       <section className="grid gap-4 md:grid-cols-4">
-        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
-          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Cases Open</h2>
-          <p className="mt-2 text-2xl font-semibold text-zinc-900">
+        <article
+          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Cases Open</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800">
             {dashboard?.open_cases_mine ?? "—"}
           </p>
         </article>
-        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
-          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Tasks Due Today</h2>
-          <p className="mt-2 text-2xl font-semibold text-zinc-900">
+        <article
+          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Tasks Due Today</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800">
             {dashboard?.tasks_due_today_mine ?? "—"}
           </p>
         </article>
-        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
-          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Renewals Next 30 Days</h2>
-          <p className="mt-2 text-2xl font-semibold text-zinc-900">
+        <article
+          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Renewals Next 30 Days</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800">
             {dashboard?.policies_expiring_30_days ?? "—"}
           </p>
         </article>
-        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
-          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">In Progress</h2>
-          <p className="mt-2 text-2xl font-semibold text-zinc-900">
+        <article
+          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">In Progress</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800">
             {dashboard?.renewals_in_progress_mine ?? "—"}
           </p>
         </article>
@@ -128,57 +140,60 @@ export default async function AmsDashboardPage() {
       <section>
         <div className="mb-3 flex items-center justify-between">
           <div>
-            <h2 className="text-base font-semibold text-zinc-900">Upcoming Renewals</h2>
-            <p className="text-xs text-zinc-500">
+            <h2 className="text-base font-semibold text-slate-700">Upcoming Renewals</h2>
+            <p className="text-xs text-slate-400">
               {renewals.length > 0
                 ? `${renewals.length} polic${renewals.length === 1 ? "y" : "ies"} renewing in the next 30 days`
                 : "No renewals in the next 30 days"}
             </p>
           </div>
           <Link
-            className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline"
+            className="text-xs text-slate-400 transition-colors hover:text-slate-700"
             href="/ams/renewals"
           >
             View all →
           </Link>
         </div>
-        <div className="overflow-x-auto rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
+        <div
+          className="overflow-x-auto rounded-2xl border border-white/50 bg-white/45 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200/40 bg-white/40 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
-                <th className="px-4 py-3">Client</th>
-                <th className="px-4 py-3">Policy Type</th>
-                <th className="px-4 py-3">Renews</th>
-                <th className="px-4 py-3">Status</th>
+              <tr className="border-b border-slate-200/30 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                <th className="px-5 py-3">Client</th>
+                <th className="px-5 py-3">Policy Type</th>
+                <th className="px-5 py-3">Renews</th>
+                <th className="px-5 py-3">Status</th>
               </tr>
             </thead>
             <tbody>
               {renewals.map((renewal) => (
                 <tr
                   key={renewal.id}
-                  className="border-t border-zinc-200/40 transition-colors hover:bg-white/40"
+                  className="border-t border-slate-200/20 transition-colors hover:bg-white/30"
                 >
-                  <td className="px-4 py-3">
+                  <td className="px-5 py-3">
                     <Link
-                      className="font-medium text-zinc-900 hover:text-blue-700 hover:underline"
+                      className="font-medium text-slate-700 transition-colors hover:text-blue-600"
                       href={`/ams/policies/${renewal.id}`}
                     >
                       {renewal.client_name ?? renewal.policy_number}
                     </Link>
                     {renewal.client_name && (
-                      <div className="text-xs text-zinc-400">{renewal.policy_number}</div>
+                      <div className="text-xs text-slate-400">{renewal.policy_number}</div>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-zinc-700">{formatLob(renewal.lob)}</td>
-                  <td className="px-4 py-3 text-zinc-700">{formatDate(renewal.expiration_date)}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-5 py-3 text-slate-500">{formatLob(renewal.lob)}</td>
+                  <td className="px-5 py-3 text-slate-500">{formatDate(renewal.expiration_date)}</td>
+                  <td className="px-5 py-3">
                     <RenewalStatusBadge status={renewal.renewal_status} />
                   </td>
                 </tr>
               ))}
               {renewals.length === 0 && (
                 <tr>
-                  <td className="px-4 py-8 text-center text-sm text-zinc-400" colSpan={4}>
+                  <td className="px-5 py-8 text-center text-sm text-slate-400" colSpan={4}>
                     No policies renewing in the next 30 days.
                   </td>
                 </tr>
@@ -192,50 +207,53 @@ export default async function AmsDashboardPage() {
       <section>
         <div className="mb-3 flex items-center justify-between">
           <div>
-            <h2 className="text-base font-semibold text-zinc-900">Open Service Cases</h2>
-            <p className="text-xs text-zinc-500">
+            <h2 className="text-base font-semibold text-slate-700">Open Service Cases</h2>
+            <p className="text-xs text-slate-400">
               {serviceCases.length > 0
                 ? `${serviceCases.length} open case${serviceCases.length === 1 ? "" : "s"} assigned to you`
                 : "No open service cases"}
             </p>
           </div>
           <Link
-            className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline"
+            className="text-xs text-slate-400 transition-colors hover:text-slate-700"
             href="/ams/service-cases"
           >
             View all →
           </Link>
         </div>
-        <div className="rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
+        <div
+          className="rounded-2xl border border-white/50 bg-white/45 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
           {serviceCases.length > 0 ? (
             <table className="min-w-full text-sm">
               <thead>
-                <tr className="border-b border-zinc-200/40 bg-white/40 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  <th className="px-4 py-2.5">Customer</th>
-                  <th className="px-4 py-2.5">Service Type</th>
+                <tr className="border-b border-slate-200/30 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <th className="px-5 py-3">Customer</th>
+                  <th className="px-5 py-3">Service Type</th>
                 </tr>
               </thead>
               <tbody>
                 {serviceCases.map((sc) => (
                   <tr
                     key={sc.id}
-                    className="border-t border-zinc-200/40 transition-colors hover:bg-white/40"
+                    className="border-t border-slate-200/20 transition-colors hover:bg-white/30"
                   >
-                    <td className="px-4 py-2.5">
+                    <td className="px-5 py-3">
                       <Link
-                        className="font-medium text-zinc-900 hover:text-blue-700 hover:underline"
+                        className="font-medium text-slate-700 transition-colors hover:text-blue-600"
                         href={`/ams/service-cases/${sc.id}`}
                       >
                         {sc.account_name ?? "—"}
                       </Link>
                     </td>
-                    <td className="px-4 py-2.5 text-zinc-600">{formatCaseType(sc.case_type)}</td>
+                    <td className="px-5 py-3 text-slate-500">{formatCaseType(sc.case_type)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <p className="px-4 py-6 text-center text-sm text-zinc-400">
+            <p className="px-5 py-6 text-center text-sm text-slate-400">
               No open service cases assigned to you.
             </p>
           )}
