@@ -40,7 +40,7 @@ export default async function CrmDashboardPage() {
       )}
 
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="text-sm font-medium text-zinc-700">Open Deals</h2>
           <p className="mt-3 text-2xl font-semibold text-zinc-900">
             {dashboard != null ? dashboard.open_deals_mine : "—"}
@@ -50,7 +50,7 @@ export default async function CrmDashboardPage() {
           </p>
         </article>
 
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="text-sm font-medium text-zinc-700">Leads Assigned</h2>
           <p className="mt-3 text-2xl font-semibold text-zinc-900">
             {dashboard != null ? dashboard.leads_assigned_mine : "—"}
@@ -58,7 +58,7 @@ export default async function CrmDashboardPage() {
           <p className="mt-1 text-sm text-zinc-500">new or contacted</p>
         </article>
 
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="text-sm font-medium text-zinc-700">Closed Won This Month</h2>
           <p className="mt-3 text-2xl font-semibold text-zinc-900">
             {dashboard != null ? dashboard.closed_won_this_month_mine : "—"}
@@ -68,7 +68,7 @@ export default async function CrmDashboardPage() {
           </p>
         </article>
 
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="mb-3 text-sm font-medium text-zinc-700">Pipeline by Stage</h2>
           {dashboard != null && dashboard.deals_by_stage_mine.length > 0 ? (
             <ul className="space-y-1">
@@ -85,15 +85,15 @@ export default async function CrmDashboardPage() {
         </article>
       </section>
 
-      <section className="rounded-lg border border-zinc-200 bg-white">
-        <div className="border-b border-zinc-200 px-4 py-3">
+      <section className="rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
+        <div className="border-b border-zinc-200/50 px-4 py-3">
           <h2 className="font-medium text-zinc-900">Recent Activity</h2>
         </div>
         {dashboard != null && dashboard.recent_activities.length > 0 ? (
-          <ul className="divide-y divide-zinc-100">
+          <ul className="divide-y divide-zinc-200/40">
             {dashboard.recent_activities.map((activity) => (
               <li className="flex items-start gap-3 px-4 py-3" key={activity.id}>
-                <span className="mt-0.5 inline-flex rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700 ring-1 ring-inset ring-zinc-200">
+                <span className="mt-0.5 inline-flex rounded-full bg-sky-50/80 px-2 py-0.5 text-xs font-medium text-sky-700 ring-1 ring-inset ring-sky-200/60">
                   {ACTIVITY_TYPE_LABEL[activity.activity_type] ?? activity.activity_type}
                 </span>
                 <div className="min-w-0 flex-1">

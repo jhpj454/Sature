@@ -72,8 +72,8 @@ export default function LoginPage() {
 
   if (isChecking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4">
-        <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6">
+      <div className="flex min-h-screen items-center justify-center px-4">
+        <div className="w-full max-w-md rounded-2xl border border-white/60 bg-white/75 p-6 shadow-lg backdrop-blur-xl">
           <p className="text-sm text-zinc-500">Checking session...</p>
         </div>
       </div>
@@ -81,8 +81,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4">
-      <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/60 bg-white/75 p-6 shadow-xl backdrop-blur-xl">
         <h1 className="text-2xl font-semibold text-zinc-900">Sature</h1>
         <p className="mt-1 text-sm text-zinc-500">Sign in to your workspace.</p>
 
@@ -114,7 +114,7 @@ export default function LoginPage() {
           {error ? <p className="text-sm text-rose-600">{error}</p> : null}
 
           <button
-            className="w-full rounded bg-zinc-900 px-3 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isSubmitting}
             type="submit"
           >
@@ -123,7 +123,7 @@ export default function LoginPage() {
         </form>
 
         {process.env.NODE_ENV !== "production" ? (
-          <div className="mt-6 rounded border border-zinc-200 bg-zinc-50 p-3">
+          <div className="mt-6 rounded-xl border border-white/60 bg-white/50 p-3 backdrop-blur-sm">
             <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
               Switch Account (Dev)
             </p>
@@ -133,7 +133,7 @@ export default function LoginPage() {
             <div className="mt-3 space-y-2">
               {DEV_USERS.map((devEmail) => (
                 <button
-                  className="block w-full rounded border border-zinc-300 bg-white px-2 py-1.5 text-left text-sm text-zinc-700 hover:bg-zinc-100"
+                  className="block w-full rounded-lg border border-white/60 bg-white/50 px-2 py-1.5 text-left text-sm text-zinc-700 transition-colors hover:bg-white/80"
                   key={devEmail}
                   onClick={() => setEmail(devEmail)}
                   type="button"

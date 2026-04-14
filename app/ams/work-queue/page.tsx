@@ -147,7 +147,7 @@ export default async function WorkQueuePage({
             retryHref={retryHref}
           />
           {showDebug ? (
-            <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
+            <div className="rounded-xl border border-white/60 bg-white/60 p-4 text-sm text-zinc-700 backdrop-blur-sm">
               <p>
                 <span className="font-medium">Request:</span> {queueRes.requestUrl}
               </p>
@@ -155,7 +155,7 @@ export default async function WorkQueuePage({
                 <span className="font-medium">Response:</span> {queueRes.status}
               </p>
               {queueRes.responsePreview ? (
-                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded border border-zinc-200 bg-white p-3 text-xs text-zinc-700">
+                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-white/60 bg-white/60 p-3 text-xs text-zinc-700">
                   {queueRes.responsePreview}
                 </pre>
               ) : null}
@@ -169,7 +169,7 @@ export default async function WorkQueuePage({
               key: "type",
               header: "Type",
               render: (item) => (
-                <span className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700">
+                <span className="rounded bg-sky-50/80 px-2 py-0.5 text-xs font-medium text-sky-700 ring-1 ring-inset ring-sky-200/50">
                   {item.type}
                 </span>
               ),

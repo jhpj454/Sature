@@ -43,7 +43,7 @@ export default async function RenewalsPage({
         <p className="text-sm text-zinc-500">Expiring policies with renewal workflow context.</p>
       </div>
 
-      <form className="grid gap-3 rounded-lg border border-zinc-200 bg-white p-4 md:grid-cols-5">
+      <form className="grid gap-3 rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm md:grid-cols-5">
         <label className="text-sm">
           <span className="mb-1 block text-zinc-500">From</span>
           <Input
@@ -84,20 +84,20 @@ export default async function RenewalsPage({
         </label>
         <div className="flex items-end gap-2">
           <button
-            className="rounded bg-zinc-900 px-3 py-2 text-sm font-medium text-white"
+            className="rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
             type="submit"
           >
             Apply
           </button>
-          <Link className="rounded border border-zinc-300 px-3 py-2 text-sm" href="/ams/renewals">
+          <Link className="rounded-lg border border-white/60 bg-white/50 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-white/80" href="/ams/renewals">
             Reset
           </Link>
         </div>
       </form>
 
-      <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+      <div className="overflow-x-auto rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
         <table className="min-w-full text-sm">
-          <thead className="bg-zinc-100 text-left text-zinc-600">
+          <thead className="bg-white/40 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
             <tr>
               <th className="px-3 py-2">Policy</th>
               <th className="px-3 py-2">Carrier</th>
@@ -112,7 +112,7 @@ export default async function RenewalsPage({
           </thead>
           <tbody>
             {snapshot.data.map((policy) => (
-              <tr key={policy.id} className="border-t border-zinc-200">
+              <tr key={policy.id} className="border-t border-zinc-200/40 transition-colors hover:bg-white/40">
                 <td className="px-3 py-2">
                   <Link className="font-medium text-blue-700 hover:underline" href={`/ams/policies/${policy.id}`}>
                     {policy.policy_number}

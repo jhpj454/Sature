@@ -9,7 +9,7 @@ type DetailHeaderProps = {
 
 export function DetailHeader({ title, subtitle, meta, actions }: DetailHeaderProps) {
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-4">
+    <div className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-zinc-900">{title}</h1>

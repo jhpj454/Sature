@@ -16,12 +16,15 @@ type DataTableProps<T> = {
 
 export function DataTable<T>({ columns, rows, rowKey, emptyMessage = "No records." }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+    <div className="overflow-x-auto rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
       <table className="min-w-full text-sm">
-        <thead className="bg-zinc-100 text-left text-zinc-600">
-          <tr>
+        <thead className="bg-white/40">
+          <tr className="border-b border-zinc-200/50">
             {columns.map((column) => (
-              <th className={`px-3 py-2 ${column.className ?? ""}`} key={column.key}>
+              <th
+                className={`px-3 py-2.5 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 ${column.className ?? ""}`}
+                key={column.key}
+              >
                 {column.header}
               </th>
             ))}
@@ -29,7 +32,7 @@ export function DataTable<T>({ columns, rows, rowKey, emptyMessage = "No records
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr className="border-t border-zinc-200" key={rowKey(row)}>
+            <tr className="border-t border-zinc-200/40 transition-colors hover:bg-white/40" key={rowKey(row)}>
               {columns.map((column) => (
                 <td className={`px-3 py-2 align-top ${column.className ?? ""}`} key={column.key}>
                   {column.render(row)}
@@ -39,7 +42,7 @@ export function DataTable<T>({ columns, rows, rowKey, emptyMessage = "No records
           ))}
           {rows.length === 0 ? (
             <tr>
-              <td className="px-3 py-8 text-center text-zinc-500" colSpan={columns.length}>
+              <td className="px-3 py-8 text-center text-zinc-400" colSpan={columns.length}>
                 {emptyMessage}
               </td>
             </tr>

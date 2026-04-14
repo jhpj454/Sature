@@ -78,13 +78,13 @@ export default async function AmsDashboardPage() {
         </div>
         <div className="flex gap-2">
           <Link
-            className="rounded bg-zinc-800 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-700 transition-colors"
+            className="rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
             href="/ams/work-queue"
           >
             Open Work Queue
           </Link>
           <Link
-            className="rounded border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-50 transition-colors"
+            className="rounded-lg border border-white/60 bg-white/50 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-white/80"
             href="/ams/service-cases"
           >
             Service Cases
@@ -98,25 +98,25 @@ export default async function AmsDashboardPage() {
 
       {/* Summary stats */}
       <section className="grid gap-4 md:grid-cols-4">
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Cases Open</h2>
           <p className="mt-2 text-2xl font-semibold text-zinc-900">
             {dashboard?.open_cases_mine ?? "—"}
           </p>
         </article>
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Tasks Due Today</h2>
           <p className="mt-2 text-2xl font-semibold text-zinc-900">
             {dashboard?.tasks_due_today_mine ?? "—"}
           </p>
         </article>
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Renewals Next 30 Days</h2>
           <p className="mt-2 text-2xl font-semibold text-zinc-900">
             {dashboard?.policies_expiring_30_days ?? "—"}
           </p>
         </article>
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+        <article className="rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm">
           <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">In Progress</h2>
           <p className="mt-2 text-2xl font-semibold text-zinc-900">
             {dashboard?.renewals_in_progress_mine ?? "—"}
@@ -142,10 +142,10 @@ export default async function AmsDashboardPage() {
             View all →
           </Link>
         </div>
-        <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+        <div className="overflow-x-auto rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+              <tr className="border-b border-zinc-200/40 bg-white/40 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                 <th className="px-4 py-3">Client</th>
                 <th className="px-4 py-3">Policy Type</th>
                 <th className="px-4 py-3">Renews</th>
@@ -156,7 +156,7 @@ export default async function AmsDashboardPage() {
               {renewals.map((renewal) => (
                 <tr
                   key={renewal.id}
-                  className="border-t border-zinc-100 hover:bg-zinc-50 transition-colors"
+                  className="border-t border-zinc-200/40 transition-colors hover:bg-white/40"
                 >
                   <td className="px-4 py-3">
                     <Link
@@ -206,11 +206,11 @@ export default async function AmsDashboardPage() {
             View all →
           </Link>
         </div>
-        <div className="rounded-lg border border-zinc-200 bg-white">
+        <div className="rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
           {serviceCases.length > 0 ? (
             <table className="min-w-full text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                <tr className="border-b border-zinc-200/40 bg-white/40 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                   <th className="px-4 py-2.5">Customer</th>
                   <th className="px-4 py-2.5">Service Type</th>
                 </tr>
@@ -219,7 +219,7 @@ export default async function AmsDashboardPage() {
                 {serviceCases.map((sc) => (
                   <tr
                     key={sc.id}
-                    className="border-t border-zinc-100 hover:bg-zinc-50 transition-colors"
+                    className="border-t border-zinc-200/40 transition-colors hover:bg-white/40"
                   >
                     <td className="px-4 py-2.5">
                       <Link
