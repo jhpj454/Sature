@@ -1,51 +1,76 @@
 import Link from "next/link";
 import { safeApiFetchJson } from "@/app/ams/_lib/api";
-import { buildRenewalsSnapshotQueryString } from "@/app/ams/_lib/policyQueries";
+import { formatDate } from "@/app/ams/_lib/format";
 import type { AmsDashboardData } from "@/app/api/ams/dashboard/route";
 
-type RenewalRow = {
-  id: string;
-  policy_number: string;
-  expiration_date: string;
+const LOB_LABELS: Record<string, string> = {
+  gl: "General Liability",
+  bop: "Business Owners Policy",
+  auto: "Commercial Auto",
+  wc: "Workers' Comp",
+  property: "Commercial Property",
+  umbrella: "Umbrella",
+  home: "Homeowners",
+  personal_auto: "Personal Auto",
+  life: "Life",
+  health: "Health",
 };
 
-function toIsoDate(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+const CASE_TYPE_LABELS: Record<string, string> = {
+  endorsement: "Endorsement",
+  coi: "Certificate of Insurance",
+  claim: "Claim",
+  billing: "Billing",
+  cancellation: "Cancellation",
+  other: "Other",
+};
+
+function formatLob(lob: string) {
+  return LOB_LABELS[lob.toLowerCase()] ?? lob;
+}
+
+function formatCaseType(caseType: string) {
+  return CASE_TYPE_LABELS[caseType] ?? caseType;
+}
+
+function RenewalStatusBadge({ status }: { status: string }) {
+  const styles: Record<string, string> = {
+    not_started: "bg-zinc-100 text-zinc-600",
+    in_progress: "bg-blue-50 text-blue-700",
+    quoted: "bg-amber-50 text-amber-700",
+    bound: "bg-emerald-50 text-emerald-700",
+    lost: "bg-rose-50 text-rose-700",
+  };
+  const labels: Record<string, string> = {
+    not_started: "Not Started",
+    in_progress: "In Progress",
+    quoted: "Quoted",
+    bound: "Bound",
+    lost: "Lost",
+  };
+
+  const cls = styles[status] ?? "bg-zinc-100 text-zinc-600";
+  const label = labels[status] ?? status;
+
+  return (
+    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls}`}>
+      {label}
+    </span>
+  );
 }
 
 export default async function AmsDashboardPage() {
-  const today = new Date();
-  const endOfWindow = new Date(today);
-  endOfWindow.setDate(today.getDate() + 6);
-
-  const renewalsQuery = buildRenewalsSnapshotQueryString({
-    from: toIsoDate(today),
-    to: toIsoDate(endOfWindow),
-  });
-
-  const [renewalsRequest, dashboardRequest] = await Promise.all([
-    safeApiFetchJson<{ ok: true; data: RenewalRow[] }>(
-      `/api/ams/renewals/snapshot${renewalsQuery}`,
-    ),
-    safeApiFetchJson<{ ok: true; data: AmsDashboardData }>("/api/ams/dashboard"),
-  ]);
-
-  const renewalsCount =
-    renewalsRequest.ok && Array.isArray(renewalsRequest.data.data)
-      ? renewalsRequest.data.data.length
-      : null;
-  const nextRenewal =
-    renewalsRequest.ok && renewalsRequest.data.data.length > 0
-      ? renewalsRequest.data.data[0]
-      : null;
+  const dashboardRequest = await safeApiFetchJson<{ ok: true; data: AmsDashboardData }>(
+    "/api/ams/dashboard",
+  );
 
   const dashboard = dashboardRequest.ok ? dashboardRequest.data.data : null;
+  const renewals = dashboard?.upcoming_renewals_30d ?? [];
+  const serviceCases = dashboard?.open_service_cases_non_renewal ?? [];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
+      {/* Page header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-zinc-900">AMS Dashboard</h1>
@@ -53,12 +78,15 @@ export default async function AmsDashboardPage() {
         </div>
         <div className="flex gap-2">
           <Link
-            className="rounded bg-zinc-900 px-3 py-2 text-sm font-medium text-white"
+            className="rounded bg-zinc-800 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-700 transition-colors"
             href="/ams/work-queue"
           >
             Open Work Queue
           </Link>
-          <Link className="rounded border border-zinc-300 px-3 py-2 text-sm" href="/ams/service-cases">
+          <Link
+            className="rounded border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-50 transition-colors"
+            href="/ams/service-cases"
+          >
             Service Cases
           </Link>
         </div>
@@ -68,53 +96,150 @@ export default async function AmsDashboardPage() {
         <p className="text-sm text-rose-600">{dashboardRequest.errorMessage}</p>
       )}
 
+      {/* Summary stats */}
       <section className="grid gap-4 md:grid-cols-4">
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
-          <h2 className="text-sm font-medium text-zinc-700">Cases Open</h2>
-          <p className="mt-3 text-2xl font-semibold text-zinc-900">
+          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Cases Open</h2>
+          <p className="mt-2 text-2xl font-semibold text-zinc-900">
             {dashboard?.open_cases_mine ?? "—"}
           </p>
         </article>
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
-          <h2 className="text-sm font-medium text-zinc-700">Tasks Due Today</h2>
-          <p className="mt-3 text-2xl font-semibold text-zinc-900">
+          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Tasks Due Today</h2>
+          <p className="mt-2 text-2xl font-semibold text-zinc-900">
             {dashboard?.tasks_due_today_mine ?? "—"}
           </p>
         </article>
         <article className="rounded-lg border border-zinc-200 bg-white p-4">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h2 className="text-sm font-medium text-zinc-700">Renewals This Week</h2>
-              {renewalsRequest.ok ? (
-                <>
-                  <p className="mt-3 text-2xl font-semibold text-zinc-900">{renewalsCount}</p>
-                  <p className="mt-2 text-xs text-zinc-500">
-                    {nextRenewal
-                      ? `Next: ${nextRenewal.policy_number}`
-                      : "No policies expiring in the next 7 days."}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="mt-3 text-2xl font-semibold text-zinc-900">—</p>
-                  <p className="mt-2 text-xs text-rose-600">{renewalsRequest.errorMessage}</p>
-                </>
-              )}
-            </div>
-            <Link
-              className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline"
-              href={`/ams/renewals${renewalsQuery}`}
-            >
-              View
-            </Link>
-          </div>
-        </article>
-        <article className="rounded-lg border border-zinc-200 bg-white p-4">
-          <h2 className="text-sm font-medium text-zinc-700">Policies Expiring (30 days)</h2>
-          <p className="mt-3 text-2xl font-semibold text-zinc-900">
+          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">Renewals Next 30 Days</h2>
+          <p className="mt-2 text-2xl font-semibold text-zinc-900">
             {dashboard?.policies_expiring_30_days ?? "—"}
           </p>
         </article>
+        <article className="rounded-lg border border-zinc-200 bg-white p-4">
+          <h2 className="text-xs font-medium uppercase tracking-wide text-zinc-500">In Progress</h2>
+          <p className="mt-2 text-2xl font-semibold text-zinc-900">
+            {dashboard?.renewals_in_progress_mine ?? "—"}
+          </p>
+        </article>
+      </section>
+
+      {/* Upcoming Renewals table */}
+      <section>
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-zinc-900">Upcoming Renewals</h2>
+            <p className="text-xs text-zinc-500">
+              {renewals.length > 0
+                ? `${renewals.length} polic${renewals.length === 1 ? "y" : "ies"} renewing in the next 30 days`
+                : "No renewals in the next 30 days"}
+            </p>
+          </div>
+          <Link
+            className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline"
+            href="/ams/renewals"
+          >
+            View all →
+          </Link>
+        </div>
+        <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+          <table className="min-w-full text-sm">
+            <thead>
+              <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                <th className="px-4 py-3">Client</th>
+                <th className="px-4 py-3">Policy Type</th>
+                <th className="px-4 py-3">Renews</th>
+                <th className="px-4 py-3">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renewals.map((renewal) => (
+                <tr
+                  key={renewal.id}
+                  className="border-t border-zinc-100 hover:bg-zinc-50 transition-colors"
+                >
+                  <td className="px-4 py-3">
+                    <Link
+                      className="font-medium text-zinc-900 hover:text-blue-700 hover:underline"
+                      href={`/ams/policies/${renewal.id}`}
+                    >
+                      {renewal.client_name ?? renewal.policy_number}
+                    </Link>
+                    {renewal.client_name && (
+                      <div className="text-xs text-zinc-400">{renewal.policy_number}</div>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-zinc-700">{formatLob(renewal.lob)}</td>
+                  <td className="px-4 py-3 text-zinc-700">{formatDate(renewal.expiration_date)}</td>
+                  <td className="px-4 py-3">
+                    <RenewalStatusBadge status={renewal.renewal_status} />
+                  </td>
+                </tr>
+              ))}
+              {renewals.length === 0 && (
+                <tr>
+                  <td className="px-4 py-8 text-center text-sm text-zinc-400" colSpan={4}>
+                    No policies renewing in the next 30 days.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* Open Service Cases card */}
+      <section>
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-zinc-900">Open Service Cases</h2>
+            <p className="text-xs text-zinc-500">
+              {serviceCases.length > 0
+                ? `${serviceCases.length} open case${serviceCases.length === 1 ? "" : "s"} assigned to you`
+                : "No open service cases"}
+            </p>
+          </div>
+          <Link
+            className="text-xs text-zinc-500 hover:text-zinc-900 hover:underline"
+            href="/ams/service-cases"
+          >
+            View all →
+          </Link>
+        </div>
+        <div className="rounded-lg border border-zinc-200 bg-white">
+          {serviceCases.length > 0 ? (
+            <table className="min-w-full text-sm">
+              <thead>
+                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                  <th className="px-4 py-2.5">Customer</th>
+                  <th className="px-4 py-2.5">Service Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {serviceCases.map((sc) => (
+                  <tr
+                    key={sc.id}
+                    className="border-t border-zinc-100 hover:bg-zinc-50 transition-colors"
+                  >
+                    <td className="px-4 py-2.5">
+                      <Link
+                        className="font-medium text-zinc-900 hover:text-blue-700 hover:underline"
+                        href={`/ams/service-cases/${sc.id}`}
+                      >
+                        {sc.account_name ?? "—"}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-2.5 text-zinc-600">{formatCaseType(sc.case_type)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="px-4 py-6 text-center text-sm text-zinc-400">
+              No open service cases assigned to you.
+            </p>
+          )}
+        </div>
       </section>
     </div>
   );

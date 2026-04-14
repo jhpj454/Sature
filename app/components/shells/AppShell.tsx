@@ -22,14 +22,12 @@ type AppShellProps = {
 };
 
 function isNavActive(pathname: string, item: NavItem) {
-  if (pathname === item.href) {
-    return true;
-  }
-
-  if (item.href === "/") {
-    return pathname === "/";
-  }
-
+  if (pathname === item.href) return true;
+  if (item.href === "/") return pathname === "/";
+  // Root dashboard paths (e.g. /ams, /crm) are single-segment — only exact match applies.
+  // Multi-segment section paths (e.g. /ams/accounts) also highlight on sub-pages.
+  const segments = item.href.split("/").filter(Boolean);
+  if (segments.length < 2) return false;
   return pathname.startsWith(`${item.href}/`);
 }
 
@@ -52,7 +50,7 @@ function NavLinks({
             className={cn(
               "block rounded-md px-3 py-2 text-sm transition-colors",
               active
-                ? "bg-zinc-900 text-white"
+                ? "bg-zinc-700 text-white"
                 : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900",
             )}
             href={item.href}
@@ -147,7 +145,7 @@ export function AppShell({
                   className={cn(
                     "shrink-0 rounded-md px-2.5 py-1.5 text-xs",
                     active
-                      ? "bg-zinc-900 text-white"
+                      ? "bg-zinc-700 text-white"
                       : "border border-zinc-300 bg-white text-zinc-700",
                   )}
                   href={item.href}
