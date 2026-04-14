@@ -72,9 +72,9 @@ export function ServiceCaseOverviewEditor({ serviceCase, users }: Props) {
     <form className="space-y-4" onSubmit={onSubmit}>
       <div className="grid gap-3 md:grid-cols-3">
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Status</span>
+          <span className="mb-1 block text-slate-400">Status</span>
           <select
-            className="w-full rounded border border-zinc-300 px-2 py-1"
+            className="w-full rounded border border-slate-300/40 px-2 py-1"
             onChange={(event) => setStatus(event.target.value as ServiceCase["status"])}
             value={status}
           >
@@ -87,9 +87,9 @@ export function ServiceCaseOverviewEditor({ serviceCase, users }: Props) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Priority</span>
+          <span className="mb-1 block text-slate-400">Priority</span>
           <select
-            className="w-full rounded border border-zinc-300 px-2 py-1"
+            className="w-full rounded border border-slate-300/40 px-2 py-1"
             onChange={(event) => setPriority(event.target.value as ServiceCase["priority"])}
             value={priority}
           >
@@ -101,9 +101,9 @@ export function ServiceCaseOverviewEditor({ serviceCase, users }: Props) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Assigned CSR</span>
+          <span className="mb-1 block text-slate-400">Assigned CSR</span>
           <select
-            className="w-full rounded border border-zinc-300 px-2 py-1"
+            className="w-full rounded border border-slate-300/40 px-2 py-1"
             onChange={(event) => setAssignedTo(event.target.value)}
             value={assignedTo}
           >
@@ -119,13 +119,13 @@ export function ServiceCaseOverviewEditor({ serviceCase, users }: Props) {
 
       <div className="flex items-center gap-2">
         <button
-          className="rounded bg-zinc-900 px-3 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded bg-slate-800 px-3 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
           disabled={!isDirty || isPending}
           type="submit"
         >
           {isPending ? "Saving..." : "Save Changes"}
         </button>
-        {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+        {error ? <p className="text-sm text-rose-500">{error}</p> : null}
         {success ? <p className="text-sm text-emerald-600">{success}</p> : null}
       </div>
     </form>

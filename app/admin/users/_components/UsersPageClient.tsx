@@ -42,21 +42,21 @@ function InviteModal({ onClose, onCreated }: { onClose: () => void; onCreated: (
 
   if (created) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-        <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
-          <h2 className="text-lg font-semibold text-zinc-900">User Created</h2>
-          <p className="mt-1 text-sm text-zinc-500">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+        <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+          <h2 className="text-lg font-semibold text-slate-800">User Created</h2>
+          <p className="mt-1 text-sm text-slate-400">
             Share these credentials with <strong>{created.display_name}</strong>. The temporary
             password is shown only once.
           </p>
-          <div className="mt-4 space-y-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm">
+          <div className="mt-4 space-y-3 rounded-lg border border-slate-200/30 bg-white/30 p-4 text-sm">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-zinc-500">Email</span>
-              <span className="font-mono text-zinc-900">{created.email}</span>
+              <span className="text-slate-400">Email</span>
+              <span className="font-mono text-slate-800">{created.email}</span>
             </div>
             <div className="flex items-center justify-between gap-2">
-              <span className="text-zinc-500">Temp password</span>
-              <span className="font-mono font-semibold tracking-widest text-zinc-900">
+              <span className="text-slate-400">Temp password</span>
+              <span className="font-mono font-semibold tracking-widest text-slate-800">
                 {created.tempPassword}
               </span>
             </div>
@@ -92,12 +92,12 @@ function InviteModal({ onClose, onCreated }: { onClose: () => void; onCreated: (
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+      <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-zinc-900">Add User</h2>
-            <p className="mt-1 text-sm text-zinc-500">
+            <h2 className="text-lg font-semibold text-slate-800">Add User</h2>
+            <p className="mt-1 text-sm text-slate-400">
               Create a new user for your agency. A temporary password will be generated.
             </p>
           </div>
@@ -138,15 +138,15 @@ function InviteModal({ onClose, onCreated }: { onClose: () => void; onCreated: (
           }}
         >
           <label className="block space-y-1">
-            <span className="text-sm text-zinc-600">Full name</span>
+            <span className="text-sm text-slate-500">Full name</span>
             <Input name="display_name" placeholder="Jane Smith" required />
           </label>
           <label className="block space-y-1">
-            <span className="text-sm text-zinc-600">Email</span>
+            <span className="text-sm text-slate-500">Email</span>
             <Input name="email" placeholder="jane@agency.com" required type="email" />
           </label>
           <label className="block space-y-1">
-            <span className="text-sm text-zinc-600">Role</span>
+            <span className="text-sm text-slate-500">Role</span>
             <Select className="w-full" defaultValue="csr" name="role">
               <option value="csr">CSR</option>
               <option value="producer">Producer</option>
@@ -154,7 +154,7 @@ function InviteModal({ onClose, onCreated }: { onClose: () => void; onCreated: (
               <option value="admin">Admin</option>
             </Select>
           </label>
-          {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+          {error ? <p className="text-sm text-rose-500">{error}</p> : null}
           <div className="flex gap-2">
             <Button disabled={isSaving} type="submit">
               {isSaving ? "Creating..." : "Create User"}
@@ -185,10 +185,10 @@ function EditModal({
   const [status, setStatus] = useState(state.status);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+      <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
         <div className="flex items-start justify-between gap-4">
-          <h2 className="text-lg font-semibold text-zinc-900">Edit User</h2>
+          <h2 className="text-lg font-semibold text-slate-800">Edit User</h2>
           <Button onClick={onClose} size="sm" variant="outline">
             Close
           </Button>
@@ -215,7 +215,7 @@ function EditModal({
           }}
         >
           <label className="block space-y-1">
-            <span className="text-sm text-zinc-600">Full name</span>
+            <span className="text-sm text-slate-500">Full name</span>
             <Input
               onChange={(e) => setDisplayName(e.target.value)}
               required
@@ -223,7 +223,7 @@ function EditModal({
             />
           </label>
           <label className="block space-y-1">
-            <span className="text-sm text-zinc-600">Role</span>
+            <span className="text-sm text-slate-500">Role</span>
             <Select className="w-full" onChange={(e) => setRole(e.target.value)} value={role}>
               <option value="csr">CSR</option>
               <option value="producer">Producer</option>
@@ -232,13 +232,13 @@ function EditModal({
             </Select>
           </label>
           <label className="block space-y-1">
-            <span className="text-sm text-zinc-600">Status</span>
+            <span className="text-sm text-slate-500">Status</span>
             <Select className="w-full" onChange={(e) => setStatus(e.target.value)} value={status}>
               <option value="active">Active</option>
               <option value="suspended">Suspended</option>
             </Select>
           </label>
-          {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+          {error ? <p className="text-sm text-rose-500">{error}</p> : null}
           <div className="flex gap-2">
             <Button disabled={isSaving} type="submit">
               {isSaving ? "Saving..." : "Save Changes"}
@@ -263,19 +263,19 @@ export function UsersPageClient({ initialUsers }: { initialUsers: User[] }) {
       key: "name",
       header: "Name",
       render: (u: User) => (
-        <span className="font-medium text-zinc-900">{u.display_name}</span>
+        <span className="font-medium text-slate-800">{u.display_name}</span>
       ),
     },
     {
       key: "email",
       header: "Email",
-      render: (u: User) => <span className="text-zinc-600">{u.email}</span>,
+      render: (u: User) => <span className="text-slate-500">{u.email}</span>,
     },
     {
       key: "role",
       header: "Role",
       render: (u: User) => (
-        <span className="inline-flex rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium capitalize text-zinc-700">
+        <span className="inline-flex rounded-full bg-white/30 px-2 py-0.5 text-xs font-medium capitalize text-slate-700">
           {u.role}
         </span>
       ),
@@ -289,7 +289,7 @@ export function UsersPageClient({ initialUsers }: { initialUsers: User[] }) {
       key: "last_login",
       header: "Last login",
       render: (u: User) => (
-        <span className="text-zinc-500">{formatDate(u.last_login_at)}</span>
+        <span className="text-slate-400">{formatDate(u.last_login_at)}</span>
       ),
     },
     {
@@ -318,8 +318,8 @@ export function UsersPageClient({ initialUsers }: { initialUsers: User[] }) {
     <>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">Users</h1>
-          <p className="mt-1 text-sm text-zinc-500">
+          <h1 className="text-2xl font-semibold text-slate-800">Users</h1>
+          <p className="mt-1 text-sm text-slate-400">
             {initialUsers.filter((u) => u.status === "active").length} active ·{" "}
             {initialUsers.length} total
           </p>

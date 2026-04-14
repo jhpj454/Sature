@@ -10,9 +10,9 @@ type SettingsContentProps = {
 
 function SettingsRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="grid gap-1 border-b border-zinc-200 py-3 last:border-b-0 last:pb-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-4">
-      <span className="text-sm font-medium text-zinc-500">{label}</span>
-      <span className="break-words text-sm text-zinc-900">{value}</span>
+    <div className="grid gap-1 border-b border-slate-200/30 py-3 last:border-b-0 last:pb-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-4">
+      <span className="text-sm font-medium text-slate-400">{label}</span>
+      <span className="break-words text-sm text-slate-800">{value}</span>
     </div>
   );
 }
@@ -58,7 +58,7 @@ export function SettingsContent({
             <CardTitle>Workspace</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm leading-6 text-zinc-600">{placeholderTitle}</p>
+            <p className="text-sm leading-6 text-slate-500">{placeholderTitle}</p>
           </CardContent>
         </Card>
       </div>

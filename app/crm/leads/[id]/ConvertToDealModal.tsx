@@ -74,15 +74,15 @@ export function ConvertToDealModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
-        <h2 className="mb-1 text-lg font-semibold text-zinc-900">Convert to Deal</h2>
-        <p className="mb-5 text-sm text-zinc-500">
+      <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+        <h2 className="mb-1 text-lg font-semibold text-slate-800">Convert to Deal</h2>
+        <p className="mb-5 text-sm text-slate-400">
           A deal will be created and this lead will be marked as converted.
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <label className="block space-y-1">
-            <span className="text-sm font-medium text-zinc-700">Deal Title</span>
+            <span className="text-sm font-medium text-slate-700">Deal Title</span>
             <Input
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Acme Corp Opportunity"
@@ -92,7 +92,7 @@ export function ConvertToDealModal({
           </label>
 
           <label className="block space-y-1">
-            <span className="text-sm font-medium text-zinc-700">Estimated Revenue</span>
+            <span className="text-sm font-medium text-slate-700">Estimated Revenue</span>
             <Input
               min="0"
               onChange={(e) => setEstimatedRevenue(e.target.value)}
@@ -105,9 +105,9 @@ export function ConvertToDealModal({
           </label>
 
           <label className="block space-y-1">
-            <span className="text-sm font-medium text-zinc-700">Pipeline</span>
+            <span className="text-sm font-medium text-slate-700">Pipeline</span>
             <select
-              className="h-9 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
+              className="h-9 w-full rounded-md border border-slate-300/40 bg-white px-3 text-sm"
               disabled={pipelines.length === 0}
               onChange={(e) => setPipelineId(e.target.value)}
               required
@@ -126,7 +126,7 @@ export function ConvertToDealModal({
           </label>
 
           <label className="block space-y-1">
-            <span className="text-sm font-medium text-zinc-700">Close Date</span>
+            <span className="text-sm font-medium text-slate-700">Close Date</span>
             <Input
               onChange={(e) => setCloseDate(e.target.value)}
               type="date"
@@ -135,9 +135,9 @@ export function ConvertToDealModal({
           </label>
 
           <label className="block space-y-1">
-            <span className="text-sm font-medium text-zinc-700">Notes</span>
+            <span className="text-sm font-medium text-slate-700">Notes</span>
             <textarea
-              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm leading-relaxed focus:border-zinc-500 focus:outline-none"
+              className="w-full rounded-md border border-slate-300/40 px-3 py-2 text-sm leading-relaxed focus:border-zinc-500 focus:outline-none"
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Next steps, context, or anything relevant…"
               rows={3}
@@ -148,16 +148,16 @@ export function ConvertToDealModal({
           <label className="flex items-start gap-2">
             <input
               checked={createAccount}
-              className="mt-0.5 h-4 w-4 rounded border-zinc-300"
+              className="mt-0.5 h-4 w-4 rounded border-slate-300/40"
               onChange={(e) => setCreateAccount(e.target.checked)}
               type="checkbox"
             />
-            <span className="text-sm text-zinc-700">
+            <span className="text-sm text-slate-700">
               Create a new Customer record from this lead
             </span>
           </label>
 
-          {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+          {error ? <p className="text-sm text-rose-500">{error}</p> : null}
 
           <div className="flex gap-2 pt-1">
             <Button disabled={submitting || pipelines.length === 0} type="submit">

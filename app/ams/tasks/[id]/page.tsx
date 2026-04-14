@@ -59,10 +59,10 @@ export default async function TaskDetailPage({
         }
       />
 
-      <section className="rounded-lg border border-zinc-200 bg-white p-4">
+      <section className="rounded-lg border border-slate-200/30 bg-white p-4">
         <dl className="space-y-3 text-sm">
           <div className="flex justify-between gap-4">
-            <dt className="text-zinc-500">Assigned To</dt>
+            <dt className="text-slate-400">Assigned To</dt>
             <dd>
               {task.assigned_to_user_id
                 ? userById.get(task.assigned_to_user_id) ?? task.assigned_to_user_id.slice(0, 8)
@@ -70,11 +70,11 @@ export default async function TaskDetailPage({
             </dd>
           </div>
           <div className="flex justify-between gap-4">
-            <dt className="text-zinc-500">Due Date</dt>
+            <dt className="text-slate-400">Due Date</dt>
             <dd>{formatDate(task.due_date)}</dd>
           </div>
           <div className="flex justify-between gap-4">
-            <dt className="text-zinc-500">Linked Entity</dt>
+            <dt className="text-slate-400">Linked Entity</dt>
             <dd>
               {task.linked_entity_type && task.linked_entity_id
                 ? `${task.linked_entity_type}:${task.linked_entity_id.slice(0, 8)}`
@@ -82,7 +82,7 @@ export default async function TaskDetailPage({
             </dd>
           </div>
           <div>
-            <dt className="mb-1 text-zinc-500">Description</dt>
+            <dt className="mb-1 text-slate-400">Description</dt>
             <dd>{task.description ?? "-"}</dd>
           </div>
         </dl>

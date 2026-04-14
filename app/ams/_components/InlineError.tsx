@@ -19,7 +19,7 @@ export function InlineError({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-sm text-zinc-700">{details}</p>
+        <p className="text-sm text-slate-700">{details}</p>
         <Link href={retryHref}>
           <Button variant="outline">{retryLabel}</Button>
         </Link>

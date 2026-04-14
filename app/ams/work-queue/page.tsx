@@ -93,8 +93,8 @@ export default async function WorkQueuePage({
 
       <FilterBar resetHref="/ams/work-queue">
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Status</span>
-          <select className="w-full rounded border border-zinc-300 px-2 py-1" name="status" defaultValue={filters.status ?? ""}>
+          <span className="mb-1 block text-slate-400">Status</span>
+          <select className="w-full rounded border border-slate-300/40 px-2 py-1" name="status" defaultValue={filters.status ?? ""}>
             <option value="">All</option>
             <option value="open">open</option>
             <option value="in_progress">in_progress</option>
@@ -105,8 +105,8 @@ export default async function WorkQueuePage({
           </select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Priority</span>
-          <select className="w-full rounded border border-zinc-300 px-2 py-1" name="priority" defaultValue={filters.priority ?? ""}>
+          <span className="mb-1 block text-slate-400">Priority</span>
+          <select className="w-full rounded border border-slate-300/40 px-2 py-1" name="priority" defaultValue={filters.priority ?? ""}>
             <option value="">All</option>
             <option value="low">low</option>
             <option value="normal">normal</option>
@@ -115,17 +115,17 @@ export default async function WorkQueuePage({
           </select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Type</span>
-          <select className="w-full rounded border border-zinc-300 px-2 py-1" name="type" defaultValue={filters.type ?? ""}>
+          <span className="mb-1 block text-slate-400">Type</span>
+          <select className="w-full rounded border border-slate-300/40 px-2 py-1" name="type" defaultValue={filters.type ?? ""}>
             <option value="">All</option>
             <option value="service_case">service_case</option>
             <option value="task">task</option>
           </select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Assigned To</span>
+          <span className="mb-1 block text-slate-400">Assigned To</span>
           <select
-            className="w-full rounded border border-zinc-300 px-2 py-1"
+            className="w-full rounded border border-slate-300/40 px-2 py-1"
             defaultValue={filters.assigned_to ?? ""}
             name="assigned_to"
           >
@@ -147,7 +147,7 @@ export default async function WorkQueuePage({
             retryHref={retryHref}
           />
           {showDebug ? (
-            <div className="rounded-xl border border-white/60 bg-white/60 p-4 text-sm text-zinc-700 backdrop-blur-sm">
+            <div className="rounded-2xl border border-white/50 bg-white/45 p-4 text-sm text-slate-700 backdrop-blur-xl">
               <p>
                 <span className="font-medium">Request:</span> {queueRes.requestUrl}
               </p>
@@ -155,7 +155,7 @@ export default async function WorkQueuePage({
                 <span className="font-medium">Response:</span> {queueRes.status}
               </p>
               {queueRes.responsePreview ? (
-                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-white/60 bg-white/60 p-3 text-xs text-zinc-700">
+                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-white/50 bg-white/45 p-3 text-xs text-slate-700">
                   {queueRes.responsePreview}
                 </pre>
               ) : null}
@@ -169,7 +169,7 @@ export default async function WorkQueuePage({
               key: "type",
               header: "Type",
               render: (item) => (
-                <span className="rounded bg-sky-50/80 px-2 py-0.5 text-xs font-medium text-sky-700 ring-1 ring-inset ring-sky-200/50">
+                <span className="rounded bg-blue-50/60 px-2 py-0.5 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-200/50">
                   {item.type}
                 </span>
               ),

@@ -73,8 +73,8 @@ export default function LoginPage() {
   if (isChecking) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-2xl border border-white/60 bg-white/75 p-6 shadow-lg backdrop-blur-xl">
-          <p className="text-sm text-zinc-500">Checking session...</p>
+        <div className="w-full max-w-md rounded-2xl border border-white/50 bg-white/45 p-6 shadow-lg backdrop-blur-xl">
+          <p className="text-sm text-slate-400">Checking session...</p>
         </div>
       </div>
     );
@@ -82,16 +82,16 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-2xl border border-white/60 bg-white/75 p-6 shadow-xl backdrop-blur-xl">
-        <h1 className="text-2xl font-semibold text-zinc-900">Sature</h1>
-        <p className="mt-1 text-sm text-zinc-500">Sign in to your workspace.</p>
+      <div className="w-full max-w-md rounded-2xl border border-white/50 bg-white/45 p-6 shadow-xl backdrop-blur-xl">
+        <h1 className="text-2xl font-semibold text-slate-800">Sature</h1>
+        <p className="mt-1 text-sm text-slate-400">Sign in to your workspace.</p>
 
         <form className="mt-6 space-y-4" onSubmit={onSubmit}>
           <label className="block text-sm">
-            <span className="mb-1 block text-zinc-600">Email</span>
+            <span className="mb-1 block text-slate-500">Email</span>
             <input
               autoComplete="email"
-              className="w-full rounded border border-zinc-300 px-3 py-2 outline-none ring-zinc-300 focus:ring"
+              className="w-full rounded border border-slate-300/40 px-3 py-2 outline-none ring-slate-300/40 focus:ring"
               onChange={(event) => setEmail(event.target.value)}
               required
               type="email"
@@ -100,10 +100,10 @@ export default function LoginPage() {
           </label>
 
           <label className="block text-sm">
-            <span className="mb-1 block text-zinc-600">Password</span>
+            <span className="mb-1 block text-slate-500">Password</span>
             <input
               autoComplete="current-password"
-              className="w-full rounded border border-zinc-300 px-3 py-2 outline-none ring-zinc-300 focus:ring"
+              className="w-full rounded border border-slate-300/40 px-3 py-2 outline-none ring-slate-300/40 focus:ring"
               onChange={(event) => setPassword(event.target.value)}
               required
               type="password"
@@ -111,10 +111,10 @@ export default function LoginPage() {
             />
           </label>
 
-          {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+          {error ? <p className="text-sm text-rose-500">{error}</p> : null}
 
           <button
-            className="w-full rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isSubmitting}
             type="submit"
           >
@@ -123,17 +123,17 @@ export default function LoginPage() {
         </form>
 
         {process.env.NODE_ENV !== "production" ? (
-          <div className="mt-6 rounded-xl border border-white/60 bg-white/50 p-3 backdrop-blur-sm">
-            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+          <div className="mt-6 rounded-2xl border border-white/50 bg-white/30 p-3 backdrop-blur-xl">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
               Switch Account (Dev)
             </p>
-            <p className="mt-1 text-xs text-zinc-500">
-              Click an email to fill the login form. Dev password: <span className="font-medium text-zinc-700">SaturateDev123!</span>
+            <p className="mt-1 text-xs text-slate-400">
+              Click an email to fill the login form. Dev password: <span className="font-medium text-slate-700">SaturateDev123!</span>
             </p>
             <div className="mt-3 space-y-2">
               {DEV_USERS.map((devEmail) => (
                 <button
-                  className="block w-full rounded-lg border border-white/60 bg-white/50 px-2 py-1.5 text-left text-sm text-zinc-700 transition-colors hover:bg-white/80"
+                  className="block w-full rounded-lg border border-white/50 bg-white/30 px-2 py-1.5 text-left text-sm text-slate-700 transition-colors hover:bg-white/80"
                   key={devEmail}
                   onClick={() => setEmail(devEmail)}
                   type="button"

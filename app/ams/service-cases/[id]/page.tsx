@@ -154,8 +154,8 @@ export default async function ServiceCaseDetailPage({
           <Link
             className={`rounded border px-3 py-1.5 text-sm ${
               tab === tabKey
-                ? "border-zinc-900 bg-zinc-900 text-white"
-                : "border-zinc-300 bg-white text-zinc-700"
+                ? "border-slate-800 bg-slate-800 text-white"
+                : "border-slate-300/40 bg-white text-slate-700"
             }`}
             href={`/ams/service-cases/${id}?tab=${tabKey}`}
             key={tabKey}
@@ -167,15 +167,15 @@ export default async function ServiceCaseDetailPage({
 
       {tab === "overview" ? (
         <section className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border border-zinc-200 bg-white p-4">
+          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
             <h2 className="mb-3 font-medium">Overview</h2>
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between gap-4">
-                <dt className="text-zinc-500">Account</dt>
+                <dt className="text-slate-400">Account</dt>
                 <dd>{serviceCase.account_id ? accountById.get(serviceCase.account_id) ?? serviceCase.account_id.slice(0, 8) : "-"}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-zinc-500">Policy</dt>
+                <dt className="text-slate-400">Policy</dt>
                 <dd>
                   {serviceCase.policy_id ? (
                     <Link className="text-blue-700 hover:underline" href={`/ams/policies/${serviceCase.policy_id}`}>
@@ -187,7 +187,7 @@ export default async function ServiceCaseDetailPage({
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-zinc-500">Assigned CSR</dt>
+                <dt className="text-slate-400">Assigned CSR</dt>
                 <dd>
                   {serviceCase.assigned_to_user_id
                     ? userById.get(serviceCase.assigned_to_user_id) ?? serviceCase.assigned_to_user_id.slice(0, 8)
@@ -195,13 +195,13 @@ export default async function ServiceCaseDetailPage({
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-zinc-500">Due Date</dt>
+                <dt className="text-slate-400">Due Date</dt>
                 <dd>{formatDate(serviceCase.due_date)}</dd>
               </div>
             </dl>
           </div>
 
-          <div className="rounded-lg border border-zinc-200 bg-white p-4">
+          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
             <h2 className="mb-3 font-medium">Update Case</h2>
             <ServiceCaseOverviewEditor
               serviceCase={serviceCase}

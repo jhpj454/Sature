@@ -90,7 +90,7 @@ export default async function PoliciesPage({
             ? `, count=${policyRows.length}`
             : `, error=${policiesRequest.errorMessage}`}
         </p>
-        <p className="break-all whitespace-pre-wrap rounded-lg border border-white/60 bg-white/50 p-2">
+        <p className="break-all whitespace-pre-wrap rounded-lg border border-white/50 bg-white/30 p-2">
           {policiesRequest.responsePreview || "(empty response body)"}
         </p>
         <p>
@@ -148,7 +148,7 @@ export default async function PoliciesPage({
 
       <FilterBar resetHref="/ams/policies">
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Status</span>
+          <span className="mb-1 block text-slate-400">Status</span>
           <Select className="w-full" defaultValue={filters.status ?? ""} name="status">
             <option value="">All (includes active, pending, quoted)</option>
             <option value="quoted">quoted</option>
@@ -160,7 +160,7 @@ export default async function PoliciesPage({
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Expiring After</span>
+          <span className="mb-1 block text-slate-400">Expiring After</span>
           <Input
             className="w-full"
             defaultValue={filters.from}
@@ -170,7 +170,7 @@ export default async function PoliciesPage({
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Expiring Before</span>
+          <span className="mb-1 block text-slate-400">Expiring Before</span>
           <Input
             className="w-full"
             defaultValue={filters.to}

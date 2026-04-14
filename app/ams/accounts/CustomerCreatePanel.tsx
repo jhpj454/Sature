@@ -74,18 +74,18 @@ export function CustomerCreatePanel({ users }: CustomerCreatePanelProps) {
   }
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-4">
+    <div className="rounded-lg border border-slate-200/30 bg-white p-4">
       <form
         action={onSubmit}
         className="grid gap-3 md:grid-cols-2"
       >
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Customer Name</span>
+          <span className="mb-1 block text-slate-400">Customer Name</span>
           <Input name="account_name" required />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Type</span>
+          <span className="mb-1 block text-slate-400">Type</span>
           <Select defaultValue="commercial" name="account_type">
             <option value="commercial">commercial</option>
             <option value="personal">personal</option>
@@ -93,7 +93,7 @@ export function CustomerCreatePanel({ users }: CustomerCreatePanelProps) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Status</span>
+          <span className="mb-1 block text-slate-400">Status</span>
           <Select defaultValue="prospect" name="status">
             <option value="prospect">prospect</option>
             <option value="client">client</option>
@@ -102,7 +102,7 @@ export function CustomerCreatePanel({ users }: CustomerCreatePanelProps) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Assigned Producer</span>
+          <span className="mb-1 block text-slate-400">Assigned Producer</span>
           <Select defaultValue="" name="assigned_producer_id">
             <option value="">None</option>
             {producers.map((user) => (
@@ -114,7 +114,7 @@ export function CustomerCreatePanel({ users }: CustomerCreatePanelProps) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Assigned CSR</span>
+          <span className="mb-1 block text-slate-400">Assigned CSR</span>
           <Select defaultValue="" name="assigned_csr_id">
             <option value="">None</option>
             {csrs.map((user) => (
@@ -144,7 +144,7 @@ export function CustomerCreatePanel({ users }: CustomerCreatePanelProps) {
         </div>
 
         {error ? (
-          <p className="md:col-span-2 text-sm text-rose-600">{error}</p>
+          <p className="md:col-span-2 text-sm text-rose-500">{error}</p>
         ) : null}
       </form>
     </div>

@@ -142,12 +142,12 @@ export function LimitsPanel({
       </div>
 
       {error && modal.mode === "closed" ? (
-        <p className="text-sm text-rose-600">{error}</p>
+        <p className="text-sm text-rose-500">{error}</p>
       ) : null}
 
-      <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+      <div className="overflow-x-auto rounded-lg border border-slate-200/30 bg-white">
         <table className="min-w-full text-sm">
-          <thead className="bg-zinc-100 text-left text-zinc-600">
+          <thead className="bg-white/30 text-left text-slate-500">
             <tr>
               <th className="px-3 py-2">Limit Type</th>
               <th className="px-3 py-2">Amount</th>
@@ -158,16 +158,16 @@ export function LimitsPanel({
           <tbody>
             {initialData.length === 0 ? (
               <tr>
-                <td className="px-3 py-8 text-center text-zinc-500" colSpan={4}>
+                <td className="px-3 py-8 text-center text-slate-400" colSpan={4}>
                   No limits recorded.
                 </td>
               </tr>
             ) : (
               initialData.map((item) => (
-                <tr className="border-t border-zinc-200" key={item.id}>
+                <tr className="border-t border-slate-200/30" key={item.id}>
                   <td className="px-3 py-2 font-medium">{item.limit_type}</td>
                   <td className="px-3 py-2">{formatCurrency(item.limit_amount)}</td>
-                  <td className="px-3 py-2 text-zinc-600">{item.applies_to ?? "-"}</td>
+                  <td className="px-3 py-2 text-slate-500">{item.applies_to ?? "-"}</td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
                       <button
@@ -178,7 +178,7 @@ export function LimitsPanel({
                         Edit
                       </button>
                       <button
-                        className="text-xs text-rose-600 hover:underline disabled:opacity-50"
+                        className="text-xs text-rose-500 hover:underline disabled:opacity-50"
                         disabled={deletingId === item.id}
                         onClick={() => handleDelete(item.id)}
                         type="button"
@@ -195,10 +195,10 @@ export function LimitsPanel({
       </div>
 
       {modal.mode !== "closed" ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
             <div className="mb-5 flex items-center justify-between">
-              <h3 className="font-semibold text-zinc-900">
+              <h3 className="font-semibold text-slate-800">
                 {modal.mode === "create" ? "Add Limit" : "Edit Limit"}
               </h3>
               <Button onClick={close} size="sm" type="button" variant="outline">
@@ -207,9 +207,9 @@ export function LimitsPanel({
             </div>
             <form className="grid gap-4" onSubmit={handleSubmit}>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Limit Type</span>
+                <span className="text-sm text-slate-500">Limit Type</span>
                 <input
-                  className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
+                  className="h-10 w-full rounded-md border border-slate-300/40 bg-white px-3 text-sm"
                   list="limit-type-suggestions"
                   placeholder="per_occurrence"
                   required
@@ -222,14 +222,14 @@ export function LimitsPanel({
                 </datalist>
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Limit Amount</span>
+                <span className="text-sm text-slate-500">Limit Amount</span>
                 <Input min="0" placeholder="1000000" required step="0.01" type="number" {...field("limit_amount")} />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Applies To</span>
+                <span className="text-sm text-slate-500">Applies To</span>
                 <Input placeholder="Bodily injury and property damage" {...field("applies_to")} />
               </label>
-              {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+              {error ? <p className="text-sm text-rose-500">{error}</p> : null}
               <div className="flex gap-2">
                 <Button disabled={saving} type="submit">
                   {saving ? "Saving…" : modal.mode === "create" ? "Add Limit" : "Save Changes"}

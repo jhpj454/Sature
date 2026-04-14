@@ -42,7 +42,7 @@ export default async function CrmPipelineSettingsPage() {
             <CardTitle>No pipelines available</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-zinc-600">
+            <p className="text-sm text-slate-500">
               Create your first producer pipeline to unlock board and table views in Win Deals.
             </p>
           </CardContent>
@@ -54,8 +54,8 @@ export default async function CrmPipelineSettingsPage() {
               <CardHeader>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <CardTitle className="text-base text-zinc-900">{pipeline.name}</CardTitle>
-                    <p className="mt-1 text-sm text-zinc-500">
+                    <CardTitle className="text-base text-slate-800">{pipeline.name}</CardTitle>
+                    <p className="mt-1 text-sm text-slate-400">
                       {pipeline.description ?? "No description yet."}
                     </p>
                   </div>
@@ -63,17 +63,17 @@ export default async function CrmPipelineSettingsPage() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid gap-2 text-sm text-zinc-600 md:grid-cols-2">
+                <div className="grid gap-2 text-sm text-slate-500 md:grid-cols-2">
                   <p>
-                    <span className="font-medium text-zinc-700">Owner:</span>{" "}
+                    <span className="font-medium text-slate-700">Owner:</span>{" "}
                     {pipeline.owner_display_name ?? "-"}
                   </p>
                   <p>
-                    <span className="font-medium text-zinc-700">Stages:</span>{" "}
+                    <span className="font-medium text-slate-700">Stages:</span>{" "}
                     {pipeline.stage_count ?? 0}
                   </p>
                   <p>
-                    <span className="font-medium text-zinc-700">Status:</span>{" "}
+                    <span className="font-medium text-slate-700">Status:</span>{" "}
                     {pipeline.is_active ? "Active" : "Inactive"}
                   </p>
                 </div>

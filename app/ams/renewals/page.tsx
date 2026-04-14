@@ -40,12 +40,12 @@ export default async function RenewalsPage({
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Renewals Dashboard</h1>
-        <p className="text-sm text-zinc-500">Expiring policies with renewal workflow context.</p>
+        <p className="text-sm text-slate-400">Expiring policies with renewal workflow context.</p>
       </div>
 
-      <form className="grid gap-3 rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm md:grid-cols-5">
+      <form className="grid gap-3 rounded-2xl border border-white/50 bg-white/45 p-4 shadow-sm backdrop-blur-xl md:grid-cols-5">
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">From</span>
+          <span className="mb-1 block text-slate-400">From</span>
           <Input
             className="w-full"
             name="from"
@@ -54,7 +54,7 @@ export default async function RenewalsPage({
           />
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">To</span>
+          <span className="mb-1 block text-slate-400">To</span>
           <Input
             className="w-full"
             name="to"
@@ -63,7 +63,7 @@ export default async function RenewalsPage({
           />
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Status</span>
+          <span className="mb-1 block text-slate-400">Status</span>
           <Select className="w-full" name="status" defaultValue={filters.status ?? ""}>
             <option value="">All</option>
             <option value="not_started">not_started</option>
@@ -74,7 +74,7 @@ export default async function RenewalsPage({
           </Select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Assigned To (User ID)</span>
+          <span className="mb-1 block text-slate-400">Assigned To (User ID)</span>
           <Input
             className="w-full"
             name="assigned_to"
@@ -84,20 +84,20 @@ export default async function RenewalsPage({
         </label>
         <div className="flex items-end gap-2">
           <button
-            className="rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
+            className="rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-700"
             type="submit"
           >
             Apply
           </button>
-          <Link className="rounded-lg border border-white/60 bg-white/50 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-white/80" href="/ams/renewals">
+          <Link className="rounded-lg border border-white/50 bg-white/30 px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-white/80" href="/ams/renewals">
             Reset
           </Link>
         </div>
       </form>
 
-      <div className="overflow-x-auto rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
+      <div className="overflow-x-auto rounded-2xl border border-white/50 bg-white/45 shadow-sm backdrop-blur-xl">
         <table className="min-w-full text-sm">
-          <thead className="bg-white/40 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+          <thead className="bg-white/30 text-left text-xs font-medium uppercase tracking-wide text-slate-400">
             <tr>
               <th className="px-3 py-2">Policy</th>
               <th className="px-3 py-2">Carrier</th>
@@ -112,12 +112,12 @@ export default async function RenewalsPage({
           </thead>
           <tbody>
             {snapshot.data.map((policy) => (
-              <tr key={policy.id} className="border-t border-zinc-200/40 transition-colors hover:bg-white/40">
+              <tr key={policy.id} className="border-t border-slate-200/20 transition-colors hover:bg-white/30">
                 <td className="px-3 py-2">
                   <Link className="font-medium text-blue-700 hover:underline" href={`/ams/policies/${policy.id}`}>
                     {policy.policy_number}
                   </Link>
-                  <div className="text-xs text-zinc-500">{policy.lob}</div>
+                  <div className="text-xs text-slate-400">{policy.lob}</div>
                 </td>
                 <td className="px-3 py-2">{policy.carrier_name ?? "-"}</td>
                 <td className="px-3 py-2">{formatDate(policy.expiration_date)}</td>
@@ -128,7 +128,7 @@ export default async function RenewalsPage({
                 <td className="px-3 py-2">
                   {policy.latest_transaction_type ?? "-"}
                   {policy.latest_transaction_date ? (
-                    <div className="text-xs text-zinc-500">{formatDate(policy.latest_transaction_date)}</div>
+                    <div className="text-xs text-slate-400">{formatDate(policy.latest_transaction_date)}</div>
                   ) : null}
                 </td>
                 <td className="px-3 py-2">
@@ -138,7 +138,7 @@ export default async function RenewalsPage({
             ))}
             {snapshot.data.length === 0 ? (
               <tr>
-                <td className="px-3 py-6 text-center text-zinc-500" colSpan={9}>
+                <td className="px-3 py-6 text-center text-slate-400" colSpan={9}>
                   No expiring policies matched the filters.
                 </td>
               </tr>

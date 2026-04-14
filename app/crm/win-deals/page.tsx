@@ -180,17 +180,17 @@ export default async function CrmWinDealsPage({
         }
       />
 
-      <div className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 rounded-lg border border-slate-200/30 bg-white p-4 md:flex-row md:items-center md:justify-between">
         {view === "table" ? (
           <div className="space-y-1">
-            <p className="text-sm font-medium text-zinc-700">Pipeline</p>
+            <p className="text-sm font-medium text-slate-700">Pipeline</p>
             {pipelines.length > 0 ? (
               <PipelineSwitcher
                 pipelines={pipelines.map((pipeline) => ({ id: pipeline.id, name: pipeline.name }))}
                 selectedPipelineId={selectedPipelineId}
               />
             ) : (
-              <p className="text-sm text-zinc-500">No visible pipelines yet.</p>
+              <p className="text-sm text-slate-400">No visible pipelines yet.</p>
             )}
           </div>
         ) : null}
@@ -225,7 +225,7 @@ export default async function CrmWinDealsPage({
             <CardTitle>No pipelines yet</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <p className="text-sm text-zinc-600">
+            <p className="text-sm text-slate-500">
               Create your first pipeline to start tracking producer deals in Win Deals.
             </p>
             <Link href="/crm/settings/pipelines">
@@ -237,13 +237,13 @@ export default async function CrmWinDealsPage({
         <>
           <FilterBar resetHref={selectedPipelineId ? `/crm/win-deals?pipeline_id=${selectedPipelineId}&view=${view}` : `/crm/win-deals?view=${view}`}>
             <label className="text-sm md:col-span-2">
-              <span className="mb-1 block text-zinc-500">Search</span>
+              <span className="mb-1 block text-slate-400">Search</span>
               <Input defaultValue={filters.q ?? ""} name="q" placeholder="Deal or customer name" />
             </label>
             <input name="pipeline_id" type="hidden" value={selectedPipelineId ?? ""} />
             <input name="view" type="hidden" value={view} />
             <label className="text-sm">
-              <span className="mb-1 block text-zinc-500">Stage</span>
+              <span className="mb-1 block text-slate-400">Stage</span>
               <Select defaultValue={filters.pipeline_stage_id ?? ""} name="pipeline_stage_id">
                 <option value="">All stages</option>
                 {stageOptions.map((stage) => (
@@ -254,7 +254,7 @@ export default async function CrmWinDealsPage({
               </Select>
             </label>
             <label className="text-sm">
-              <span className="mb-1 block text-zinc-500">Owner</span>
+              <span className="mb-1 block text-slate-400">Owner</span>
               <Select defaultValue={filters.producer_user_id ?? ""} name="producer_user_id">
                 <option value="">All owners</option>
                 {producerOptions.map((producer) => (
@@ -265,11 +265,11 @@ export default async function CrmWinDealsPage({
               </Select>
             </label>
             <label className="text-sm">
-              <span className="mb-1 block text-zinc-500">Close from</span>
+              <span className="mb-1 block text-slate-400">Close from</span>
               <Input defaultValue={filters.expected_close_from ?? ""} name="expected_close_from" type="date" />
             </label>
             <label className="text-sm">
-              <span className="mb-1 block text-zinc-500">Close to</span>
+              <span className="mb-1 block text-slate-400">Close to</span>
               <Input defaultValue={filters.expected_close_to ?? ""} name="expected_close_to" type="date" />
             </label>
           </FilterBar>
@@ -292,7 +292,7 @@ export default async function CrmWinDealsPage({
                 <CardTitle>No deals match these filters</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-zinc-600">
+                <p className="text-sm text-slate-500">
                   Adjust your filters or create a deal to start tracking revenue in this pipeline.
                 </p>
               </CardContent>
@@ -326,8 +326,8 @@ export default async function CrmWinDealsPage({
                   header: "Name",
                   render: (deal) => (
                     <div>
-                      <p className="font-medium text-zinc-900">{deal.name}</p>
-                      <p className="text-xs text-zinc-500">{deal.account_name ?? "No linked customer"}</p>
+                      <p className="font-medium text-slate-800">{deal.name}</p>
+                      <p className="text-xs text-slate-400">{deal.account_name ?? "No linked customer"}</p>
                     </div>
                   ),
                 },
@@ -336,7 +336,7 @@ export default async function CrmWinDealsPage({
                 {
                   key: "revenue",
                   header: "Estimated Revenue",
-                  render: (deal) => <span className="font-medium text-zinc-900">{formatCurrency(deal.estimated_revenue)}</span>,
+                  render: (deal) => <span className="font-medium text-slate-800">{formatCurrency(deal.estimated_revenue)}</span>,
                 },
                 {
                   key: "close",

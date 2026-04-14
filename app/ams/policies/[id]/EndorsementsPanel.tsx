@@ -62,7 +62,7 @@ function formatPremiumChange(value: string | number | null) {
     minimumFractionDigits: 2,
   });
   if (numeric > 0) return <span className="text-emerald-700">+{abs}</span>;
-  if (numeric < 0) return <span className="text-rose-600">-{abs}</span>;
+  if (numeric < 0) return <span className="text-rose-500">-{abs}</span>;
   return abs;
 }
 
@@ -168,12 +168,12 @@ export function EndorsementsPanel({
       </div>
 
       {error && modal.mode === "closed" ? (
-        <p className="text-sm text-rose-600">{error}</p>
+        <p className="text-sm text-rose-500">{error}</p>
       ) : null}
 
-      <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+      <div className="overflow-x-auto rounded-lg border border-slate-200/30 bg-white">
         <table className="min-w-full text-sm">
-          <thead className="bg-zinc-100 text-left text-zinc-600">
+          <thead className="bg-white/30 text-left text-slate-500">
             <tr>
               <th className="px-3 py-2">Endorsement #</th>
               <th className="px-3 py-2">Effective</th>
@@ -186,13 +186,13 @@ export function EndorsementsPanel({
           <tbody>
             {initialData.length === 0 ? (
               <tr>
-                <td className="px-3 py-8 text-center text-zinc-500" colSpan={6}>
+                <td className="px-3 py-8 text-center text-slate-400" colSpan={6}>
                   No endorsements recorded.
                 </td>
               </tr>
             ) : (
               initialData.map((item) => (
-                <tr className="border-t border-zinc-200" key={item.id}>
+                <tr className="border-t border-slate-200/30" key={item.id}>
                   <td className="px-3 py-2 font-medium">
                     {item.endorsement_number ?? "-"}
                   </td>
@@ -200,7 +200,7 @@ export function EndorsementsPanel({
                   <td className="px-3 py-2">
                     {ENDORSEMENT_TYPE_LABEL[item.endorsement_type] ?? item.endorsement_type}
                   </td>
-                  <td className="px-3 py-2 text-zinc-600">{item.description ?? "-"}</td>
+                  <td className="px-3 py-2 text-slate-500">{item.description ?? "-"}</td>
                   <td className="px-3 py-2">{formatPremiumChange(item.premium_change)}</td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
@@ -212,7 +212,7 @@ export function EndorsementsPanel({
                         Edit
                       </button>
                       <button
-                        className="text-xs text-rose-600 hover:underline disabled:opacity-50"
+                        className="text-xs text-rose-500 hover:underline disabled:opacity-50"
                         disabled={deletingId === item.id}
                         onClick={() => handleDelete(item.id)}
                         type="button"
@@ -229,10 +229,10 @@ export function EndorsementsPanel({
       </div>
 
       {modal.mode !== "closed" ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-lg rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+          <div className="w-full max-w-lg rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
             <div className="mb-5 flex items-center justify-between">
-              <h3 className="font-semibold text-zinc-900">
+              <h3 className="font-semibold text-slate-800">
                 {modal.mode === "create" ? "Add Endorsement" : "Edit Endorsement"}
               </h3>
               <Button onClick={close} size="sm" type="button" variant="outline">
@@ -241,17 +241,17 @@ export function EndorsementsPanel({
             </div>
             <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Endorsement Number</span>
+                <span className="text-sm text-slate-500">Endorsement Number</span>
                 <Input placeholder="END-001" {...field("endorsement_number")} />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Effective Date</span>
+                <span className="text-sm text-slate-500">Effective Date</span>
                 <Input required type="date" {...field("effective_date")} />
               </label>
               <label className="space-y-1 md:col-span-2">
-                <span className="text-sm text-zinc-600">Endorsement Type</span>
+                <span className="text-sm text-slate-500">Endorsement Type</span>
                 <select
-                  className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
+                  className="h-10 w-full rounded-md border border-slate-300/40 bg-white px-3 text-sm"
                   required
                   {...field("endorsement_type")}
                 >
@@ -263,17 +263,17 @@ export function EndorsementsPanel({
                 </select>
               </label>
               <label className="space-y-1 md:col-span-2">
-                <span className="text-sm text-zinc-600">Description</span>
+                <span className="text-sm text-slate-500">Description</span>
                 <Input placeholder="Add additional insured — landlord" {...field("description")} />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">
+                <span className="text-sm text-slate-500">
                   Premium Change{" "}
-                  <span className="text-zinc-400">(positive = additional, negative = return)</span>
+                  <span className="text-slate-400">(positive = additional, negative = return)</span>
                 </span>
                 <Input placeholder="250.00" step="0.01" type="number" {...field("premium_change")} />
               </label>
-              {error ? <p className="text-sm text-rose-600 md:col-span-2">{error}</p> : null}
+              {error ? <p className="text-sm text-rose-500 md:col-span-2">{error}</p> : null}
               <div className="flex gap-2 md:col-span-2">
                 <Button disabled={saving} type="submit">
                   {saving

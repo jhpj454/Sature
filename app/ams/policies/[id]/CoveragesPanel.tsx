@@ -165,12 +165,12 @@ export function CoveragesPanel({
       </div>
 
       {error && modal.mode === "closed" ? (
-        <p className="text-sm text-rose-600">{error}</p>
+        <p className="text-sm text-rose-500">{error}</p>
       ) : null}
 
-      <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+      <div className="overflow-x-auto rounded-lg border border-slate-200/30 bg-white">
         <table className="min-w-full text-sm">
-          <thead className="bg-zinc-100 text-left text-zinc-600">
+          <thead className="bg-white/30 text-left text-slate-500">
             <tr>
               <th className="px-3 py-2">Coverage</th>
               <th className="px-3 py-2">Deductible</th>
@@ -182,19 +182,19 @@ export function CoveragesPanel({
           <tbody>
             {initialData.length === 0 ? (
               <tr>
-                <td className="px-3 py-8 text-center text-zinc-500" colSpan={5}>
+                <td className="px-3 py-8 text-center text-slate-400" colSpan={5}>
                   No coverages recorded.
                 </td>
               </tr>
             ) : (
               initialData.map((item) => (
-                <tr className="border-t border-zinc-200" key={item.id}>
+                <tr className="border-t border-slate-200/30" key={item.id}>
                   <td className="px-3 py-2">
                     <span className="font-medium">
                       {COVERAGE_TYPE_LABEL[item.coverage_type] ?? item.coverage_type}
                     </span>
                     {item.description ? (
-                      <p className="text-xs text-zinc-500">{item.description}</p>
+                      <p className="text-xs text-slate-400">{item.description}</p>
                     ) : null}
                   </td>
                   <td className="px-3 py-2">
@@ -220,7 +220,7 @@ export function CoveragesPanel({
                         Edit
                       </button>
                       <button
-                        className="text-xs text-rose-600 hover:underline disabled:opacity-50"
+                        className="text-xs text-rose-500 hover:underline disabled:opacity-50"
                         disabled={deletingId === item.id}
                         onClick={() => handleDelete(item.id)}
                         type="button"
@@ -237,10 +237,10 @@ export function CoveragesPanel({
       </div>
 
       {modal.mode !== "closed" ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-lg rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+          <div className="w-full max-w-lg rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
             <div className="mb-5 flex items-center justify-between">
-              <h3 className="font-semibold text-zinc-900">
+              <h3 className="font-semibold text-slate-800">
                 {modal.mode === "create" ? "Add Coverage" : "Edit Coverage"}
               </h3>
               <Button onClick={close} size="sm" type="button" variant="outline">
@@ -249,9 +249,9 @@ export function CoveragesPanel({
             </div>
             <form className="grid gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
               <label className="space-y-1 md:col-span-2">
-                <span className="text-sm text-zinc-600">Coverage Type</span>
+                <span className="text-sm text-slate-500">Coverage Type</span>
                 <select
-                  className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
+                  className="h-10 w-full rounded-md border border-slate-300/40 bg-white px-3 text-sm"
                   required
                   {...field("coverage_type")}
                 >
@@ -263,17 +263,17 @@ export function CoveragesPanel({
                 </select>
               </label>
               <label className="space-y-1 md:col-span-2">
-                <span className="text-sm text-zinc-600">Description</span>
+                <span className="text-sm text-slate-500">Description</span>
                 <Input placeholder="Coverage description" {...field("description")} />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Deductible</span>
+                <span className="text-sm text-slate-500">Deductible</span>
                 <Input min="0" placeholder="1000" step="0.01" type="number" {...field("deductible")} />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Deductible Type</span>
+                <span className="text-sm text-slate-500">Deductible Type</span>
                 <select
-                  className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
+                  className="h-10 w-full rounded-md border border-slate-300/40 bg-white px-3 text-sm"
                   {...field("deductible_type")}
                 >
                   <option value="">None</option>
@@ -285,14 +285,14 @@ export function CoveragesPanel({
                 </select>
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Effective Date</span>
+                <span className="text-sm text-slate-500">Effective Date</span>
                 <Input type="date" {...field("effective_date")} />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Expiration Date</span>
+                <span className="text-sm text-slate-500">Expiration Date</span>
                 <Input type="date" {...field("expiration_date")} />
               </label>
-              {error ? <p className="text-sm text-rose-600 md:col-span-2">{error}</p> : null}
+              {error ? <p className="text-sm text-rose-500 md:col-span-2">{error}</p> : null}
               <div className="flex gap-2 md:col-span-2">
                 <Button disabled={saving} type="submit">
                   {saving ? "Saving…" : modal.mode === "create" ? "Add Coverage" : "Save Changes"}

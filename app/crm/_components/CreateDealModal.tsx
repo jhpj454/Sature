@@ -54,11 +54,11 @@ export function CreateDealModal({
       </Button>
       {open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-xl rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
+          <div className="w-full max-w-xl rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold text-zinc-900">Create Deal</h2>
-                <p className="mt-1 text-sm text-zinc-500">
+                <h2 className="text-lg font-semibold text-slate-800">Create Deal</h2>
+                <p className="mt-1 text-sm text-slate-400">
                   Capture a producer opportunity with estimated revenue as the primary metric.
                 </p>
               </div>
@@ -108,11 +108,11 @@ export function CreateDealModal({
               }}
             >
               <label className="space-y-1 md:col-span-2">
-                <span className="text-sm text-zinc-600">Deal name</span>
+                <span className="text-sm text-slate-500">Deal name</span>
                 <Input name="name" placeholder="Main Street Manufacturing renewal" required />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Stage</span>
+                <span className="text-sm text-slate-500">Stage</span>
                 <Select defaultValue={defaultStage} name="pipeline_stage_id">
                   {stages.map((stage) => (
                     <option key={stage.id} value={stage.id}>
@@ -122,7 +122,7 @@ export function CreateDealModal({
                 </Select>
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Owner</span>
+                <span className="text-sm text-slate-500">Owner</span>
                 <Select defaultValue="" name="producer_user_id">
                   <option value="">Current producer</option>
                   {producers.map((producer) => (
@@ -133,7 +133,7 @@ export function CreateDealModal({
                 </Select>
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Customer</span>
+                <span className="text-sm text-slate-500">Customer</span>
                 <Select defaultValue="" name="account_id">
                   <option value="">No linked customer</option>
                   {accounts.map((account) => (
@@ -144,26 +144,26 @@ export function CreateDealModal({
                 </Select>
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Expected close date</span>
+                <span className="text-sm text-slate-500">Expected close date</span>
                 <Input name="expected_close_date" type="date" />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Estimated revenue</span>
+                <span className="text-sm text-slate-500">Estimated revenue</span>
                 <Input min="0" name="estimated_revenue" required step="0.01" type="number" />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Estimated premium</span>
+                <span className="text-sm text-slate-500">Estimated premium</span>
                 <Input min="0" name="estimated_premium" step="0.01" type="number" />
               </label>
               <label className="space-y-1">
-                <span className="text-sm text-zinc-600">Commission %</span>
+                <span className="text-sm text-slate-500">Commission %</span>
                 <Input max="100" min="0" name="estimated_commission_pct" step="0.01" type="number" />
               </label>
               <label className="space-y-1 md:col-span-2">
-                <span className="text-sm text-zinc-600">Next step</span>
+                <span className="text-sm text-slate-500">Next step</span>
                 <Input name="next_step" placeholder="Call insured to confirm proposal review" />
               </label>
-              {error ? <p className="text-sm text-rose-600 md:col-span-2">{error}</p> : null}
+              {error ? <p className="text-sm text-rose-500 md:col-span-2">{error}</p> : null}
               <div className="flex items-center gap-2 md:col-span-2">
                 <Button disabled={isSaving} type="submit">
                   {isSaving ? "Saving..." : "Create Deal"}

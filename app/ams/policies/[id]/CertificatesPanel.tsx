@@ -79,9 +79,9 @@ export function CertificatesPanel({
         </Button>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+      <div className="overflow-x-auto rounded-lg border border-slate-200/30 bg-white">
         <table className="min-w-full text-sm">
-          <thead className="bg-zinc-100 text-left text-zinc-600">
+          <thead className="bg-white/30 text-left text-slate-500">
             <tr>
               <th className="px-3 py-2">Certificate Holder</th>
               <th className="px-3 py-2">Address</th>
@@ -93,16 +93,16 @@ export function CertificatesPanel({
           <tbody>
             {initialData.length === 0 ? (
               <tr>
-                <td className="px-3 py-8 text-center text-zinc-500" colSpan={5}>
+                <td className="px-3 py-8 text-center text-slate-400" colSpan={5}>
                   No certificates issued for this policy.
                 </td>
               </tr>
             ) : (
               initialData.map((coi) => (
-                <tr className="border-t border-zinc-200" key={coi.id}>
+                <tr className="border-t border-slate-200/30" key={coi.id}>
                   <td className="px-3 py-2 font-medium">{coi.holder_name ?? "—"}</td>
-                  <td className="px-3 py-2 text-zinc-500">{coi.holder_address ?? "—"}</td>
-                  <td className="px-3 py-2 text-zinc-500">{coi.issued_by_name ?? "—"}</td>
+                  <td className="px-3 py-2 text-slate-400">{coi.holder_address ?? "—"}</td>
+                  <td className="px-3 py-2 text-slate-400">{coi.issued_by_name ?? "—"}</td>
                   <td className="px-3 py-2">{formatDate(coi.issued_at)}</td>
                   <td className="px-3 py-2">
                     <a
@@ -122,12 +122,12 @@ export function CertificatesPanel({
       </div>
 
       {showModal ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-lg rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+          <div className="w-full max-w-lg rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
-                <h3 className="font-semibold text-zinc-900">Issue Certificate</h3>
-                <p className="mt-1 text-sm text-zinc-500">
+                <h3 className="font-semibold text-slate-800">Issue Certificate</h3>
+                <p className="mt-1 text-sm text-slate-400">
                   Enter the certificate holder details. Policy and coverage data will be
                   pulled from this policy automatically.
                 </p>
@@ -139,7 +139,7 @@ export function CertificatesPanel({
 
             <form className="space-y-4" onSubmit={handleIssue}>
               <label className="block space-y-1">
-                <span className="text-sm text-zinc-600">Certificate holder name</span>
+                <span className="text-sm text-slate-500">Certificate holder name</span>
                 <Input
                   onChange={(e) => setHolderName(e.target.value)}
                   placeholder="ABC Construction Co."
@@ -148,7 +148,7 @@ export function CertificatesPanel({
                 />
               </label>
               <label className="block space-y-1">
-                <span className="text-sm text-zinc-600">Holder address</span>
+                <span className="text-sm text-slate-500">Holder address</span>
                 <Input
                   onChange={(e) => setHolderAddress(e.target.value)}
                   placeholder="123 Main St, Springfield, IL 62701"
@@ -162,7 +162,7 @@ export function CertificatesPanel({
                 obtained.
               </div>
 
-              {error ? <p className="text-sm text-rose-600">{error}</p> : null}
+              {error ? <p className="text-sm text-rose-500">{error}</p> : null}
 
               <div className="flex gap-2">
                 <Button disabled={isSaving} type="submit">

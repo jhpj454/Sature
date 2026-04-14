@@ -13,7 +13,7 @@ export default function StyleguidePage() {
     <div className="space-y-6 p-4 md:p-6">
       <header className="space-y-1">
         <h1 className="text-xl font-semibold">Saturate Styleguide</h1>
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-slate-400">
           Use these primitives for all new UI to keep shell, spacing, and controls consistent.
         </p>
       </header>
@@ -93,7 +93,7 @@ export default function StyleguidePage() {
         <CardContent>
           <TableContainer>
             <Table>
-              <thead className="bg-zinc-50 text-left text-xs uppercase tracking-wide text-zinc-500">
+              <thead className="bg-zinc-50 text-left text-xs uppercase tracking-wide text-slate-400">
                 <tr>
                   <th className="px-3 py-2">Type</th>
                   <th className="px-3 py-2">Title</th>
@@ -103,7 +103,7 @@ export default function StyleguidePage() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-t border-zinc-200">
+                <tr className="border-t border-slate-200/30">
                   <td className="px-3 py-2">Service Case</td>
                   <td className="px-3 py-2">Renewal review follow-up</td>
                   <td className="px-3 py-2">high</td>

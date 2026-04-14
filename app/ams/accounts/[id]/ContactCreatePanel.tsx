@@ -87,30 +87,30 @@ export function ContactCreatePanel({ accountId }: ContactCreatePanelProps) {
   }
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-4">
+    <div className="rounded-lg border border-slate-200/30 bg-white p-4">
       <form action={onSubmit} className="grid gap-3 md:grid-cols-2">
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">First Name</span>
+          <span className="mb-1 block text-slate-400">First Name</span>
           <Input name="first_name" required />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Last Name</span>
+          <span className="mb-1 block text-slate-400">Last Name</span>
           <Input name="last_name" required />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Email</span>
+          <span className="mb-1 block text-slate-400">Email</span>
           <Input name="email" type="email" />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Phone</span>
+          <span className="mb-1 block text-slate-400">Phone</span>
           <Input name="phone" type="tel" />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Preferred Contact Method</span>
+          <span className="mb-1 block text-slate-400">Preferred Contact Method</span>
           <Select defaultValue="" name="preferred_contact_method">
             <option value="">None</option>
             <option value="email">email</option>
@@ -119,8 +119,8 @@ export function ContactCreatePanel({ accountId }: ContactCreatePanelProps) {
           </Select>
         </label>
 
-        <label className="flex items-center gap-2 text-sm text-zinc-700">
-          <input className="h-4 w-4 rounded border-zinc-300" name="do_not_contact" type="checkbox" />
+        <label className="flex items-center gap-2 text-sm text-slate-700">
+          <input className="h-4 w-4 rounded border-slate-300/40" name="do_not_contact" type="checkbox" />
           Do not contact
         </label>
 
@@ -145,9 +145,9 @@ export function ContactCreatePanel({ accountId }: ContactCreatePanelProps) {
         </div>
 
         {success ? <p className="md:col-span-2 text-sm text-emerald-700">{success}</p> : null}
-        {error ? <p className="md:col-span-2 text-sm text-rose-600">{error}</p> : null}
+        {error ? <p className="md:col-span-2 text-sm text-rose-500">{error}</p> : null}
         {process.env.NODE_ENV !== "production" && debugDetails ? (
-          <pre className="md:col-span-2 overflow-x-auto rounded bg-zinc-100 p-3 text-xs text-zinc-700 whitespace-pre-wrap">
+          <pre className="md:col-span-2 overflow-x-auto rounded bg-white/30 p-3 text-xs text-slate-700 whitespace-pre-wrap">
             {debugDetails}
           </pre>
         ) : null}

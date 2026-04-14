@@ -40,11 +40,11 @@ const STATUS_STYLES: Record<string, string> = {
   open: "bg-blue-50 text-blue-700 ring-blue-200",
   won: "bg-emerald-50 text-emerald-700 ring-emerald-200",
   lost: "bg-rose-50 text-rose-700 ring-rose-200",
-  archived: "bg-zinc-100 text-zinc-500 ring-zinc-200",
+  archived: "bg-white/30 text-slate-400 ring-zinc-200",
 };
 
 const STAGE_TYPE_STYLES: Record<string, string> = {
-  open: "border-zinc-300 bg-white hover:border-zinc-600 text-zinc-700",
+  open: "border-slate-300/40 bg-white hover:border-zinc-600 text-slate-700",
   won: "border-emerald-300 bg-emerald-50 hover:border-emerald-600 text-emerald-700",
   lost: "border-rose-300 bg-rose-50 hover:border-rose-600 text-rose-700",
 };
@@ -109,12 +109,12 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
     ? [deal.lead_first_name, deal.lead_last_name].filter(Boolean).join(" ")
     : deal.lead_company_name ?? null;
 
-  const statusStyle = STATUS_STYLES[deal.status] ?? "bg-zinc-100 text-zinc-700 ring-zinc-200";
+  const statusStyle = STATUS_STYLES[deal.status] ?? "bg-white/30 text-slate-700 ring-zinc-200";
 
   return (
     <aside className="space-y-4">
       {/* Metadata card */}
-      <div className="rounded-lg border border-zinc-200 bg-white p-4">
+      <div className="rounded-lg border border-slate-200/30 bg-white p-4">
         <div className="mb-3 flex items-start justify-between gap-2">
           {editingName ? (
             <form className="flex-1" onSubmit={handleSaveName}>
@@ -125,7 +125,7 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
                 required
                 value={nameValue}
               />
-              {nameError ? <p className="mb-1 text-xs text-rose-600">{nameError}</p> : null}
+              {nameError ? <p className="mb-1 text-xs text-rose-500">{nameError}</p> : null}
               <div className="flex gap-2">
                 <Button disabled={savingName} size="sm" type="submit">
                   {savingName ? "Saving…" : "Save"}
@@ -145,9 +145,9 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
             </form>
           ) : (
             <>
-              <h2 className="text-lg font-semibold text-zinc-900">{deal.name}</h2>
+              <h2 className="text-lg font-semibold text-slate-800">{deal.name}</h2>
               <button
-                className="shrink-0 text-xs text-zinc-500 hover:text-zinc-900 hover:underline"
+                className="shrink-0 text-xs text-slate-400 hover:text-slate-800 hover:underline"
                 onClick={() => setEditingName(true)}
                 type="button"
               >
@@ -165,28 +165,28 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
 
         <dl className="mt-3 space-y-2 text-sm">
           <div className="flex justify-between gap-3">
-            <dt className="text-zinc-500">Stage</dt>
+            <dt className="text-slate-400">Stage</dt>
             <dd className="font-medium">{deal.stage_name}</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-zinc-500">Pipeline</dt>
+            <dt className="text-slate-400">Pipeline</dt>
             <dd>{deal.pipeline_name}</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-zinc-500">Estimated Revenue</dt>
+            <dt className="text-slate-400">Estimated Revenue</dt>
             <dd className="font-medium">{formatCurrency(deal.estimated_revenue)}</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-zinc-500">Close Date</dt>
+            <dt className="text-slate-400">Close Date</dt>
             <dd>{formatDate(deal.expected_close_date)}</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-zinc-500">Producer</dt>
+            <dt className="text-slate-400">Producer</dt>
             <dd>{deal.producer_display_name ?? "—"}</dd>
           </div>
           {deal.account_id ? (
             <div className="flex justify-between gap-3">
-              <dt className="text-zinc-500">Account</dt>
+              <dt className="text-slate-400">Account</dt>
               <dd>
                 <Link
                   className="text-blue-700 hover:underline"
@@ -199,7 +199,7 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
           ) : null}
           {deal.lead_id && leadName ? (
             <div className="flex justify-between gap-3">
-              <dt className="text-zinc-500">Lead</dt>
+              <dt className="text-slate-400">Lead</dt>
               <dd>
                 <Link
                   className="text-blue-700 hover:underline"
@@ -212,17 +212,17 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
           ) : null}
           {deal.next_step ? (
             <div className="flex flex-col gap-1">
-              <dt className="text-zinc-500">Next Step</dt>
-              <dd className="text-zinc-700">{deal.next_step}</dd>
+              <dt className="text-slate-400">Next Step</dt>
+              <dd className="text-slate-700">{deal.next_step}</dd>
             </div>
           ) : null}
         </dl>
       </div>
 
       {/* Stage selector */}
-      <div className="rounded-lg border border-zinc-200 bg-white p-4">
-        <h3 className="mb-3 text-sm font-medium text-zinc-700">Move Stage</h3>
-        {stageError ? <p className="mb-2 text-xs text-rose-600">{stageError}</p> : null}
+      <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+        <h3 className="mb-3 text-sm font-medium text-slate-700">Move Stage</h3>
+        {stageError ? <p className="mb-2 text-xs text-rose-500">{stageError}</p> : null}
         <ol className="space-y-1.5">
           {stages.map((stage) => {
             const isCurrent = stage.id === deal.pipeline_stage_id;
@@ -232,7 +232,7 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
               <li key={stage.id}>
                 <button
                   className={`w-full rounded border px-3 py-1.5 text-left text-sm transition-colors ${style} ${
-                    isCurrent ? "border-zinc-900 bg-zinc-900 text-white" : ""
+                    isCurrent ? "border-zinc-900 bg-slate-800 text-white" : ""
                   } disabled:opacity-50`}
                   disabled={isCurrent || isMoving || movingTo !== null}
                   onClick={() => handleStageClick(stage)}
@@ -250,11 +250,11 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
       {/* Confirmation modal for won/lost */}
       {confirmStage ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-sm rounded-lg border border-zinc-200 bg-white p-6 shadow-xl">
-            <h3 className="mb-2 font-semibold text-zinc-900">
+          <div className="w-full max-w-sm rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+            <h3 className="mb-2 font-semibold text-slate-800">
               Mark as {confirmStage.stage_type === "won" ? "Won" : "Lost"}?
             </h3>
-            <p className="mb-5 text-sm text-zinc-600">
+            <p className="mb-5 text-sm text-slate-500">
               Moving to &quot;{confirmStage.name}&quot; will mark this deal as{" "}
               <strong>{confirmStage.stage_type}</strong>. This action updates the deal status.
             </p>

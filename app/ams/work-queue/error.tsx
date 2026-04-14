@@ -14,15 +14,15 @@ export default function WorkQueueError({
   }, [error]);
 
   return (
-    <div className="space-y-4 rounded-lg border border-zinc-200 bg-white p-6">
+    <div className="space-y-4 rounded-lg border border-slate-200/30 bg-white p-6">
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold text-zinc-900">Couldn’t load work queue.</h2>
-        <p className="text-sm text-zinc-600">
+        <h2 className="text-lg font-semibold text-slate-800">Couldn’t load work queue.</h2>
+        <p className="text-sm text-slate-500">
           An unexpected rendering error occurred. The shell is still available.
         </p>
       </div>
       <button
-        className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-900"
+        className="rounded-md border border-slate-300/40 px-4 py-2 text-sm font-medium text-slate-800"
         onClick={() => reset()}
         type="button"
       >

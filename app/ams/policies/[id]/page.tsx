@@ -301,8 +301,8 @@ export default async function PolicyDetailPage({
           <Link
             className={`rounded border px-3 py-1.5 text-sm ${
               tab === tabKey
-                ? "border-zinc-900 bg-zinc-900 text-white"
-                : "border-zinc-300 bg-white text-zinc-700"
+                ? "border-slate-800 bg-slate-800 text-white"
+                : "border-slate-300/40 bg-white text-slate-700"
             }`}
             href={`/ams/policies/${id}?tab=${tabKey}`}
             key={tabKey}
@@ -313,31 +313,31 @@ export default async function PolicyDetailPage({
       </div>
 
       {tab === "overview" ? (
-        <section className="rounded-lg border border-zinc-200 bg-white p-4">
+        <section className="rounded-lg border border-slate-200/30 bg-white p-4">
           <h2 className="mb-3 font-medium">Overview</h2>
           <dl className="grid gap-3 text-sm md:grid-cols-2">
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Effective Date</dt>
+              <dt className="text-slate-400">Effective Date</dt>
               <dd>{formatDate(policy.effective_date)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Expiration Date</dt>
+              <dt className="text-slate-400">Expiration Date</dt>
               <dd>{formatDate(policy.expiration_date)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Premium</dt>
+              <dt className="text-slate-400">Premium</dt>
               <dd>{formatCurrency(policy.premium_amount)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Commission Estimate</dt>
+              <dt className="text-slate-400">Commission Estimate</dt>
               <dd>{formatCurrency(policy.commission_estimate_amount)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Agency Revenue</dt>
+              <dt className="text-slate-400">Agency Revenue</dt>
               <dd>{formatCurrency(policy.agency_revenue_estimate_amount)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Assigned CSR</dt>
+              <dt className="text-slate-400">Assigned CSR</dt>
               <dd>
                 {policy.assigned_csr_id
                   ? userById.get(policy.assigned_csr_id) ?? policy.assigned_csr_id.slice(0, 8)
@@ -356,14 +356,14 @@ export default async function PolicyDetailPage({
               retryHref={`/ams/policies/${id}?tab=exposures`}
             />
           ) : exposuresData.length === 0 ? (
-            <div className="rounded-lg border border-zinc-200 bg-white p-4 text-sm text-zinc-500">
+            <div className="rounded-lg border border-slate-200/30 bg-white p-4 text-sm text-slate-400">
               No exposures recorded.
             </div>
           ) : (
             exposuresData.map((exposure) => (
-              <article className="rounded-lg border border-zinc-200 bg-white p-4" key={exposure.id}>
+              <article className="rounded-lg border border-slate-200/30 bg-white p-4" key={exposure.id}>
                 <h3 className="font-medium">{exposure.exposure_type}</h3>
-                <p className="mb-2 text-xs text-zinc-500">Created {formatDate(exposure.created_at)}</p>
+                <p className="mb-2 text-xs text-slate-400">Created {formatDate(exposure.created_at)}</p>
                 <pre className="overflow-x-auto rounded bg-zinc-950/95 p-3 text-xs text-zinc-100">
                   {formatJsonBlock(exposure.data_json)}
                 </pre>
@@ -473,25 +473,25 @@ export default async function PolicyDetailPage({
 
       {tab === "renewal" ? (
         <section className="space-y-4">
-          <div className="rounded-lg border border-zinc-200 bg-white p-4">
+          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
             <h2 className="mb-2 font-medium">Renewal Summary</h2>
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between gap-4">
-                <dt className="text-zinc-500">Expiration Date</dt>
+                <dt className="text-slate-400">Expiration Date</dt>
                 <dd>{formatDate(policy.expiration_date)}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-zinc-500">Days Until Expiration</dt>
+                <dt className="text-slate-400">Days Until Expiration</dt>
                 <dd>{daysRemaining}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-zinc-500">Renewal Status</dt>
+                <dt className="text-slate-400">Renewal Status</dt>
                 <dd>{policy.renewal_status ?? "-"}</dd>
               </div>
             </dl>
           </div>
 
-          <div className="rounded-lg border border-zinc-200 bg-white p-4">
+          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
             <h3 className="mb-3 font-medium">Renewal Rules Triggered</h3>
             {!rulesRes.ok ? (
               <InlineError details={rulesRes.errorMessage} retryHref={`/ams/policies/${id}?tab=renewal`} />
@@ -501,11 +501,11 @@ export default async function PolicyDetailPage({
                   const rule = ruleByOffset.get(offset);
                   const isTodayTrigger = daysRemaining === offset;
                   return (
-                    <div className="flex items-center justify-between rounded border border-zinc-200 px-3 py-2 text-sm" key={offset}>
+                    <div className="flex items-center justify-between rounded border border-slate-200/30 px-3 py-2 text-sm" key={offset}>
                       <span>{offset} days</span>
                       <div className="flex items-center gap-2">
-                        {rule ? <PriorityBadge value={rule.case_priority} /> : <span className="text-zinc-400">no rule</span>}
-                        <span className={isTodayTrigger ? "font-medium text-emerald-700" : "text-zinc-500"}>
+                        {rule ? <PriorityBadge value={rule.case_priority} /> : <span className="text-slate-400">no rule</span>}
+                        <span className={isTodayTrigger ? "font-medium text-emerald-700" : "text-slate-400"}>
                           {isTodayTrigger ? "triggered today" : "pending"}
                         </span>
                       </div>

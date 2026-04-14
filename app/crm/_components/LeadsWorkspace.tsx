@@ -317,31 +317,31 @@ export function LeadsWorkspace({
           <CardContent>
             <form action={handleCreateLead} className="grid gap-3 md:grid-cols-2">
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">First Name</span>
+                <span className="mb-1 block text-slate-400">First Name</span>
                 <Input name="first_name" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Last Name</span>
+                <span className="mb-1 block text-slate-400">Last Name</span>
                 <Input name="last_name" />
               </label>
               <label className="text-sm md:col-span-2">
-                <span className="mb-1 block text-zinc-500">Company</span>
+                <span className="mb-1 block text-slate-400">Company</span>
                 <Input name="company_name" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Email</span>
+                <span className="mb-1 block text-slate-400">Email</span>
                 <Input name="email" type="email" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Phone</span>
+                <span className="mb-1 block text-slate-400">Phone</span>
                 <Input name="phone" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Source</span>
+                <span className="mb-1 block text-slate-400">Source</span>
                 <Input defaultValue="manual" name="source" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Status</span>
+                <span className="mb-1 block text-slate-400">Status</span>
                 <Select defaultValue="new" name="status">
                   <option value="new">New</option>
                   <option value="working">Working</option>
@@ -351,7 +351,7 @@ export function LeadsWorkspace({
                 </Select>
               </label>
               <label className="text-sm md:col-span-2">
-                <span className="mb-1 block text-zinc-500">Assigned Producer</span>
+                <span className="mb-1 block text-slate-400">Assigned Producer</span>
                 <Select defaultValue="" name="assigned_producer_id">
                   <option value="">Unassigned</option>
                   {visibleProducers.map((producer) => (
@@ -365,7 +365,7 @@ export function LeadsWorkspace({
                 <Button disabled={createLoading} size="sm" type="submit">
                   {createLoading ? "Saving..." : "Save Lead"}
                 </Button>
-                {createError ? <p className="text-sm text-rose-600">{createError}</p> : null}
+                {createError ? <p className="text-sm text-rose-500">{createError}</p> : null}
               </div>
             </form>
           </CardContent>
@@ -380,19 +380,19 @@ export function LeadsWorkspace({
           <CardContent>
             <form action={handleImportLeads} className="grid gap-3 md:grid-cols-2">
               <label className="text-sm md:col-span-2">
-                <span className="mb-1 block text-zinc-500">CSV File</span>
+                <span className="mb-1 block text-slate-400">CSV File</span>
                 <Input accept=".csv,text/csv" name="file" required type="file" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">List Name</span>
+                <span className="mb-1 block text-slate-400">List Name</span>
                 <Input name="list_name" placeholder="March renewal prospects" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Lead Source</span>
+                <span className="mb-1 block text-slate-400">Lead Source</span>
                 <Input defaultValue="import" name="source" />
               </label>
               <label className="text-sm md:col-span-2">
-                <span className="mb-1 block text-zinc-500">Assignment Mode</span>
+                <span className="mb-1 block text-slate-400">Assignment Mode</span>
                 <Select defaultValue="unassigned" name="assignment_mode">
                   <option value="unassigned">Leave unassigned</option>
                   <option value="single">Assign all to one producer</option>
@@ -400,7 +400,7 @@ export function LeadsWorkspace({
                 </Select>
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Single Producer</span>
+                <span className="mb-1 block text-slate-400">Single Producer</span>
                 <Select defaultValue="" name="producer_user_id">
                   <option value="">None</option>
                   {visibleProducers.map((producer) => (
@@ -411,7 +411,7 @@ export function LeadsWorkspace({
                 </Select>
               </label>
               <fieldset className="text-sm md:col-span-2">
-                <legend className="mb-2 block text-zinc-500">Round Robin Producers</legend>
+                <legend className="mb-2 block text-slate-400">Round Robin Producers</legend>
                 <div className="grid gap-2 md:grid-cols-2">
                   {visibleProducers.map((producer) => (
                     <label className="flex items-center gap-2" key={producer.id}>
@@ -425,7 +425,7 @@ export function LeadsWorkspace({
                 <Button disabled={importLoading} size="sm" type="submit">
                   {importLoading ? "Importing..." : "Import Leads"}
                 </Button>
-                {importError ? <p className="text-sm text-rose-600">{importError}</p> : null}
+                {importError ? <p className="text-sm text-rose-500">{importError}</p> : null}
               </div>
             </form>
           </CardContent>
@@ -435,15 +435,15 @@ export function LeadsWorkspace({
       <FilterBar resetHref={resetHref}>
         <input name="view" type="hidden" value={filters.view} />
         <label className="text-sm md:col-span-2">
-          <span className="mb-1 block text-zinc-500">Search</span>
+          <span className="mb-1 block text-slate-400">Search</span>
           <Input defaultValue={filters.q ?? ""} name="q" placeholder="Lead, company, email, phone" />
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Source</span>
+          <span className="mb-1 block text-slate-400">Source</span>
           <Input defaultValue={filters.source ?? ""} name="source" placeholder="import, referral, manual" />
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Status</span>
+          <span className="mb-1 block text-slate-400">Status</span>
           <Select defaultValue={filters.status ?? ""} name="status">
             <option value="">All statuses</option>
             <option value="new">New</option>
@@ -455,7 +455,7 @@ export function LeadsWorkspace({
           </Select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Assignment</span>
+          <span className="mb-1 block text-slate-400">Assignment</span>
           <Select defaultValue={filters.assignment_status ?? ""} name="assignment_status">
             <option value="">All assignment states</option>
             <option value="unassigned">Unassigned</option>
@@ -471,7 +471,7 @@ export function LeadsWorkspace({
             <CardTitle>Bulk assign leads</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 md:flex-row md:items-center">
-            <p className="text-sm text-zinc-600">{selectedLeadIds.length} leads selected.</p>
+            <p className="text-sm text-slate-500">{selectedLeadIds.length} leads selected.</p>
             <Select defaultValue="" name="bulk_assign_producer" onChange={(event) => setBulkAssignProducerId(event.target.value)}>
               <option value="">Unassigned</option>
               {visibleProducers.map((producer) => (
@@ -483,7 +483,7 @@ export function LeadsWorkspace({
             <Button disabled={bulkAssignLoading} size="sm" onClick={handleBulkAssign}>
               {bulkAssignLoading ? "Applying..." : "Apply Assignment"}
             </Button>
-            {bulkAssignError ? <p className="text-sm text-rose-600">{bulkAssignError}</p> : null}
+            {bulkAssignError ? <p className="text-sm text-rose-500">{bulkAssignError}</p> : null}
           </CardContent>
         </Card>
       ) : null}
@@ -513,12 +513,12 @@ export function LeadsWorkspace({
             render: (lead) => (
               <div className="space-y-1">
                 <Link
-                  className="font-medium text-zinc-900 hover:text-blue-700 hover:underline"
+                  className="font-medium text-slate-800 hover:text-blue-700 hover:underline"
                   href={`/crm/leads/${lead.id}`}
                 >
                   {leadDisplayName(lead)}
                 </Link>
-                <p className="text-xs text-zinc-500">{lead.company_name || lead.email || lead.phone || "No company yet"}</p>
+                <p className="text-xs text-slate-400">{lead.company_name || lead.email || lead.phone || "No company yet"}</p>
               </div>
             ),
           },
@@ -537,7 +537,7 @@ export function LeadsWorkspace({
             header: "Assignment",
             render: (lead) => (
               <div className="space-y-2">
-                <div className="text-xs text-zinc-500">{lead.assignment_status}</div>
+                <div className="text-xs text-slate-400">{lead.assignment_status}</div>
                 <Select
                   defaultValue={lead.assigned_producer_id ?? ""}
                   name={`assigned_${lead.id}`}
@@ -556,7 +556,7 @@ export function LeadsWorkspace({
           {
             key: "created",
             header: "Created",
-            render: (lead) => <span className="text-xs text-zinc-600">{formatDateTime(lead.created_at)}</span>,
+            render: (lead) => <span className="text-xs text-slate-500">{formatDateTime(lead.created_at)}</span>,
           },
           {
             key: "actions",
@@ -566,7 +566,7 @@ export function LeadsWorkspace({
                 <Button size="sm" variant="outline" onClick={() => setConvertingLead(lead)}>
                   Convert
                 </Button>
-                {lead.lead_list_name ? <p className="text-xs text-zinc-500">List: {lead.lead_list_name}</p> : null}
+                {lead.lead_list_name ? <p className="text-xs text-slate-400">List: {lead.lead_list_name}</p> : null}
               </div>
             ),
           },
@@ -584,13 +584,13 @@ export function LeadsWorkspace({
           <CardContent>
             <form action={handleConvertLead} className="grid gap-3 md:grid-cols-2">
               <label className="text-sm md:col-span-2">
-                <span className="mb-1 block text-zinc-500">Lead</span>
-                <div className="rounded border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700">
+                <span className="mb-1 block text-slate-400">Lead</span>
+                <div className="rounded border border-slate-200/30 bg-zinc-50 px-3 py-2 text-sm text-slate-700">
                   {leadDisplayName(convertingLead)}
                 </div>
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Pipeline</span>
+                <span className="mb-1 block text-slate-400">Pipeline</span>
                 <Select
                   defaultValue={pipelines[0]?.id ?? ""}
                   name="pipeline_id"
@@ -604,7 +604,7 @@ export function LeadsWorkspace({
                 </Select>
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Stage</span>
+                <span className="mb-1 block text-slate-400">Stage</span>
                 <Select defaultValue={convertStages[0]?.id ?? ""} name="pipeline_stage_id">
                   {convertStages.map((stage) => (
                     <option key={stage.id} value={stage.id}>
@@ -618,38 +618,38 @@ export function LeadsWorkspace({
                 <span>Create customer on conversion</span>
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Customer Name</span>
+                <span className="mb-1 block text-slate-400">Customer Name</span>
                 <Input defaultValue={convertingLead.company_name ?? leadDisplayName(convertingLead)} name="account_name" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Customer Type</span>
+                <span className="mb-1 block text-slate-400">Customer Type</span>
                 <Select defaultValue={convertingLead.company_name ? "commercial" : "personal"} name="account_type">
                   <option value="commercial">Commercial</option>
                   <option value="personal">Personal</option>
                 </Select>
               </label>
               <label className="text-sm md:col-span-2">
-                <span className="mb-1 block text-zinc-500">Deal Name</span>
+                <span className="mb-1 block text-slate-400">Deal Name</span>
                 <Input defaultValue={`${leadDisplayName(convertingLead)} Opportunity`} name="deal_name" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Estimated Revenue</span>
+                <span className="mb-1 block text-slate-400">Estimated Revenue</span>
                 <Input defaultValue="0" min="0" name="estimated_revenue" step="0.01" type="number" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Expected Close Date</span>
+                <span className="mb-1 block text-slate-400">Expected Close Date</span>
                 <Input name="expected_close_date" type="date" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Estimated Premium</span>
+                <span className="mb-1 block text-slate-400">Estimated Premium</span>
                 <Input min="0" name="estimated_premium" step="0.01" type="number" />
               </label>
               <label className="text-sm">
-                <span className="mb-1 block text-zinc-500">Commission %</span>
+                <span className="mb-1 block text-slate-400">Commission %</span>
                 <Input min="0" max="1" name="estimated_commission_pct" step="0.01" type="number" />
               </label>
               <label className="text-sm md:col-span-2">
-                <span className="mb-1 block text-zinc-500">Next Step</span>
+                <span className="mb-1 block text-slate-400">Next Step</span>
                 <Input name="next_step" placeholder="Send proposal" />
               </label>
               <div className="flex items-center gap-2 md:col-span-2">
@@ -659,8 +659,8 @@ export function LeadsWorkspace({
                 <Button size="sm" variant="outline" onClick={() => setConvertingLead(null)}>
                   Cancel
                 </Button>
-                {convertStageLoading ? <p className="text-sm text-zinc-500">Loading stages...</p> : null}
-                {convertError ? <p className="text-sm text-rose-600">{convertError}</p> : null}
+                {convertStageLoading ? <p className="text-sm text-slate-400">Loading stages...</p> : null}
+                {convertError ? <p className="text-sm text-rose-500">{convertError}</p> : null}
               </div>
             </form>
           </CardContent>
