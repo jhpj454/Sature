@@ -106,10 +106,9 @@ exports.up = (pgm) => {
       is_enabled = true,
       create_case = true,
       case_priority = td.expected_priority
-    FROM _renewal_target_days td
-    JOIN _renewal_target_agencies ta
-      ON ta.id = rr.agency_id
-    WHERE rr.days_before_expiration = td.days_before_expiration
+    FROM _renewal_target_days td, _renewal_target_agencies ta
+    WHERE rr.agency_id = ta.id
+      AND rr.days_before_expiration = td.days_before_expiration
       AND rr.deleted_at IS NULL
       AND (
         rr.is_enabled IS DISTINCT FROM true
