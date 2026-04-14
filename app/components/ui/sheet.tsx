@@ -21,7 +21,7 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
         onClick={onClose}
         type="button"
       />
-      <div className="relative h-full w-72 bg-white p-5 shadow-xl">
+      <div className="relative h-full w-72 border-r border-white/50 bg-white/80 p-5 shadow-2xl backdrop-blur-xl">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold text-zinc-900">{title}</h2>
           <Button aria-label="Close panel" onClick={onClose} size="sm" variant="outline">

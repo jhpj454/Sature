@@ -48,7 +48,7 @@ function buildQuery(searchText?: string, status?: string) {
 function renderLinkedCell(href: string, content: ReactNode, muted = false) {
   return (
     <Link
-      className={`block rounded px-2 py-1 -mx-2 -my-1 hover:bg-zinc-50 ${muted ? "text-zinc-600" : "text-zinc-900"}`}
+      className={`block rounded px-2 py-1 -mx-2 -my-1 hover:bg-white/50 ${muted ? "text-zinc-600" : "text-zinc-900"}`}
       href={href}
     >
       {content}
@@ -103,7 +103,7 @@ export default async function CustomersPage({
         title="Customers"
       />
 
-      <form className="grid gap-3 rounded-lg border border-zinc-200 bg-white p-4 md:grid-cols-4">
+      <form className="grid gap-3 rounded-xl border border-white/60 bg-white/75 p-4 shadow-sm backdrop-blur-sm md:grid-cols-4">
         <label className="text-sm md:col-span-2">
           <span className="mb-1 block text-zinc-500">Search by customer name</span>
           <Input defaultValue={searchText} name="q" placeholder="Acme LLC" type="search" />
@@ -121,20 +121,20 @@ export default async function CustomersPage({
 
         <div className="flex items-end gap-2">
           <button
-            className="rounded bg-zinc-900 px-3 py-2 text-sm font-medium text-white"
+            className="rounded-lg bg-zinc-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
             type="submit"
           >
             Apply
           </button>
-          <Link className="rounded border border-zinc-300 px-3 py-2 text-sm" href="/ams/accounts">
+          <Link className="rounded-lg border border-white/60 bg-white/50 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-white/80" href="/ams/accounts">
             Reset
           </Link>
         </div>
       </form>
 
-      <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+      <div className="overflow-x-auto rounded-xl border border-white/60 bg-white/75 shadow-sm backdrop-blur-sm">
         <table className="min-w-full text-sm">
-          <thead className="bg-zinc-100 text-left text-zinc-600">
+          <thead className="bg-white/40 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
             <tr>
               <th className="px-3 py-2">Customer Name</th>
               <th className="px-3 py-2">Type</th>
@@ -149,7 +149,7 @@ export default async function CustomersPage({
               const href = `/ams/accounts/${row.id}`;
 
               return (
-                <tr className="border-t border-zinc-200" key={row.id}>
+                <tr className="border-t border-zinc-200/40 transition-colors hover:bg-white/40" key={row.id}>
                   <td className="px-3 py-2">
                     {renderLinkedCell(href, row.account_name)}
                   </td>

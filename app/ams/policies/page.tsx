@@ -90,7 +90,7 @@ export default async function PoliciesPage({
             ? `, count=${policyRows.length}`
             : `, error=${policiesRequest.errorMessage}`}
         </p>
-        <p className="break-all whitespace-pre-wrap rounded border border-zinc-200 bg-zinc-50 p-2">
+        <p className="break-all whitespace-pre-wrap rounded-lg border border-white/60 bg-white/50 p-2">
           {policiesRequest.responsePreview || "(empty response body)"}
         </p>
         <p>

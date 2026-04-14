@@ -22,14 +22,12 @@ type AppShellProps = {
 };
 
 function isNavActive(pathname: string, item: NavItem) {
-  if (pathname === item.href) {
-    return true;
-  }
-
-  if (item.href === "/") {
-    return pathname === "/";
-  }
-
+  if (pathname === item.href) return true;
+  if (item.href === "/") return pathname === "/";
+  // Root dashboard paths (e.g. /ams, /crm) are single-segment — only exact match applies.
+  // Multi-segment section paths (e.g. /ams/accounts) also highlight on sub-pages.
+  const segments = item.href.split("/").filter(Boolean);
+  if (segments.length < 2) return false;
   return pathname.startsWith(`${item.href}/`);
 }
 
@@ -52,8 +50,8 @@ function NavLinks({
             className={cn(
               "block rounded-md px-3 py-2 text-sm transition-colors",
               active
-                ? "bg-zinc-900 text-white"
-                : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900",
+                ? "bg-sky-600 text-white shadow-sm"
+                : "text-zinc-700 hover:bg-white/60 hover:text-zinc-900",
             )}
             href={item.href}
             key={item.href}
@@ -88,8 +86,8 @@ export function AppShell({
   const { primaryItems, settingsItem } = useMemo(() => splitNavItems(navItems), [navItems]);
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-zinc-200 bg-white p-5 md:flex md:flex-col">
+    <div className="min-h-screen text-zinc-900">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/50 bg-white/70 p-5 backdrop-blur-xl md:flex md:flex-col" style={{boxShadow: "4px 0 24px rgba(59,130,246,0.07)"}}>
         <div className="flex h-full flex-col">
           <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">{appName}</p>
           <p className="mt-1 text-sm text-zinc-600">{role}</p>
@@ -105,7 +103,7 @@ export function AppShell({
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col md:pl-64">
-        <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white">
+        <header className="sticky top-0 z-20 border-b border-white/50 bg-white/70 backdrop-blur-xl">
           <div className="flex items-center justify-between px-4 py-3 md:px-6">
             <div className="flex items-center gap-3">
               <Button
@@ -138,7 +136,7 @@ export function AppShell({
           </div>
         </header>
 
-        <div className="border-b border-zinc-200 bg-white px-4 py-2 md:hidden">
+        <div className="border-b border-white/50 bg-white/60 px-4 py-2 backdrop-blur-xl md:hidden">
           <div className="flex gap-2 overflow-x-auto">
             {navItems.map((item) => {
               const active = isNavActive(pathname, item);
@@ -147,8 +145,8 @@ export function AppShell({
                   className={cn(
                     "shrink-0 rounded-md px-2.5 py-1.5 text-xs",
                     active
-                      ? "bg-zinc-900 text-white"
-                      : "border border-zinc-300 bg-white text-zinc-700",
+                      ? "bg-sky-600 text-white shadow-sm"
+                      : "border border-white/60 bg-white/50 text-zinc-700",
                   )}
                   href={item.href}
                   key={`mobile-quick-${item.href}`}
