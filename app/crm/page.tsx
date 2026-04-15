@@ -4,6 +4,7 @@ import { formatCurrency, formatDateTime } from "@/app/ams/_lib/format";
 import { PageHeader } from "@/app/ams/_components/PageHeader";
 import { Button } from "@/app/components/ui/button";
 import type { CrmDashboardData } from "@/app/api/crm/dashboard/route";
+import { RevenueChart } from "./_components/RevenueChart";
 
 const ACTIVITY_TYPE_LABEL: Record<string, string> = {
   note: "Note",
@@ -39,7 +40,50 @@ export default async function CrmDashboardPage() {
         <p className="text-sm text-rose-500">{dashboardRequest.errorMessage}</p>
       )}
 
-      <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {/* Revenue Chart */}
+      <section
+        className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
+        style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+      >
+        <h2 className="mb-4 text-[13px] font-semibold text-slate-400">Won Revenue — Last 12 Months</h2>
+        {dashboard != null ? (
+          <RevenueChart data={dashboard.revenue_by_month} />
+        ) : (
+          <div className="flex h-[220px] items-center justify-center text-sm text-slate-400">—</div>
+        )}
+      </section>
+
+      {/* Revenue stat cards */}
+      <section className="grid gap-4 md:grid-cols-2">
+        <article
+          className="rounded-2xl border border-white/50 bg-white/45 p-6 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
+          <h2 className="text-[13px] font-semibold text-slate-400">Revenue Closed This Month</h2>
+          <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800">
+            {dashboard != null ? formatCurrency(dashboard.closed_won_revenue_this_month_mine) : "—"}
+          </p>
+          <p className="mt-1 text-sm text-slate-400">
+            {dashboard != null ? `${dashboard.closed_won_this_month_mine} deal${dashboard.closed_won_this_month_mine !== 1 ? "s" : ""} closed won` : "—"}
+          </p>
+        </article>
+
+        <article
+          className="rounded-2xl border border-white/50 bg-white/45 p-6 backdrop-blur-xl"
+          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        >
+          <h2 className="text-[13px] font-semibold text-slate-400">Pipeline Potential</h2>
+          <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800">
+            {dashboard != null ? formatCurrency(dashboard.pipeline_potential) : "—"}
+          </p>
+          <p className="mt-1 text-sm text-slate-400">
+            {dashboard != null ? `${dashboard.open_deals_mine} open deal${dashboard.open_deals_mine !== 1 ? "s" : ""} in pipeline` : "—"}
+          </p>
+        </article>
+      </section>
+
+      {/* Supporting stat cards */}
+      <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <article
           className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
           style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
@@ -68,19 +112,6 @@ export default async function CrmDashboardPage() {
           className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
           style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
         >
-          <h2 className="text-[13px] font-semibold text-slate-400">Closed Won This Month</h2>
-          <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800">
-            {dashboard != null ? dashboard.closed_won_this_month_mine : "—"}
-          </p>
-          <p className="mt-1 text-sm text-slate-400">
-            {dashboard != null ? formatCurrency(dashboard.closed_won_revenue_this_month_mine) : "—"}
-          </p>
-        </article>
-
-        <article
-          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
-          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
-        >
           <h2 className="mb-3 text-[13px] font-semibold text-slate-400">Pipeline by Stage</h2>
           {dashboard != null && dashboard.deals_by_stage_mine.length > 0 ? (
             <ul className="space-y-1.5">
@@ -97,6 +128,7 @@ export default async function CrmDashboardPage() {
         </article>
       </section>
 
+      {/* Recent Activity */}
       <section
         className="rounded-2xl border border-white/50 bg-white/45 backdrop-blur-xl"
         style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
