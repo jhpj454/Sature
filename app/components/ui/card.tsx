@@ -8,10 +8,7 @@ export function Card({ className, style, ...props }: HTMLAttributes<HTMLDivEleme
         "rounded-2xl border border-white/50 dark:border-white/10 bg-white/45 dark:bg-slate-800/60 shadow-sm backdrop-blur-xl",
         className,
       )}
-      style={{
-        boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)",
-        ...style,
-      }}
+      style={style}
       {...props}
     />
   );
@@ -26,7 +23,7 @@ export function CardTitle({ className, ...props }: HTMLAttributes<HTMLHeadingEle
 }
 
 export function CardDescription({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn("text-sm text-slate-400 dark:text-slate-400", className)} {...props} />;
+  return <p className={cn("text-sm text-slate-400 dark:text-slate-300", className)} {...props} />;
 }
 
 export function CardContent({ className, ...props }: HTMLAttributes<HTMLDivElement>) {

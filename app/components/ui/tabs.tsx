@@ -22,7 +22,7 @@ export function Tabs({
             "rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200",
             active === item.value
               ? "bg-white/60 dark:bg-white/10 text-slate-800 dark:text-slate-100 shadow-sm backdrop-blur-sm"
-              : "text-slate-400 dark:text-slate-500 hover:bg-white/30 dark:hover:bg-white/8 hover:text-slate-600 dark:hover:text-slate-300",
+              : "text-slate-400 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-white/8 hover:text-slate-600 dark:hover:text-slate-300",
           )}
           href={item.href}
           key={item.href}
