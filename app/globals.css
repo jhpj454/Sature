@@ -21,11 +21,28 @@ html {
 }
 
 body {
-  background: linear-gradient(135deg, #c3dafe 0%, #dbeafe 20%, #e8f0fe 40%, #f0f4ff 60%, #f5f7ff 80%, #f8fafc 100%);
+  background: linear-gradient(135deg, #f8d7a4 0%, #fde8c8 20%, #fef3e2 40%, #fdf8f0 65%, #f8f4ee 85%, #f5f2ec 100%);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   min-height: 100%;
+}
+
+/* Unified shell frost base — single layer behind nav, sidebar, and canvas */
+.shell-frost-base {
+  background: rgba(255, 251, 245, 0.38);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+}
+
+/* Content card — sits on top of the shell base layer */
+.glass-card {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 24px rgba(120, 90, 40, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 /* Glass card base */

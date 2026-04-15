@@ -87,8 +87,8 @@ export function AppShell({
   const { primaryItems, settingsItem } = useMemo(() => splitNavItems(navItems), [navItems]);
 
   return (
-    <div className="min-h-screen text-slate-800">
-      <aside className="glass-elevated fixed inset-y-0 left-0 z-30 hidden w-[240px] border-r-0 p-5 md:flex md:flex-col">
+    <div className="shell-frost-base min-h-screen text-slate-800">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] border-r border-white/20 p-5 md:flex md:flex-col">
         <div className="flex h-full flex-col">
           <div className="mb-6">
             <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">{appName}</p>
@@ -106,7 +106,7 @@ export function AppShell({
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col md:pl-[240px]">
-        <header className="glass-elevated sticky top-0 z-20 border-b-0">
+        <header className="sticky top-0 z-20 border-b border-white/20 bg-white/10 backdrop-blur-sm">
           <div className="flex items-center justify-between px-5 py-3 md:px-6">
             <div className="flex items-center gap-3">
               <Button
@@ -139,7 +139,7 @@ export function AppShell({
           </div>
         </header>
 
-        <div className="glass-subtle border-b-0 px-4 py-2 md:hidden">
+        <div className="border-b border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm md:hidden">
           <div className="flex gap-2 overflow-x-auto">
             {navItems.map((item) => {
               const active = isNavActive(pathname, item);
@@ -161,8 +161,10 @@ export function AppShell({
           </div>
         </div>
 
-        <main className={cn("flex-1 p-5 md:p-8", dense ? "space-y-6" : "space-y-6", dense ? "max-w-7xl" : "max-w-6xl")}>
-          {children}
+        <main className={cn("flex-1 p-4 md:p-5", dense ? "max-w-7xl" : "max-w-6xl")}>
+          <div className="glass-card p-5 md:p-7">
+            {children}
+          </div>
         </main>
       </div>
 
