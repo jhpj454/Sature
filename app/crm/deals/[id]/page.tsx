@@ -86,7 +86,7 @@ export default async function DealDetailPage({
         title={deal.name}
         subtitle={`${deal.pipeline_name} · ${deal.stage_name}`}
         actions={
-          <Link className="text-sm text-blue-700 hover:underline" href="/crm/win-deals">
+          <Link className="text-sm text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href="/crm/win-deals">
             Back to Deals
           </Link>
         }

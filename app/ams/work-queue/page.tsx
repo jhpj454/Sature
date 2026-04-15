@@ -93,7 +93,7 @@ export default async function WorkQueuePage({
 
       <FilterBar resetHref="/ams/work-queue">
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Status</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Status</span>
           <select className="w-full rounded border border-slate-300/40 px-2 py-1" name="status" defaultValue={filters.status ?? ""}>
             <option value="">All</option>
             <option value="open">open</option>
@@ -105,7 +105,7 @@ export default async function WorkQueuePage({
           </select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Priority</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Priority</span>
           <select className="w-full rounded border border-slate-300/40 px-2 py-1" name="priority" defaultValue={filters.priority ?? ""}>
             <option value="">All</option>
             <option value="low">low</option>
@@ -115,7 +115,7 @@ export default async function WorkQueuePage({
           </select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Type</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Type</span>
           <select className="w-full rounded border border-slate-300/40 px-2 py-1" name="type" defaultValue={filters.type ?? ""}>
             <option value="">All</option>
             <option value="service_case">service_case</option>
@@ -123,7 +123,7 @@ export default async function WorkQueuePage({
           </select>
         </label>
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Assigned To</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Assigned To</span>
           <select
             className="w-full rounded border border-slate-300/40 px-2 py-1"
             defaultValue={filters.assigned_to ?? ""}
@@ -147,7 +147,7 @@ export default async function WorkQueuePage({
             retryHref={retryHref}
           />
           {showDebug ? (
-            <div className="rounded-2xl border border-white/50 bg-white/45 p-4 text-sm text-slate-700 backdrop-blur-xl">
+            <div className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-4 text-sm text-slate-700 dark:text-[#e8eaf0] backdrop-blur-xl">
               <p>
                 <span className="font-medium">Request:</span> {queueRes.requestUrl}
               </p>
@@ -155,7 +155,7 @@ export default async function WorkQueuePage({
                 <span className="font-medium">Response:</span> {queueRes.status}
               </p>
               {queueRes.responsePreview ? (
-                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-white/50 bg-white/45 p-3 text-xs text-slate-700">
+                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-white/50 dark:border-0 bg-white/45 dark:bg-white/[0.08] p-3 text-xs text-slate-700 dark:text-[#e8eaf0]">
                   {queueRes.responsePreview}
                 </pre>
               ) : null}
@@ -178,7 +178,7 @@ export default async function WorkQueuePage({
               key: "title",
               header: "Title",
               render: (item) => (
-                <Link className="font-medium text-blue-700 hover:underline" href={rowHref(item)}>
+                <Link className="font-medium text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href={rowHref(item)}>
                   {item.title}
                 </Link>
               ),

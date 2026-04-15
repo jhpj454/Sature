@@ -89,7 +89,7 @@ function displayContactName(contact: ContactRow) {
 
 function renderLinkedText(href: string, text: string) {
   return (
-    <Link className="block rounded px-2 py-1 -mx-2 -my-1 hover:bg-white/30" href={href}>
+    <Link className="block rounded px-2 py-1 -mx-2 -my-1 hover:bg-white/30 dark:hover:bg-white/[0.06] dark:text-[#e8eaf0]" href={href}>
       {text}
     </Link>
   );
@@ -163,7 +163,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
     <div className="space-y-6">
       <DetailHeader
         actions={
-          <Link className="text-sm text-blue-700 hover:underline" href="/ams/accounts">
+          <Link className="text-sm text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href="/ams/accounts">
             Back to Customers
           </Link>
         }
@@ -199,7 +199,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                 <CardTitle>Contacts</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-semibold text-slate-800">{contactsTotal}</p>
+                <p className="text-2xl font-semibold text-slate-800 dark:text-[#e8eaf0]">{contactsTotal}</p>
               </CardContent>
             </Card>
             <Card>
@@ -207,7 +207,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                 <CardTitle>Policies</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-semibold text-slate-800">{policiesTotal}</p>
+                <p className="text-2xl font-semibold text-slate-800 dark:text-[#e8eaf0]">{policiesTotal}</p>
               </CardContent>
             </Card>
             <Card>
@@ -215,7 +215,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                 <CardTitle>Service Cases</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-semibold text-slate-800">{casesTotal}</p>
+                <p className="text-2xl font-semibold text-slate-800 dark:text-[#e8eaf0]">{casesTotal}</p>
               </CardContent>
             </Card>
           </div>
@@ -226,15 +226,15 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
             </CardHeader>
             <CardContent className="grid gap-3 text-sm md:grid-cols-2">
               <div className="flex justify-between gap-4">
-                <span className="text-slate-400">Customer Type</span>
+                <span className="text-slate-400 dark:text-[#9da5b4]">Customer Type</span>
                 <span>{customer.account_type}</span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-400">Status</span>
+                <span className="text-slate-400 dark:text-[#9da5b4]">Status</span>
                 <span>{customer.status}</span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-400">Assigned Producer</span>
+                <span className="text-slate-400 dark:text-[#9da5b4]">Assigned Producer</span>
                 <span>
                   {customer.assigned_producer_id
                     ? userById.get(customer.assigned_producer_id) ?? customer.assigned_producer_id.slice(0, 8)
@@ -242,7 +242,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                 </span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-400">Assigned CSR</span>
+                <span className="text-slate-400 dark:text-[#9da5b4]">Assigned CSR</span>
                 <span>
                   {customer.assigned_csr_id
                     ? userById.get(customer.assigned_csr_id) ?? customer.assigned_csr_id.slice(0, 8)
@@ -250,11 +250,11 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                 </span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-400">Industry Segment</span>
+                <span className="text-slate-400 dark:text-[#9da5b4]">Industry Segment</span>
                 <span>{customer.industry_segment ?? "-"}</span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-400">Updated At</span>
+                <span className="text-slate-400 dark:text-[#9da5b4]">Updated At</span>
                 <span>{formatDateTime(customer.updated_at)}</span>
               </div>
             </CardContent>
@@ -266,9 +266,9 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
             </CardHeader>
             <CardContent>
               {customer.notes ? (
-                <p className="whitespace-pre-wrap text-sm text-slate-700">{customer.notes}</p>
+                <p className="whitespace-pre-wrap text-sm text-slate-700 dark:text-[#e8eaf0]">{customer.notes}</p>
               ) : (
-                <p className="text-sm text-slate-400">No notes recorded for this customer.</p>
+                <p className="text-sm text-slate-400 dark:text-[#9da5b4]">No notes recorded for this customer.</p>
               )}
             </CardContent>
           </Card>
@@ -293,16 +293,16 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                   <CardHeader>
                     <CardTitle>DEV Diagnostics</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-2 text-xs text-slate-700">
+                  <CardContent className="space-y-2 text-xs text-slate-700 dark:text-[#e8eaf0]">
                     <div>
-                      <span className="font-medium text-slate-800">Request:</span>{" "}
+                      <span className="font-medium text-slate-800 dark:text-[#e8eaf0]">Request:</span>{" "}
                       <code className="break-all">{contactsRequest.requestUrl}</code>
                     </div>
                     <div>
-                      <span className="font-medium text-slate-800">Response:</span>{" "}
+                      <span className="font-medium text-slate-800 dark:text-[#e8eaf0]">Response:</span>{" "}
                       {contactsRequest.status} {contactsRequest.errorMessage}
                     </div>
-                    <pre className="overflow-x-auto rounded bg-white/30 p-3 whitespace-pre-wrap">
+                    <pre className="overflow-x-auto rounded bg-white/30 dark:bg-white/[0.08] p-3 whitespace-pre-wrap">
                       {contactsRequest.responsePreview || "(empty response body)"}
                     </pre>
                   </CardContent>
@@ -310,9 +310,9 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
               ) : null}
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-lg border border-slate-200/30 bg-white">
+            <div className="overflow-x-auto rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
               <table className="min-w-full text-sm">
-                <thead className="bg-white/30 text-left text-slate-500">
+                <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-slate-500 dark:text-[#9da5b4]">
                   <tr>
                     <th className="px-3 py-2">Name</th>
                     <th className="px-3 py-2">Email</th>
@@ -323,7 +323,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                 </thead>
                 <tbody>
                   {contactsRequest.data.data.map((contact) => (
-                    <tr className="border-t border-slate-200/30" key={contact.id}>
+                    <tr className="border-t border-slate-200/30 dark:border-white/[0.06]" key={contact.id}>
                       <td className="px-3 py-2">{displayContactName(contact)}</td>
                       <td className="px-3 py-2">{contact.email ?? "-"}</td>
                       <td className="px-3 py-2">{contact.phone ?? "-"}</td>
@@ -333,7 +333,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                   ))}
                   {contactsRequest.data.data.length === 0 ? (
                     <tr>
-                      <td className="px-3 py-8 text-center text-slate-400" colSpan={5}>
+                      <td className="px-3 py-8 text-center text-slate-400 dark:text-[#9da5b4]" colSpan={5}>
                         No contacts found for this customer.
                       </td>
                     </tr>
@@ -353,9 +353,9 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
             title="Couldn't load policies."
           />
         ) : (
-          <div className="overflow-x-auto rounded-lg border border-slate-200/30 bg-white">
+          <div className="overflow-x-auto rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
             <table className="min-w-full text-sm">
-              <thead className="bg-white/30 text-left text-slate-500">
+              <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-slate-500 dark:text-[#9da5b4]">
                 <tr>
                   <th className="px-3 py-2">Policy Number</th>
                   <th className="px-3 py-2">Carrier</th>
@@ -371,7 +371,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                   const href = `/ams/policies/${policy.id}`;
 
                   return (
-                    <tr className="border-t border-slate-200/30" key={policy.id}>
+                    <tr className="border-t border-slate-200/30 dark:border-white/[0.06]" key={policy.id}>
                       <td className="px-3 py-2">{renderLinkedText(href, policy.policy_number)}</td>
                       <td className="px-3 py-2">{renderLinkedText(href, policy.carrier_name ?? "-")}</td>
                       <td className="px-3 py-2">{renderLinkedText(href, policy.lob)}</td>
@@ -389,7 +389,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
                 })}
                 {policiesRequest.data.data.length === 0 ? (
                   <tr>
-                    <td className="px-3 py-8 text-center text-slate-400" colSpan={7}>
+                    <td className="px-3 py-8 text-center text-slate-400 dark:text-[#9da5b4]" colSpan={7}>
                       No policies found for this customer.
                     </td>
                   </tr>

@@ -42,41 +42,38 @@ export default async function CrmDashboardPage() {
 
       {/* Revenue Chart */}
       <section
-        className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
-        style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
       >
-        <h2 className="mb-4 text-[13px] font-semibold text-slate-400">Won Revenue — Last 12 Months</h2>
+        <h2 className="mb-4 text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Won Revenue — Last 12 Months</h2>
         {dashboard != null ? (
           <RevenueChart data={dashboard.revenue_by_month} />
         ) : (
-          <div className="flex h-[220px] items-center justify-center text-sm text-slate-400">—</div>
+          <div className="flex h-[220px] items-center justify-center text-sm text-slate-400 dark:text-[#9da5b4]">—</div>
         )}
       </section>
 
       {/* Revenue stat cards */}
       <section className="grid gap-4 md:grid-cols-2">
         <article
-          className="rounded-2xl border border-white/50 bg-white/45 p-6 backdrop-blur-xl"
-          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-6 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
         >
-          <h2 className="text-[13px] font-semibold text-slate-400">Revenue Closed This Month</h2>
-          <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800">
+          <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Revenue Closed This Month</h2>
+          <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard != null ? formatCurrency(dashboard.closed_won_revenue_this_month_mine) : "—"}
           </p>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400 dark:text-[#9da5b4]">
             {dashboard != null ? `${dashboard.closed_won_this_month_mine} deal${dashboard.closed_won_this_month_mine !== 1 ? "s" : ""} closed won` : "—"}
           </p>
         </article>
 
         <article
-          className="rounded-2xl border border-white/50 bg-white/45 p-6 backdrop-blur-xl"
-          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-6 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
         >
-          <h2 className="text-[13px] font-semibold text-slate-400">Pipeline Potential</h2>
-          <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800">
+          <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Pipeline Potential</h2>
+          <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard != null ? formatCurrency(dashboard.pipeline_potential) : "—"}
           </p>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400 dark:text-[#9da5b4]">
             {dashboard != null ? `${dashboard.open_deals_mine} open deal${dashboard.open_deals_mine !== 1 ? "s" : ""} in pipeline` : "—"}
           </p>
         </article>
@@ -85,82 +82,78 @@ export default async function CrmDashboardPage() {
       {/* Supporting stat cards */}
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <article
-          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
-          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
         >
-          <h2 className="text-[13px] font-semibold text-slate-400">Open Deals</h2>
-          <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800">
+          <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Open Deals</h2>
+          <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard != null ? dashboard.open_deals_mine : "—"}
           </p>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400 dark:text-[#9da5b4]">
             {dashboard != null ? formatCurrency(dashboard.open_deals_revenue_mine) : "—"}
           </p>
         </article>
 
         <article
-          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
-          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
         >
-          <h2 className="text-[13px] font-semibold text-slate-400">Leads Assigned</h2>
-          <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800">
+          <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Leads Assigned</h2>
+          <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard != null ? dashboard.leads_assigned_mine : "—"}
           </p>
-          <p className="mt-1 text-sm text-slate-400">new or contacted</p>
+          <p className="mt-1 text-sm text-slate-400 dark:text-[#9da5b4]">new or contacted</p>
         </article>
 
         <article
-          className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
-          style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
         >
-          <h2 className="mb-3 text-[13px] font-semibold text-slate-400">Pipeline by Stage</h2>
+          <h2 className="mb-3 text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Pipeline by Stage</h2>
           {dashboard != null && dashboard.deals_by_stage_mine.length > 0 ? (
             <ul className="space-y-1.5">
               {dashboard.deals_by_stage_mine.map((row) => (
                 <li className="flex items-center justify-between text-sm" key={row.stage}>
-                  <span className="capitalize text-slate-500">{row.stage.replace(/_/g, " ")}</span>
-                  <span className="font-semibold text-slate-700">{row.count}</span>
+                  <span className="capitalize text-slate-500 dark:text-[#9da5b4]">{row.stage.replace(/_/g, " ")}</span>
+                  <span className="font-semibold text-slate-700 dark:text-[#e8eaf0]">{row.count}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-slate-400">{dashboard != null ? "No open deals." : "—"}</p>
+            <p className="text-sm text-slate-400 dark:text-[#9da5b4]">{dashboard != null ? "No open deals." : "—"}</p>
           )}
         </article>
       </section>
 
       {/* Recent Activity */}
       <section
-        className="rounded-2xl border border-white/50 bg-white/45 backdrop-blur-xl"
-        style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+        className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
       >
-        <div className="border-b border-slate-200/30 px-5 py-3.5">
-          <h2 className="font-semibold text-slate-700">Recent Activity</h2>
+        <div className="border-b border-slate-200/30 dark:border-white/[0.08] px-5 py-3.5">
+          <h2 className="font-semibold text-slate-700 dark:text-[#e8eaf0]">Recent Activity</h2>
         </div>
         {dashboard != null && dashboard.recent_activities.length > 0 ? (
-          <ul className="divide-y divide-slate-200/20">
+          <ul className="divide-y divide-slate-200/20 dark:divide-white/[0.06]">
             {dashboard.recent_activities.map((activity) => (
               <li className="flex items-start gap-3 px-5 py-3.5" key={activity.id}>
-                <span className="mt-0.5 inline-flex rounded-full bg-blue-50/60 px-2.5 py-0.5 text-[11px] font-semibold text-blue-600">
+                <span className="mt-0.5 inline-flex rounded-full bg-blue-50/60 px-2.5 py-0.5 text-[11px] font-semibold text-blue-600 dark:text-[#5a8fcf]">
                   {ACTIVITY_TYPE_LABEL[activity.activity_type] ?? activity.activity_type}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm text-slate-700">
+                  <p className="truncate text-sm text-slate-700 dark:text-[#e8eaf0]">
                     {activity.summary ?? "(no summary)"}
                   </p>
                   {activity.entity_type ? (
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-400 dark:text-[#9da5b4]">
                       {activity.entity_type.replace(/_/g, " ")}
                     </p>
                   ) : null}
                 </div>
-                <time className="shrink-0 text-xs text-slate-400">
+                <time className="shrink-0 text-xs text-slate-400 dark:text-[#9da5b4]">
                   {formatDateTime(activity.created_at)}
                 </time>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="px-5 py-8 text-center text-sm text-slate-400">
+          <p className="px-5 py-8 text-center text-sm text-slate-400 dark:text-[#9da5b4]">
             {dashboard != null ? "No recent activity." : "—"}
           </p>
         )}

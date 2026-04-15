@@ -83,7 +83,7 @@ export default async function LeadDetailPage({
         title={displayName}
         subtitle={`Lead · ${lead.status}`}
         actions={
-          <a className="text-sm text-blue-700 hover:underline" href="/crm/leads">
+          <a className="text-sm text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href="/crm/leads">
             Back to Leads
           </a>
         }

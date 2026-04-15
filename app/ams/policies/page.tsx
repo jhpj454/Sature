@@ -90,7 +90,7 @@ export default async function PoliciesPage({
             ? `, count=${policyRows.length}`
             : `, error=${policiesRequest.errorMessage}`}
         </p>
-        <p className="break-all whitespace-pre-wrap rounded-lg border border-white/50 bg-white/30 p-2">
+        <p className="break-all whitespace-pre-wrap rounded-lg border border-white/50 dark:border-0 bg-white/30 dark:bg-white/[0.08] p-2">
           {policiesRequest.responsePreview || "(empty response body)"}
         </p>
         <p>
@@ -148,7 +148,7 @@ export default async function PoliciesPage({
 
       <FilterBar resetHref="/ams/policies">
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Status</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Status</span>
           <Select className="w-full" defaultValue={filters.status ?? ""} name="status">
             <option value="">All (includes active, pending, quoted)</option>
             <option value="quoted">quoted</option>
@@ -160,7 +160,7 @@ export default async function PoliciesPage({
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Expiring After</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Expiring After</span>
           <Input
             className="w-full"
             defaultValue={filters.from}
@@ -170,7 +170,7 @@ export default async function PoliciesPage({
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Expiring Before</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Expiring Before</span>
           <Input
             className="w-full"
             defaultValue={filters.to}
@@ -186,7 +186,7 @@ export default async function PoliciesPage({
             key: "policy_number",
             header: "Policy Number",
             render: (item) => (
-              <Link className="font-medium text-blue-700 hover:underline" href={`/ams/policies/${item.id}`}>
+              <Link className="font-medium text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href={`/ams/policies/${item.id}`}>
                 {item.policy_number}
               </Link>
             ),

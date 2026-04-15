@@ -99,7 +99,7 @@ export default async function ServiceCasesPage({
 
       <FilterBar resetHref="/ams/service-cases">
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Status</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Status</span>
           <Select className="w-full" defaultValue={filters.status ?? ""} name="status">
             <option value="">All</option>
             <option value="open">open</option>
@@ -111,7 +111,7 @@ export default async function ServiceCasesPage({
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Priority</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Priority</span>
           <Select className="w-full" defaultValue={filters.priority ?? ""} name="priority">
             <option value="">All</option>
             <option value="low">low</option>
@@ -128,7 +128,7 @@ export default async function ServiceCasesPage({
             key: "title",
             header: "Title",
             render: (item) => (
-              <Link className="font-medium text-blue-700 hover:underline" href={`/ams/service-cases/${item.id}`}>
+              <Link className="font-medium text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href={`/ams/service-cases/${item.id}`}>
                 {item.title}
               </Link>
             ),

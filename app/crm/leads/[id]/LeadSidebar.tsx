@@ -34,7 +34,7 @@ const STATUS_STYLES: Record<string, string> = {
   qualified: "bg-emerald-50 text-emerald-700 ring-emerald-200",
   converted: "bg-violet-50 text-violet-700 ring-violet-200",
   lost: "bg-rose-50 text-rose-700 ring-rose-200",
-  archived: "bg-white/30 text-slate-400 ring-zinc-200",
+  archived: "bg-white/30 dark:bg-white/[0.08] text-slate-400 dark:text-[#9da5b4] ring-zinc-200",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -47,9 +47,9 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const ASSIGNMENT_STYLES: Record<string, string> = {
-  unassigned: "text-slate-400",
-  assigned: "text-slate-700",
-  claimed: "text-blue-700",
+  unassigned: "text-slate-400 dark:text-[#9da5b4]",
+  assigned: "text-slate-700 dark:text-[#e8eaf0]",
+  claimed: "text-blue-700 dark:text-[#5a8fcf]",
 };
 
 export function LeadSidebar({
@@ -73,7 +73,7 @@ export function LeadSidebar({
     [lead.first_name, lead.last_name].filter(Boolean).join(" ").trim() ||
     "—";
 
-  const statusStyle = STATUS_STYLES[lead.status] ?? "bg-white/30 text-slate-700 ring-zinc-200";
+  const statusStyle = STATUS_STYLES[lead.status] ?? "bg-white/30 dark:bg-white/[0.08] text-slate-700 dark:text-[#e8eaf0] ring-zinc-200";
   const statusLabel = STATUS_LABELS[lead.status] ?? lead.status;
 
   async function markStatus(status: string) {
@@ -96,11 +96,11 @@ export function LeadSidebar({
   return (
     <aside className="space-y-4">
       {/* Metadata card */}
-      <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
         <div className="mb-3">
-          <h2 className="text-lg font-semibold text-slate-800">{displayName}</h2>
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-[#e8eaf0]">{displayName}</h2>
           {lead.company_name && (lead.first_name || lead.last_name) ? (
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-400 dark:text-[#9da5b4]">
               {[lead.first_name, lead.last_name].filter(Boolean).join(" ")}
             </p>
           ) : null}
@@ -115,9 +115,9 @@ export function LeadSidebar({
         <dl className="mt-3 space-y-2 text-sm">
           {lead.email ? (
             <div className="flex justify-between gap-3">
-              <dt className="text-slate-400">Email</dt>
+              <dt className="text-slate-400 dark:text-[#9da5b4]">Email</dt>
               <dd>
-                <a className="text-blue-700 hover:underline" href={`mailto:${lead.email}`}>
+                <a className="text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href={`mailto:${lead.email}`}>
                   {lead.email}
                 </a>
               </dd>
@@ -125,35 +125,35 @@ export function LeadSidebar({
           ) : null}
           {lead.phone ? (
             <div className="flex justify-between gap-3">
-              <dt className="text-slate-400">Phone</dt>
+              <dt className="text-slate-400 dark:text-[#9da5b4]">Phone</dt>
               <dd>
-                <a className="text-blue-700 hover:underline" href={`tel:${lead.phone}`}>
+                <a className="text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href={`tel:${lead.phone}`}>
                   {lead.phone}
                 </a>
               </dd>
             </div>
           ) : null}
           <div className="flex justify-between gap-3">
-            <dt className="text-slate-400">Source</dt>
-            <dd className="capitalize">{lead.source.replace(/_/g, " ")}</dd>
+            <dt className="text-slate-400 dark:text-[#9da5b4]">Source</dt>
+            <dd className="capitalize dark:text-[#e8eaf0]">{lead.source.replace(/_/g, " ")}</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-slate-400">Assignment</dt>
+            <dt className="text-slate-400 dark:text-[#9da5b4]">Assignment</dt>
             <dd className={ASSIGNMENT_STYLES[lead.assignment_status] ?? ""}>
               {lead.assignment_status}
             </dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-slate-400">Created</dt>
-            <dd>{formatDate(lead.created_at)}</dd>
+            <dt className="text-slate-400 dark:text-[#9da5b4]">Created</dt>
+            <dd className="dark:text-[#e8eaf0]">{formatDate(lead.created_at)}</dd>
           </div>
         </dl>
       </div>
 
       {/* Actions */}
       {!isTerminal ? (
-        <div className="rounded-lg border border-slate-200/30 bg-white p-4">
-          <h3 className="mb-3 text-sm font-medium text-slate-700">Actions</h3>
+        <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
+          <h3 className="mb-3 text-sm font-medium text-slate-700 dark:text-[#e8eaf0]">Actions</h3>
           {statusError ? (
             <p className="mb-2 text-xs text-rose-500">{statusError}</p>
           ) : null}

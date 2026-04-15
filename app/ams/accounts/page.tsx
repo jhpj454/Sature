@@ -48,7 +48,7 @@ function buildQuery(searchText?: string, status?: string) {
 function renderLinkedCell(href: string, content: ReactNode, muted = false) {
   return (
     <Link
-      className={`block rounded px-2 py-1 -mx-2 -my-1 hover:bg-white/30 ${muted ? "text-slate-500" : "text-slate-800"}`}
+      className={`block rounded px-2 py-1 -mx-2 -my-1 hover:bg-white/30 dark:hover:bg-white/[0.06] ${muted ? "text-slate-500 dark:text-[#9da5b4]" : "text-slate-800 dark:text-[#e8eaf0]"}`}
       href={href}
     >
       {content}
@@ -103,14 +103,14 @@ export default async function CustomersPage({
         title="Customers"
       />
 
-      <form className="grid gap-3 rounded-2xl border border-white/50 bg-white/45 p-4 shadow-sm backdrop-blur-xl md:grid-cols-4">
+      <form className="grid gap-3 rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-4 shadow-sm backdrop-blur-xl md:grid-cols-4">
         <label className="text-sm md:col-span-2">
-          <span className="mb-1 block text-slate-400">Search by customer name</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Search by customer name</span>
           <Input defaultValue={searchText} name="q" placeholder="Acme LLC" type="search" />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Status</span>
+          <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Status</span>
           <Select defaultValue={status} name="status">
             <option value="">All</option>
             <option value="prospect">prospect</option>
@@ -121,20 +121,20 @@ export default async function CustomersPage({
 
         <div className="flex items-end gap-2">
           <button
-            className="rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-700"
+            className="rounded-lg bg-slate-800 dark:bg-[#4a7fc1] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-700 dark:hover:bg-[#5a8fcf]"
             type="submit"
           >
             Apply
           </button>
-          <Link className="rounded-lg border border-white/50 bg-white/30 px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-white/30" href="/ams/accounts">
+          <Link className="rounded-lg border border-white/50 dark:border-0 bg-white/30 dark:bg-white/[0.08] px-3 py-2 text-sm text-slate-700 dark:text-[#e8eaf0] transition-colors hover:bg-white/30 dark:hover:bg-white/[0.06]" href="/ams/accounts">
             Reset
           </Link>
         </div>
       </form>
 
-      <div className="overflow-x-auto rounded-2xl border border-white/50 bg-white/45 shadow-sm backdrop-blur-xl">
+      <div className="overflow-x-auto rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] shadow-sm backdrop-blur-xl">
         <table className="min-w-full text-sm">
-          <thead className="bg-white/30 text-left text-xs font-medium uppercase tracking-wide text-slate-400">
+          <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-[#9da5b4]">
             <tr>
               <th className="px-3 py-2">Customer Name</th>
               <th className="px-3 py-2">Type</th>
@@ -149,7 +149,7 @@ export default async function CustomersPage({
               const href = `/ams/accounts/${row.id}`;
 
               return (
-                <tr className="border-t border-slate-200/20 transition-colors hover:bg-white/30" key={row.id}>
+                <tr className="border-t border-slate-200/20 dark:border-white/[0.06] transition-colors hover:bg-white/30 dark:hover:bg-white/[0.06]" key={row.id}>
                   <td className="px-3 py-2">
                     {renderLinkedCell(href, row.account_name)}
                   </td>
@@ -185,7 +185,7 @@ export default async function CustomersPage({
             })}
             {rows.length === 0 ? (
               <tr>
-                <td className="px-3 py-8 text-center text-slate-400" colSpan={6}>
+                <td className="px-3 py-8 text-center text-slate-400 dark:text-[#9da5b4]" colSpan={6}>
                   No customers matched the current filters.
                 </td>
               </tr>

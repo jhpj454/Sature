@@ -35,19 +35,19 @@ type BoardApiData = {
 };
 
 const COLUMN_HEADER_STYLES: Record<string, string> = {
-  open: "border-b border-slate-200/20 bg-slate-50",
+  open: "border-b border-slate-200/20 dark:border-white/[0.06] bg-slate-50 dark:bg-white/[0.06]",
   won: "border-b border-emerald-200 bg-emerald-50",
   lost: "border-b border-rose-200 bg-rose-50",
 };
 
 const COLUMN_BORDER_STYLES: Record<string, string> = {
-  open: "border-slate-200/20",
+  open: "border-slate-200/20 dark:border-white/[0.08]",
   won: "border-emerald-200",
   lost: "border-rose-200",
 };
 
 const COLUMN_TITLE_STYLES: Record<string, string> = {
-  open: "text-slate-700",
+  open: "text-slate-700 dark:text-[#e8eaf0]",
   won: "text-emerald-800",
   lost: "text-rose-800",
 };
@@ -169,7 +169,7 @@ export function KanbanBoard({
       {/* Pipeline switcher — only shown when there are multiple pipelines */}
       {pipelines.length > 1 ? (
         <div className="flex items-center gap-3">
-          <span className="shrink-0 text-[13px] font-semibold text-slate-500">Pipeline</span>
+          <span className="shrink-0 text-[13px] font-semibold text-slate-500 dark:text-[#9da5b4]">Pipeline</span>
           <Select
             className="min-w-[220px]"
             disabled={loadingPipeline}
@@ -183,7 +183,7 @@ export function KanbanBoard({
             ))}
           </Select>
           {loadingPipeline ? (
-            <span className="text-sm text-slate-400">Loading…</span>
+            <span className="text-sm text-slate-400 dark:text-[#9da5b4]">Loading…</span>
           ) : null}
         </div>
       ) : null}
@@ -194,7 +194,7 @@ export function KanbanBoard({
       {/* Horizontal scrolling board */}
       <div className="flex gap-4 overflow-x-auto pb-4">
         {columns.length === 0 ? (
-          <p className="text-sm text-slate-400">No stages configured for this pipeline.</p>
+          <p className="text-sm text-slate-400 dark:text-[#9da5b4]">No stages configured for this pipeline.</p>
         ) : (
           columns.map((col) => {
             const stageType = col.stage.stage_type;
@@ -213,7 +213,7 @@ export function KanbanBoard({
                 className={`flex w-72 flex-none flex-col rounded-lg border transition-all ${
                   isDragOver
                     ? "border-blue-400 bg-blue-50 ring-2 ring-blue-200"
-                    : `${borderStyle} bg-white`
+                    : `${borderStyle} bg-white dark:bg-[rgba(255,255,255,0.06)]`
                 }`}
                 onDragEnter={(e) => {
                   e.preventDefault();
@@ -238,7 +238,7 @@ export function KanbanBoard({
                     <span className={`text-sm font-semibold ${titleStyle}`}>
                       {col.stage.name}
                     </span>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-slate-400 dark:text-[#9da5b4]">
                       {col.deals.length} · {formatCurrency(totalRevenue)}
                     </span>
                   </div>
@@ -247,7 +247,7 @@ export function KanbanBoard({
                 {/* Deal cards */}
                 <div className="flex flex-1 flex-col gap-2 p-3">
                   {col.deals.length === 0 ? (
-                    <div className="flex min-h-[80px] items-center justify-center rounded-md border border-dashed border-slate-200/20 text-xs text-slate-400">
+                    <div className="flex min-h-[80px] items-center justify-center rounded-md border border-dashed border-slate-200/20 dark:border-white/[0.08] text-xs text-slate-400 dark:text-[#9da5b4]">
                       No deals in this stage
                     </div>
                   ) : (
@@ -259,7 +259,7 @@ export function KanbanBoard({
                       return (
                         <div
                           key={deal.id}
-                          className={`cursor-grab select-none rounded-md border border-slate-200/20 bg-white p-3 shadow-sm transition-opacity active:cursor-grabbing ${
+                          className={`cursor-grab select-none rounded-md border border-slate-200/20 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.08)] p-3 shadow-sm transition-opacity active:cursor-grabbing ${
                             isMoving ? "animate-pulse opacity-50" : "opacity-100"
                           }`}
                           draggable={!isMoving}
@@ -281,15 +281,15 @@ export function KanbanBoard({
                             href={`/crm/deals/${deal.id}`}
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <p className="text-sm font-medium text-slate-800 hover:text-blue-700 hover:underline">
+                            <p className="text-sm font-medium text-slate-800 dark:text-[#e8eaf0] hover:text-blue-700 dark:hover:text-[#7aaad9] hover:underline">
                               {deal.account_name ?? deal.name}
                             </p>
                             {deal.account_name ? (
-                              <p className="mt-0.5 text-xs text-slate-400">{deal.name}</p>
+                              <p className="mt-0.5 text-xs text-slate-400 dark:text-[#9da5b4]">{deal.name}</p>
                             ) : null}
                           </Link>
 
-                          <p className="mt-2 text-sm font-semibold text-slate-800">
+                          <p className="mt-2 text-sm font-semibold text-slate-800 dark:text-[#e8eaf0]">
                             {formatCurrency(deal.estimated_revenue)}
                           </p>
 
@@ -319,11 +319,11 @@ export function KanbanBoard({
       {/* Won / Lost confirmation dialog */}
       {confirmMove ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-2xl border border-slate-200/20 bg-white p-6 shadow-xl">
-            <h3 className="mb-2 font-semibold text-slate-800">
+          <div className="w-full max-w-sm rounded-2xl border border-slate-200/20 dark:border-white/[0.08] bg-white dark:bg-[rgba(30,35,50,0.95)] p-6 shadow-xl">
+            <h3 className="mb-2 font-semibold text-slate-800 dark:text-[#e8eaf0]">
               Mark as {confirmMove.toStage.stage_type === "won" ? "Won" : "Lost"}?
             </h3>
-            <p className="mb-5 text-sm text-slate-500">
+            <p className="mb-5 text-sm text-slate-500 dark:text-[#9da5b4]">
               Moving &ldquo;{confirmMove.deal.account_name ?? confirmMove.deal.name}&rdquo; to{" "}
               <strong>{confirmMove.toStage.name}</strong> will mark this deal as{" "}
               <strong>{confirmMove.toStage.stage_type}</strong>. This action updates the deal

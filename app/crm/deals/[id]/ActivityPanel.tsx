@@ -16,7 +16,7 @@ const ACTIVITY_TYPES = [
 type ActivityType = (typeof ACTIVITY_TYPES)[number]["value"];
 
 const TYPE_BADGE_STYLES: Record<ActivityType, string> = {
-  note: "bg-white/30 text-slate-700 ring-zinc-200",
+  note: "bg-white/30 dark:bg-white/[0.08] text-slate-700 dark:text-[#e8eaf0] ring-zinc-200",
   call: "bg-blue-50 text-blue-700 ring-blue-200",
   email: "bg-violet-50 text-violet-700 ring-violet-200",
   meeting: "bg-amber-50 text-amber-700 ring-amber-200",
@@ -71,14 +71,14 @@ export function ActivityPanel({
   return (
     <div className="space-y-4">
       {/* Log activity form */}
-      <div className="rounded-lg border border-slate-200/30 bg-white p-4">
-        <h2 className="mb-3 font-medium text-slate-800">Log Activity</h2>
+      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
+        <h2 className="mb-3 font-medium text-slate-800 dark:text-[#e8eaf0]">Log Activity</h2>
         <form className="space-y-3" onSubmit={handleSubmit}>
           <div>
             <label className="block space-y-1">
-              <span className="text-sm text-slate-500">Type</span>
+              <span className="text-sm text-slate-500 dark:text-[#9da5b4]">Type</span>
               <select
-                className="h-9 w-full rounded-md border border-slate-300/40 bg-white px-3 text-sm"
+                className="h-9 w-full rounded-md border border-slate-300/40 bg-white dark:bg-white/[0.08] dark:text-[#e8eaf0] px-3 text-sm"
                 onChange={(e) => setActivityType(e.target.value as ActivityType)}
                 value={activityType}
               >
@@ -92,9 +92,9 @@ export function ActivityPanel({
           </div>
           <div>
             <label className="block space-y-1">
-              <span className="text-sm text-slate-500">Summary</span>
+              <span className="text-sm text-slate-500 dark:text-[#9da5b4]">Summary</span>
               <textarea
-                className="w-full rounded-md border border-slate-300/40 px-3 py-2 text-sm leading-relaxed focus:border-zinc-500 focus:outline-none"
+                className="w-full rounded-md border border-slate-300/40 px-3 py-2 text-sm leading-relaxed focus:border-zinc-500 focus:outline-none dark:bg-white/[0.08] dark:text-[#e8eaf0]"
                 onChange={(e) => setSummary(e.target.value)}
                 placeholder="Spoke with client about renewal options…"
                 required
@@ -111,14 +111,14 @@ export function ActivityPanel({
       </div>
 
       {/* Activity timeline */}
-      <div className="rounded-lg border border-slate-200/30 bg-white">
-        <div className="border-b border-slate-200/30 px-4 py-3">
-          <h2 className="font-medium text-slate-800">Activity Timeline</h2>
+      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
+        <div className="border-b border-slate-200/30 dark:border-white/[0.08] px-4 py-3">
+          <h2 className="font-medium text-slate-800 dark:text-[#e8eaf0]">Activity Timeline</h2>
         </div>
         {activities.length === 0 ? (
-          <p className="px-4 py-8 text-center text-sm text-slate-400">No activities logged yet.</p>
+          <p className="px-4 py-8 text-center text-sm text-slate-400 dark:text-[#9da5b4]">No activities logged yet.</p>
         ) : (
-          <ul className="divide-y divide-zinc-100">
+          <ul className="divide-y divide-zinc-100 dark:divide-white/[0.06]">
             {activities.map((activity) => {
               const badgeStyle =
                 TYPE_BADGE_STYLES[activity.activity_type] ?? TYPE_BADGE_STYLES.note;
@@ -131,16 +131,16 @@ export function ActivityPanel({
                       {ACTIVITY_TYPES.find((t) => t.value === activity.activity_type)?.label ??
                         activity.activity_type}
                     </span>
-                    <time className="text-xs text-slate-400">
+                    <time className="text-xs text-slate-400 dark:text-[#9da5b4]">
                       {formatDateTime(activity.occurred_at ?? activity.created_at)}
                     </time>
                     {activity.created_by_name ? (
-                      <span className="text-xs text-slate-400">
+                      <span className="text-xs text-slate-400 dark:text-[#9da5b4]">
                         by {activity.created_by_name}
                       </span>
                     ) : null}
                   </div>
-                  <p className="text-sm text-slate-800">{activity.summary}</p>
+                  <p className="text-sm text-slate-800 dark:text-[#e8eaf0]">{activity.summary}</p>
                 </li>
               );
             })}
