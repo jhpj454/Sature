@@ -4,9 +4,9 @@ import { cn } from "@/app/lib/cn";
 type BadgeVariant = "default" | "secondary" | "outline";
 
 const VARIANT_STYLES: Record<BadgeVariant, string> = {
-  default: "bg-slate-800 dark:bg-slate-700 text-white",
-  secondary: "bg-white/50 dark:bg-white/10 text-slate-600 dark:text-slate-300 backdrop-blur-sm",
-  outline: "border border-white/50 dark:border-white/10 bg-white/30 dark:bg-white/5 text-slate-600 dark:text-slate-300 backdrop-blur-sm",
+  default: "bg-slate-800 dark:bg-[rgba(74,127,193,0.20)] text-white dark:text-[#a8c4e8]",
+  secondary: "bg-white/50 dark:bg-white/[0.08] text-slate-600 dark:text-[#9da5b4] backdrop-blur-sm",
+  outline: "border border-white/50 dark:border-white/[0.15] bg-white/30 dark:bg-white/5 text-slate-600 dark:text-[#9da5b4] backdrop-blur-sm",
 };
 
 export function Badge({

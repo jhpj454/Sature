@@ -21,8 +21,8 @@ export function Tabs({
           className={cn(
             "rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200",
             active === item.value
-              ? "bg-white/60 dark:bg-white/10 text-slate-800 dark:text-slate-100 shadow-sm backdrop-blur-sm"
-              : "text-slate-400 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-white/8 hover:text-slate-600 dark:hover:text-slate-300",
+              ? "bg-white/60 dark:bg-white/10 text-slate-800 dark:text-[#e8eaf0] shadow-sm backdrop-blur-sm"
+              : "text-slate-400 dark:text-[#7b8494] hover:bg-white/30 dark:hover:bg-white/8 hover:text-slate-600 dark:hover:text-[#7b8494]",
           )}
           href={item.href}
           key={item.href}

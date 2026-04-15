@@ -50,8 +50,8 @@ function NavLinks({
             className={cn(
               "block rounded-lg px-3 py-2 text-[13px] font-medium transition-all duration-200",
               active
-                ? "bg-white/60 dark:bg-white/10 text-slate-900 dark:text-slate-100 shadow-sm"
-                : "text-slate-500 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-white/8 hover:text-slate-800 dark:hover:text-slate-200",
+                ? "bg-white/60 dark:bg-white/[0.10] text-slate-900 dark:text-[#e8eaf0] shadow-sm"
+                : "text-slate-500 dark:text-[#7b8494] hover:bg-white/30 dark:hover:bg-white/[0.06] hover:text-slate-800 dark:hover:text-[#c8cdd8]",
             )}
             href={item.href}
             key={item.href}
@@ -87,12 +87,12 @@ export function AppShell({
   const { primaryItems, settingsItem } = useMemo(() => splitNavItems(navItems), [navItems]);
 
   return (
-    <div className="shell-frost-base min-h-screen text-slate-800 dark:text-slate-300">
+    <div className="shell-frost-base min-h-screen text-slate-800 dark:text-[#9da5b4]">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] p-5 md:flex md:flex-col">
         <div className="flex h-full flex-col">
           <div className="mb-6">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-400">{appName}</p>
-            <p className="mt-0.5 text-xs text-slate-400 dark:text-slate-400">{role}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-[#9da5b4]">{appName}</p>
+            <p className="mt-0.5 text-xs text-slate-400 dark:text-[#9da5b4]">{role}</p>
           </div>
           <div className="flex-1">
             <NavLinks items={primaryItems} pathname={pathname} />
@@ -106,7 +106,7 @@ export function AppShell({
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col md:pl-[240px]">
-        <header className="sticky top-0 z-20 bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(26,26,26,0.60)] backdrop-blur-2xl">
+        <header className="sticky top-0 z-20 bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(20,21,26,0.72)] backdrop-blur-2xl">
           <div className="flex items-center justify-between px-5 py-3 md:px-6">
             <div className="flex items-center gap-3">
               <Button
@@ -121,25 +121,25 @@ export function AppShell({
 
               {showTopBar ? (
                 <div>
-                  <p className="text-xs text-slate-400 dark:text-slate-400">Signed in as</p>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{userName}</p>
+                  <p className="text-xs text-slate-400 dark:text-[#9da5b4]">Signed in as</p>
+                  <p className="text-sm font-semibold text-slate-800 dark:text-[#e8eaf0]">{userName}</p>
                 </div>
               ) : (
                 <div>
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{appName}</p>
-                  <p className="text-xs text-slate-400 dark:text-slate-400">{role}</p>
+                  <p className="text-sm font-semibold text-slate-800 dark:text-[#e8eaf0]">{appName}</p>
+                  <p className="text-xs text-slate-400 dark:text-[#9da5b4]">{role}</p>
                 </div>
               )}
             </div>
 
             <div className="flex items-center gap-3">
-              <p className="hidden text-xs text-slate-400 dark:text-slate-400 sm:block">{userEmail}</p>
+              <p className="hidden text-xs text-slate-400 dark:text-[#9da5b4] sm:block">{userEmail}</p>
               <LogoutButton />
             </div>
           </div>
         </header>
 
-        <div className="bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(26,26,26,0.60)] px-4 py-2 backdrop-blur-2xl md:hidden">
+        <div className="bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(20,21,26,0.72)] px-4 py-2 backdrop-blur-2xl md:hidden">
           <div className="flex gap-2 overflow-x-auto">
             {navItems.map((item) => {
               const active = isNavActive(pathname, item);
@@ -148,8 +148,8 @@ export function AppShell({
                   className={cn(
                     "shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all",
                     active
-                      ? "bg-white/60 dark:bg-white/10 text-slate-900 dark:text-slate-100 shadow-sm"
-                      : "text-slate-500 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-white/8",
+                      ? "bg-white/60 dark:bg-white/[0.10] text-slate-900 dark:text-[#e8eaf0] shadow-sm"
+                      : "text-slate-500 dark:text-[#7b8494] hover:bg-white/30 dark:hover:bg-white/[0.06]",
                   )}
                   href={item.href}
                   key={`mobile-quick-${item.href}`}
@@ -169,7 +169,7 @@ export function AppShell({
       </div>
 
       <Sheet onClose={() => setMobileNavOpen(false)} open={mobileNavOpen} title={appName}>
-        <p className="text-xs text-slate-400 dark:text-slate-400">{role}</p>
+        <p className="text-xs text-slate-400 dark:text-[#9da5b4]">{role}</p>
         <div className="mt-4">
           <NavLinks
             items={navItems}

@@ -4,7 +4,7 @@ import { cn } from "@/app/lib/cn";
 export function TableContainer({ className, style, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("overflow-x-auto rounded-2xl border border-white/50 dark:border-white/10 bg-white/45 dark:bg-slate-800/60 backdrop-blur-xl", className)}
+      className={cn("overflow-x-auto rounded-2xl border border-white/50 dark:border-white/10 bg-white/45 dark:bg-[rgba(255,255,255,0.06)] backdrop-blur-xl", className)}
       style={style}
       {...props}
     />

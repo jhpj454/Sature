@@ -14,8 +14,8 @@ type SettingsContentProps = {
 function SettingsRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid gap-1 border-b border-slate-200/30 dark:border-white/8 py-3 last:border-b-0 last:pb-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-4">
-      <span className="text-sm font-medium text-slate-400 dark:text-slate-400">{label}</span>
-      <span className="break-words text-sm text-slate-800 dark:text-slate-200">{value}</span>
+      <span className="text-sm font-medium text-slate-400 dark:text-[#9da5b4]">{label}</span>
+      <span className="break-words text-sm text-slate-800 dark:text-[#e8eaf0]">{value}</span>
     </div>
   );
 }
@@ -61,7 +61,7 @@ export function SettingsContent({
             <CardTitle>Workspace</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm leading-6 text-slate-500 dark:text-slate-400">{placeholderTitle}</p>
+            <p className="text-sm leading-6 text-slate-500 dark:text-[#9da5b4]">{placeholderTitle}</p>
           </CardContent>
         </Card>
 
@@ -72,8 +72,8 @@ export function SettingsContent({
           <CardContent>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-700 dark:text-slate-200">Color theme</p>
-                <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
+                <p className="text-sm font-medium text-slate-700 dark:text-[#e8eaf0]">Color theme</p>
+                <p className="mt-0.5 text-sm text-slate-500 dark:text-[#9da5b4]">
                   Choose between light and dark mode. Dark mode is the default.
                 </p>
               </div>
