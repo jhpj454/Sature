@@ -62,7 +62,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
           width={44}
         />
         <Tooltip
-          formatter={(value: number) => [formatTooltip(value), "Won Revenue"]}
+          formatter={(value) => [typeof value === "number" ? formatTooltip(value) : "$0", "Won Revenue"]}
           contentStyle={{
             background: "rgba(255,255,255,0.9)",
             border: "1px solid rgba(148,163,184,0.2)",
