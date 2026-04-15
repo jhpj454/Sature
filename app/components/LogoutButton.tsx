@@ -37,7 +37,7 @@ export function LogoutButton({ className }: LogoutButtonProps) {
     <div className="space-y-1">
       <button
         className={cn(
-          "rounded-lg border border-white/50 bg-white/30 px-3 py-1.5 text-[13px] font-medium text-slate-500 backdrop-blur-sm transition-all duration-200 hover:bg-white/50 hover:text-slate-700",
+          "rounded-lg border border-white/50 dark:border-white/[0.14] bg-white/30 dark:bg-white/[0.08] px-3 py-1.5 text-[13px] font-medium text-slate-500 dark:text-[#9da5b4] backdrop-blur-sm transition-all duration-200 hover:bg-white/50 dark:hover:bg-white/[0.12] hover:text-slate-700 dark:hover:text-[#e8eaf0]",
           className,
         )}
         disabled={isPending}

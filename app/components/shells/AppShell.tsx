@@ -56,7 +56,7 @@ function NavLinks({
             href={item.href}
             key={item.href}
             onClick={onNavigate}
-            style={active ? { boxShadow: "0 1px 3px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)" } : undefined}
+            style={active ? { boxShadow: "0 1px 3px rgba(0,0,0,0.06)" } : undefined}
           >
             {item.label}
           </Link>
