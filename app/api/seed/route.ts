@@ -75,6 +75,10 @@ export async function POST() {
       [agencyId, passwordHash],
     );
 
+    if (!userRes.rows[0]) {
+      throw new Error("Failed to resolve seeded user.");
+    }
+
     return {
       agencyId,
       user: userRes.rows[0],

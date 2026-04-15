@@ -124,11 +124,12 @@ export async function safeApiFetchJson<T>(
       requestUrl,
       responsePreview,
     };
-  } catch {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
     return {
       ok: false,
       status: 0,
-      errorMessage: `Network error while calling ${path}`,
+      errorMessage: `Network error while calling ${path}: ${message}`,
       requestUrl: path,
       responsePreview: "",
     };

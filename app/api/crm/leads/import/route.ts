@@ -184,6 +184,9 @@ export async function POST(request: NextRequest) {
         ],
       );
       const leadList = leadListRes.rows[0];
+      if (!leadList) {
+        return { error: "Failed to create lead list." as const };
+      }
 
       const createdRows = [];
       for (const [index, row] of rows.entries()) {
@@ -224,7 +227,9 @@ export async function POST(request: NextRequest) {
             leadList.id,
           ],
         );
-        createdRows.push(insertRes.rows[0]);
+        if (insertRes.rows[0]) {
+          createdRows.push(insertRes.rows[0]);
+        }
       }
 
       await logAudit(client, {

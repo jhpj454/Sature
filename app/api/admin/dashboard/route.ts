@@ -37,14 +37,14 @@ export async function GET(request: NextRequest) {
 
       return {
         users: {
-          active: Number(usersResult.rows[0].active_count),
-          total: Number(usersResult.rows[0].total_count),
+          active: Number(usersResult.rows[0]?.active_count ?? 0),
+          total: Number(usersResult.rows[0]?.total_count ?? 0),
         },
         policies: {
-          active: Number(policiesResult.rows[0].active_count),
+          active: Number(policiesResult.rows[0]?.active_count ?? 0),
         },
         accounts: {
-          total: Number(accountsResult.rows[0].total_count),
+          total: Number(accountsResult.rows[0]?.total_count ?? 0),
         },
       };
     });

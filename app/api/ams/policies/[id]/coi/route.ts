@@ -111,19 +111,17 @@ export async function POST(
       // Fetch limits and coverages
       const [limitsRes, coveragesRes] = await Promise.all([
         client.query(
-          `SELECT coverage_type, limit_type, limit_amount FROM policy_limits
+          `SELECT applies_to, limit_type, limit_amount FROM policy_limits
            WHERE policy_id = $1
              AND agency_id = current_setting('app.current_agency_id', true)::uuid
-             AND deleted_at IS NULL
-           ORDER BY coverage_type, limit_type`,
+           ORDER BY applies_to, limit_type`,
           [policyId],
         ),
         client.query(
-          `SELECT coverage_name, description FROM policy_coverages
+          `SELECT coverage_type, description FROM policy_coverages
            WHERE policy_id = $1
              AND agency_id = current_setting('app.current_agency_id', true)::uuid
-             AND deleted_at IS NULL
-           ORDER BY coverage_name`,
+           ORDER BY coverage_type`,
           [policyId],
         ),
       ]);
@@ -169,8 +167,8 @@ export async function POST(
         coiRequestId: coiRequest.id,
         issuedAt: coiRequest.created_at,
         policy,
-        limits: limitsRes.rows as Array<{ coverage_type: string; limit_type: string; limit_amount: number }>,
-        coverages: coveragesRes.rows as Array<{ coverage_name: string; description: string | null }>,
+        limits: limitsRes.rows as Array<{ applies_to: string | null; limit_type: string; limit_amount: number }>,
+        coverages: coveragesRes.rows as Array<{ coverage_type: string; description: string | null }>,
         holderName,
         holderAddress,
       };

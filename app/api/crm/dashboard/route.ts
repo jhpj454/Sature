@@ -77,12 +77,12 @@ export async function GET(request: NextRequest) {
       ]);
 
       return {
-        open_deals_mine: parseInt(openDealsResult.rows[0].count, 10),
-        open_deals_revenue_mine: parseFloat(openDealsResult.rows[0].total_revenue),
+        open_deals_mine: parseInt(openDealsResult.rows[0]?.count ?? "0", 10),
+        open_deals_revenue_mine: parseFloat(openDealsResult.rows[0]?.total_revenue ?? "0"),
         deals_by_stage_mine: dealsByStageResult.rows,
-        leads_assigned_mine: parseInt(leadsAssignedResult.rows[0].count, 10),
-        closed_won_this_month_mine: parseInt(closedWonResult.rows[0].count, 10),
-        closed_won_revenue_this_month_mine: parseFloat(closedWonResult.rows[0].total_revenue),
+        leads_assigned_mine: parseInt(leadsAssignedResult.rows[0]?.count ?? "0", 10),
+        closed_won_this_month_mine: parseInt(closedWonResult.rows[0]?.count ?? "0", 10),
+        closed_won_revenue_this_month_mine: parseFloat(closedWonResult.rows[0]?.total_revenue ?? "0"),
         recent_activities: recentActivitiesResult.rows,
       } satisfies CrmDashboardData;
     });
