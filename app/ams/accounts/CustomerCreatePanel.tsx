@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Select } from "@/app/components/ui/select";
+import { Modal } from "@/app/components/ui/modal";
 
 type UserOption = {
   id: string;
@@ -65,88 +66,93 @@ export function CustomerCreatePanel({ users }: CustomerCreatePanelProps) {
     });
   }
 
-  if (!open) {
-    return (
+  return (
+    <>
       <Button onClick={() => setOpen(true)} size="sm">
         Create Customer
       </Button>
-    );
-  }
-
-  return (
-    <div className="rounded-lg border border-slate-200/30 bg-white p-4">
-      <form
-        action={onSubmit}
-        className="grid gap-3 md:grid-cols-2"
+      <Modal
+        onClose={() => {
+          setOpen(false);
+          setError(null);
+        }}
+        open={open}
+        subtitle="Add a new customer to the agency management system."
+        title="Create Customer"
       >
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Customer Name</span>
-          <Input name="account_name" required />
-        </label>
+        <form
+          action={onSubmit}
+          className="grid gap-3 md:grid-cols-2"
+        >
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Customer Name</span>
+            <Input name="account_name" required />
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Type</span>
-          <Select defaultValue="commercial" name="account_type">
-            <option value="commercial">commercial</option>
-            <option value="personal">personal</option>
-          </Select>
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Type</span>
+            <Select defaultValue="commercial" name="account_type">
+              <option value="commercial">commercial</option>
+              <option value="personal">personal</option>
+            </Select>
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Status</span>
-          <Select defaultValue="prospect" name="status">
-            <option value="prospect">prospect</option>
-            <option value="client">client</option>
-            <option value="lost">lost</option>
-          </Select>
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Status</span>
+            <Select defaultValue="prospect" name="status">
+              <option value="prospect">prospect</option>
+              <option value="client">client</option>
+              <option value="lost">lost</option>
+            </Select>
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Assigned Producer</span>
-          <Select defaultValue="" name="assigned_producer_id">
-            <option value="">None</option>
-            {producers.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.display_name}
-              </option>
-            ))}
-          </Select>
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Assigned Producer</span>
+            <Select defaultValue="" name="assigned_producer_id">
+              <option value="">None</option>
+              {producers.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.display_name}
+                </option>
+              ))}
+            </Select>
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Assigned CSR</span>
-          <Select defaultValue="" name="assigned_csr_id">
-            <option value="">None</option>
-            {csrs.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.display_name}
-              </option>
-            ))}
-          </Select>
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Assigned CSR</span>
+            <Select defaultValue="" name="assigned_csr_id">
+              <option value="">None</option>
+              {csrs.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.display_name}
+                </option>
+              ))}
+            </Select>
+          </label>
 
-        <div className="flex items-end gap-2">
-          <Button disabled={isPending} size="sm" type="submit">
-            {isPending ? "Creating..." : "Save Customer"}
-          </Button>
-          <Button
-            disabled={isPending}
-            onClick={() => {
-              setOpen(false);
-              setError(null);
-            }}
-            size="sm"
-            type="button"
-            variant="outline"
-          >
-            Cancel
-          </Button>
-        </div>
+          {error ? (
+            <p className="md:col-span-2 text-sm text-rose-500">{error}</p>
+          ) : null}
 
-        {error ? (
-          <p className="md:col-span-2 text-sm text-rose-500">{error}</p>
-        ) : null}
-      </form>
-    </div>
+          <div className="md:col-span-2 flex items-center gap-2 pt-2">
+            <Button disabled={isPending} size="sm" type="submit">
+              {isPending ? "Creating..." : "Save Customer"}
+            </Button>
+            <Button
+              disabled={isPending}
+              onClick={() => {
+                setOpen(false);
+                setError(null);
+              }}
+              size="sm"
+              type="button"
+              variant="outline"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </>
   );
 }

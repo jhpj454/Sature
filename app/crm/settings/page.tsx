@@ -13,11 +13,11 @@ export default async function CrmSettingsPage() {
         user={user}
         workspaceLabel="Sature CRM"
       />
-      <div className="rounded-lg border border-slate-200/30 bg-white p-6">
+      <div className="rounded-lg border border-slate-200/30 dark:border-white/10 bg-white dark:bg-slate-800/60 p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-base font-medium text-slate-800">Pipelines</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="text-base font-medium text-slate-800 dark:text-slate-100">Pipelines</h2>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               Manage producer pipelines, stage definitions, and Win Deals workflow settings.
             </p>
           </div>

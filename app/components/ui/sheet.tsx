@@ -23,7 +23,7 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
       />
       <div className="glass-elevated relative h-full w-72 p-5 shadow-2xl">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-slate-800">{title}</h2>
+          <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-100">{title}</h2>
           <Button aria-label="Close panel" onClick={onClose} size="sm" variant="ghost">
             ×
           </Button>

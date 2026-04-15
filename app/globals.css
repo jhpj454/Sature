@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode for Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #f8fafc;
   --foreground: #1e293b;
@@ -69,6 +72,39 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Dark mode overrides ─────────────────────────────────────────────────── */
+
+.dark body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #1a2744 65%, #0f1a2e 100%);
+}
+
+.dark .shell-frost-base {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+}
+
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.dark .glass {
+  background: rgba(30, 41, 59, 0.60);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark .glass-elevated {
+  background: rgba(15, 23, 42, 0.65);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .glass-subtle {
+  background: rgba(30, 41, 59, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Smooth scrollbar */

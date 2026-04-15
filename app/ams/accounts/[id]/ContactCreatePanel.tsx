@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Select } from "@/app/components/ui/select";
+import { Modal } from "@/app/components/ui/modal";
 
 type ContactCreatePanelProps = {
   accountId: string;
@@ -17,6 +18,13 @@ export function ContactCreatePanel({ accountId }: ContactCreatePanelProps) {
   const [error, setError] = useState<string | null>(null);
   const [debugDetails, setDebugDetails] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  function onClose() {
+    setOpen(false);
+    setError(null);
+    setSuccess(null);
+    setDebugDetails(null);
+  }
 
   function onSubmit(formData: FormData) {
     setError(null);
@@ -78,80 +86,77 @@ export function ContactCreatePanel({ accountId }: ContactCreatePanelProps) {
     });
   }
 
-  if (!open) {
-    return (
+  return (
+    <>
       <Button onClick={() => setOpen(true)} size="sm">
         Create Contact
       </Button>
-    );
-  }
+      <Modal
+        onClose={onClose}
+        open={open}
+        subtitle="Add a new contact to this account."
+        title="Create Contact"
+      >
+        <form action={onSubmit} className="grid gap-3 md:grid-cols-2">
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">First Name</span>
+            <Input name="first_name" required />
+          </label>
 
-  return (
-    <div className="rounded-lg border border-slate-200/30 bg-white p-4">
-      <form action={onSubmit} className="grid gap-3 md:grid-cols-2">
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">First Name</span>
-          <Input name="first_name" required />
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Last Name</span>
+            <Input name="last_name" required />
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Last Name</span>
-          <Input name="last_name" required />
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Email</span>
+            <Input name="email" type="email" />
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Email</span>
-          <Input name="email" type="email" />
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Phone</span>
+            <Input name="phone" type="tel" />
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Phone</span>
-          <Input name="phone" type="tel" />
-        </label>
+          <label className="text-sm">
+            <span className="mb-1 block text-slate-400">Preferred Contact Method</span>
+            <Select defaultValue="" name="preferred_contact_method">
+              <option value="">None</option>
+              <option value="email">email</option>
+              <option value="phone">phone</option>
+              <option value="text">text</option>
+            </Select>
+          </label>
 
-        <label className="text-sm">
-          <span className="mb-1 block text-slate-400">Preferred Contact Method</span>
-          <Select defaultValue="" name="preferred_contact_method">
-            <option value="">None</option>
-            <option value="email">email</option>
-            <option value="phone">phone</option>
-            <option value="text">text</option>
-          </Select>
-        </label>
+          <label className="flex items-center gap-2 text-sm text-slate-700">
+            <input className="h-4 w-4 rounded border-slate-300/40" name="do_not_contact" type="checkbox" />
+            Do not contact
+          </label>
 
-        <label className="flex items-center gap-2 text-sm text-slate-700">
-          <input className="h-4 w-4 rounded border-slate-300/40" name="do_not_contact" type="checkbox" />
-          Do not contact
-        </label>
+          {success ? <p className="md:col-span-2 text-sm text-emerald-700">{success}</p> : null}
+          {error ? <p className="md:col-span-2 text-sm text-rose-500">{error}</p> : null}
+          {process.env.NODE_ENV !== "production" && debugDetails ? (
+            <pre className="md:col-span-2 overflow-x-auto rounded bg-white/30 p-3 text-xs text-slate-700 whitespace-pre-wrap">
+              {debugDetails}
+            </pre>
+          ) : null}
 
-        <div className="flex items-end gap-2">
-          <Button disabled={isPending} size="sm" type="submit">
-            {isPending ? "Saving..." : "Save Contact"}
-          </Button>
-          <Button
-            disabled={isPending}
-            onClick={() => {
-              setOpen(false);
-              setError(null);
-              setSuccess(null);
-              setDebugDetails(null);
-            }}
-            size="sm"
-            type="button"
-            variant="outline"
-          >
-            Cancel
-          </Button>
-        </div>
-
-        {success ? <p className="md:col-span-2 text-sm text-emerald-700">{success}</p> : null}
-        {error ? <p className="md:col-span-2 text-sm text-rose-500">{error}</p> : null}
-        {process.env.NODE_ENV !== "production" && debugDetails ? (
-          <pre className="md:col-span-2 overflow-x-auto rounded bg-white/30 p-3 text-xs text-slate-700 whitespace-pre-wrap">
-            {debugDetails}
-          </pre>
-        ) : null}
-      </form>
-    </div>
+          <div className="md:col-span-2 flex items-center gap-2 pt-2">
+            <Button disabled={isPending} size="sm" type="submit">
+              {isPending ? "Saving..." : "Save Contact"}
+            </Button>
+            <Button
+              disabled={isPending}
+              onClick={onClose}
+              size="sm"
+              type="button"
+              variant="outline"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </>
   );
 }
