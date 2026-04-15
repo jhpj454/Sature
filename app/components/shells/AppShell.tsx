@@ -88,7 +88,7 @@ export function AppShell({
 
   return (
     <div className="shell-frost-base min-h-screen text-slate-800 dark:text-slate-300">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] border-r border-white/20 dark:border-white/8 p-5 md:flex md:flex-col">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] p-5 md:flex md:flex-col">
         <div className="flex h-full flex-col">
           <div className="mb-6">
             <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">{appName}</p>
@@ -98,7 +98,7 @@ export function AppShell({
             <NavLinks items={primaryItems} pathname={pathname} />
           </div>
           {settingsItem ? (
-            <div className="border-t border-white/40 dark:border-white/10 pt-3">
+            <div className="border-t border-white/15 dark:border-white/8 pt-3">
               <NavLinks items={[settingsItem]} pathname={pathname} />
             </div>
           ) : null}
@@ -106,7 +106,7 @@ export function AppShell({
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col md:pl-[240px]">
-        <header className="sticky top-0 z-20 border-b border-white/20 dark:border-white/8 bg-white/10 dark:bg-slate-900/40 backdrop-blur-sm">
+        <header className="sticky top-0 z-20 bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(26,26,26,0.60)] backdrop-blur-2xl">
           <div className="flex items-center justify-between px-5 py-3 md:px-6">
             <div className="flex items-center gap-3">
               <Button
@@ -139,7 +139,7 @@ export function AppShell({
           </div>
         </header>
 
-        <div className="border-b border-white/20 dark:border-white/8 bg-white/10 dark:bg-slate-900/40 px-4 py-2 backdrop-blur-sm md:hidden">
+        <div className="bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(26,26,26,0.60)] px-4 py-2 backdrop-blur-2xl md:hidden">
           <div className="flex gap-2 overflow-x-auto">
             {navItems.map((item) => {
               const active = isNavActive(pathname, item);
