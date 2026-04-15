@@ -42,7 +42,7 @@ export default async function CrmDashboardPage() {
 
       {/* Revenue Chart */}
       <section
-        className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+        className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none"
       >
         <h2 className="mb-4 text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Won Revenue — Last 12 Months</h2>
         {dashboard != null ? (
@@ -55,7 +55,7 @@ export default async function CrmDashboardPage() {
       {/* Revenue stat cards */}
       <section className="grid gap-4 md:grid-cols-2">
         <article
-          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-6 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+          className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-6 backdrop-blur-xl dark:shadow-none"
         >
           <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Revenue Closed This Month</h2>
           <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
@@ -67,7 +67,7 @@ export default async function CrmDashboardPage() {
         </article>
 
         <article
-          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-6 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+          className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-6 backdrop-blur-xl dark:shadow-none"
         >
           <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Pipeline Potential</h2>
           <p className="mt-3 text-4xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
@@ -82,7 +82,7 @@ export default async function CrmDashboardPage() {
       {/* Supporting stat cards */}
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <article
-          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+          className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none"
         >
           <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Open Deals</h2>
           <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
@@ -94,7 +94,7 @@ export default async function CrmDashboardPage() {
         </article>
 
         <article
-          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+          className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none"
         >
           <h2 className="text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Leads Assigned</h2>
           <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
@@ -104,7 +104,7 @@ export default async function CrmDashboardPage() {
         </article>
 
         <article
-          className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+          className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none"
         >
           <h2 className="mb-3 text-[13px] font-semibold text-slate-400 dark:text-[#9da5b4]">Pipeline by Stage</h2>
           {dashboard != null && dashboard.deals_by_stage_mine.length > 0 ? (
@@ -124,7 +124,7 @@ export default async function CrmDashboardPage() {
 
       {/* Recent Activity */}
       <section
-        className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+        className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] backdrop-blur-xl dark:shadow-none"
       >
         <div className="border-b border-slate-200/30 dark:border-white/[0.08] px-5 py-3.5">
           <h2 className="font-semibold text-slate-700 dark:text-[#e8eaf0]">Recent Activity</h2>

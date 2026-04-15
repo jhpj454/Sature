@@ -106,7 +106,7 @@ export function AppShell({
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col md:pl-[240px]">
-        <header className="sticky top-0 z-20 bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(20,21,26,0.72)] backdrop-blur-2xl">
+        <header className="sticky top-0 z-20 bg-[rgba(248,251,255,0.38)] dark:bg-[#111113] backdrop-blur-2xl dark:backdrop-blur-none border-b border-transparent dark:border-white/[0.06]">
           <div className="flex items-center justify-between px-5 py-3 md:px-6">
             <div className="flex items-center gap-3">
               <Button
@@ -139,7 +139,7 @@ export function AppShell({
           </div>
         </header>
 
-        <div className="bg-[rgba(248,251,255,0.38)] dark:bg-[rgba(20,21,26,0.72)] px-4 py-2 backdrop-blur-2xl md:hidden">
+        <div className="bg-[rgba(248,251,255,0.38)] dark:bg-[#111113] px-4 py-2 backdrop-blur-2xl dark:backdrop-blur-none border-b border-transparent dark:border-white/[0.06] md:hidden">
           <div className="flex gap-2 overflow-x-auto">
             {navItems.map((item) => {
               const active = isNavActive(pathname, item);

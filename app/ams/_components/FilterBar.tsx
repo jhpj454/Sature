@@ -10,12 +10,12 @@ type FilterBarProps = {
 export function FilterBar({ children, resetHref, submitLabel = "Apply" }: FilterBarProps) {
   return (
     <form
-      className="grid gap-3 rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-4 backdrop-blur-xl md:grid-cols-5 dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]"
+      className="grid gap-3 rounded-lg border border-white/50 dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 backdrop-blur-xl dark:backdrop-blur-none md:grid-cols-5"
     >
       {children}
       <div className="flex items-end gap-2">
         <button
-          className="rounded-lg bg-slate-800 dark:bg-[#4a7fc1] px-3 py-2 text-[13px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-700 dark:hover:bg-[#5a8fcf]"
+          className="rounded-lg bg-slate-800 dark:bg-[#2563eb] px-3 py-2 text-[13px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-700 dark:hover:bg-[#3b82f6]"
           type="submit"
         >
           {submitLabel}

@@ -78,7 +78,7 @@ export default async function AmsDashboardPage() {
         </div>
         <div className="flex gap-2">
           <Link
-            className="rounded-lg bg-slate-800 dark:bg-[#4a7fc1] px-3 py-2 text-[13px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-700 dark:hover:bg-[#5a8fcf]"
+            className="rounded-lg bg-slate-800 dark:bg-[#2563eb] px-3 py-2 text-[13px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-700 dark:hover:bg-[#3b82f6]"
             href="/ams/work-queue"
           >
             Open Work Queue
@@ -98,25 +98,25 @@ export default async function AmsDashboardPage() {
 
       {/* Summary stats */}
       <section className="grid gap-4 md:grid-cols-4">
-        <article className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]">
+        <article className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none">
           <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-[#9da5b4]">Cases Open</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard?.open_cases_mine ?? "—"}
           </p>
         </article>
-        <article className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]">
+        <article className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none">
           <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-[#9da5b4]">Tasks Due Today</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard?.tasks_due_today_mine ?? "—"}
           </p>
         </article>
-        <article className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]">
+        <article className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none">
           <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-[#9da5b4]">Renewals Next 30 Days</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard?.policies_expiring_30_days ?? "—"}
           </p>
         </article>
-        <article className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-5 backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]">
+        <article className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-5 backdrop-blur-xl dark:shadow-none">
           <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-[#9da5b4]">In Progress</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800 dark:text-[#e8eaf0]">
             {dashboard?.renewals_in_progress_mine ?? "—"}
@@ -142,7 +142,7 @@ export default async function AmsDashboardPage() {
             View all →
           </Link>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]">
+        <div className="overflow-x-auto rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] backdrop-blur-xl dark:shadow-none">
           <table className="min-w-full text-sm">
             <thead>
               <tr className="border-b border-slate-200/30 dark:border-white/[0.08] text-left text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-[#9da5b4]">
@@ -206,7 +206,7 @@ export default async function AmsDashboardPage() {
             View all →
           </Link>
         </div>
-        <div className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] backdrop-blur-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.40)]">
+        <div className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] backdrop-blur-xl dark:shadow-none">
           {serviceCases.length > 0 ? (
             <table className="min-w-full text-sm">
               <thead>

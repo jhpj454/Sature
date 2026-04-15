@@ -147,7 +147,7 @@ export default async function WorkQueuePage({
             retryHref={retryHref}
           />
           {showDebug ? (
-            <div className="rounded-2xl border border-white/50 dark:border-0 bg-white/45 dark:bg-[rgba(255,255,255,0.10)] p-4 text-sm text-slate-700 dark:text-[#e8eaf0] backdrop-blur-xl">
+            <div className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 text-sm text-slate-700 dark:text-[#e8eaf0] backdrop-blur-xl">
               <p>
                 <span className="font-medium">Request:</span> {queueRes.requestUrl}
               </p>
@@ -155,7 +155,7 @@ export default async function WorkQueuePage({
                 <span className="font-medium">Response:</span> {queueRes.status}
               </p>
               {queueRes.responsePreview ? (
-                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-white/50 dark:border-0 bg-white/45 dark:bg-white/[0.08] p-3 text-xs text-slate-700 dark:text-[#e8eaf0]">
+                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-white/[0.08] p-3 text-xs text-slate-700 dark:text-[#e8eaf0]">
                   {queueRes.responsePreview}
                 </pre>
               ) : null}
