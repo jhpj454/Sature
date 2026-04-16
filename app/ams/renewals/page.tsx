@@ -43,7 +43,7 @@ export default async function RenewalsPage({
         <p className="text-sm text-slate-400 dark:text-[#9da5b4]">Expiring policies with renewal workflow context.</p>
       </div>
 
-      <form className="grid gap-3 rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 shadow-sm backdrop-blur-xl md:grid-cols-5">
+      <form className="grid gap-3 rounded-2xl border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 shadow-sm backdrop-blur-xl md:grid-cols-5">
         <label className="text-sm">
           <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">From</span>
           <Input
@@ -95,7 +95,7 @@ export default async function RenewalsPage({
         </div>
       </form>
 
-      <div className="overflow-x-auto rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] shadow-sm backdrop-blur-xl">
+      <div className="overflow-x-auto rounded-2xl border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] shadow-sm backdrop-blur-xl">
         <table className="min-w-full text-sm">
           <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-[#9da5b4]">
             <tr>

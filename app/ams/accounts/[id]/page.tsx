@@ -310,7 +310,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
               ) : null}
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
+            <div className="overflow-x-auto rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
               <table className="min-w-full text-sm">
                 <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-slate-500 dark:text-[#9da5b4]">
                   <tr>
@@ -353,7 +353,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
             title="Couldn't load policies."
           />
         ) : (
-          <div className="overflow-x-auto rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
+          <div className="overflow-x-auto rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
             <table className="min-w-full text-sm">
               <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-slate-500 dark:text-[#9da5b4]">
                 <tr>

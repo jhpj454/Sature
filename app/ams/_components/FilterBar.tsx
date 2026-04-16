@@ -10,7 +10,7 @@ type FilterBarProps = {
 export function FilterBar({ children, resetHref, submitLabel = "Apply" }: FilterBarProps) {
   return (
     <form
-      className="grid gap-3 rounded-lg border border-white/50 dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 backdrop-blur-xl dark:backdrop-blur-none md:grid-cols-5"
+      className="grid gap-3 rounded-2xl border border-white/50 dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 backdrop-blur-xl dark:backdrop-blur-none md:grid-cols-5"
     >
       {children}
       <div className="flex items-end gap-2">

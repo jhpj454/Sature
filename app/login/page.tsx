@@ -73,7 +73,7 @@ export default function LoginPage() {
   if (isChecking) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-lg border border-white/50 bg-white/45 p-6 shadow-lg backdrop-blur-xl">
+        <div className="w-full max-w-md rounded-2xl border border-white/50 bg-white/45 p-6 shadow-lg backdrop-blur-xl">
           <p className="text-sm text-slate-400">Checking session...</p>
         </div>
       </div>
@@ -82,7 +82,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-lg border border-white/50 bg-white/45 p-6 shadow-xl backdrop-blur-xl">
+      <div className="w-full max-w-md rounded-2xl border border-white/50 bg-white/45 p-6 shadow-xl backdrop-blur-xl">
         <h1 className="text-2xl font-semibold text-slate-800">Sature</h1>
         <p className="mt-1 text-sm text-slate-400">Sign in to your workspace.</p>
 
@@ -123,7 +123,7 @@ export default function LoginPage() {
         </form>
 
         {process.env.NODE_ENV !== "production" ? (
-          <div className="mt-6 rounded-lg border border-white/50 bg-white/30 p-3 backdrop-blur-xl">
+          <div className="mt-6 rounded-xl border border-white/50 bg-white/30 p-3 backdrop-blur-xl">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
               Switch Account (Dev)
             </p>

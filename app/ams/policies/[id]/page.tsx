@@ -313,7 +313,7 @@ export default async function PolicyDetailPage({
       </div>
 
       {tab === "overview" ? (
-        <section className="rounded-lg border border-slate-200/30 bg-white p-4">
+        <section className="rounded-xl border border-slate-200/30 bg-white p-4">
           <h2 className="mb-3 font-medium">Overview</h2>
           <dl className="grid gap-3 text-sm md:grid-cols-2">
             <div className="flex justify-between gap-4">
@@ -356,12 +356,12 @@ export default async function PolicyDetailPage({
               retryHref={`/ams/policies/${id}?tab=exposures`}
             />
           ) : exposuresData.length === 0 ? (
-            <div className="rounded-lg border border-slate-200/30 bg-white p-4 text-sm text-slate-400">
+            <div className="rounded-xl border border-slate-200/30 bg-white p-4 text-sm text-slate-400">
               No exposures recorded.
             </div>
           ) : (
             exposuresData.map((exposure) => (
-              <article className="rounded-lg border border-slate-200/30 bg-white p-4" key={exposure.id}>
+              <article className="rounded-xl border border-slate-200/30 bg-white p-4" key={exposure.id}>
                 <h3 className="font-medium">{exposure.exposure_type}</h3>
                 <p className="mb-2 text-xs text-slate-400">Created {formatDate(exposure.created_at)}</p>
                 <pre className="overflow-x-auto rounded bg-zinc-950/95 p-3 text-xs text-zinc-100">
@@ -473,7 +473,7 @@ export default async function PolicyDetailPage({
 
       {tab === "renewal" ? (
         <section className="space-y-4">
-          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+          <div className="rounded-xl border border-slate-200/30 bg-white p-4">
             <h2 className="mb-2 font-medium">Renewal Summary</h2>
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between gap-4">
@@ -491,7 +491,7 @@ export default async function PolicyDetailPage({
             </dl>
           </div>
 
-          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+          <div className="rounded-xl border border-slate-200/30 bg-white p-4">
             <h3 className="mb-3 font-medium">Renewal Rules Triggered</h3>
             {!rulesRes.ok ? (
               <InlineError details={rulesRes.errorMessage} retryHref={`/ams/policies/${id}?tab=renewal`} />

@@ -74,7 +74,7 @@ export function ConvertToDealModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200/30 bg-white p-6 shadow-xl">
         <h2 className="mb-1 text-lg font-semibold text-slate-800">Convert to Deal</h2>
         <p className="mb-5 text-sm text-slate-400">
           A deal will be created and this lead will be marked as converted.

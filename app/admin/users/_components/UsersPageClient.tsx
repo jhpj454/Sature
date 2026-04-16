@@ -43,13 +43,13 @@ function InviteModal({ onClose, onCreated }: { onClose: () => void; onCreated: (
   if (created) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-        <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200/30 bg-white p-6 shadow-xl">
           <h2 className="text-lg font-semibold text-slate-800">User Created</h2>
           <p className="mt-1 text-sm text-slate-400">
             Share these credentials with <strong>{created.display_name}</strong>. The temporary
             password is shown only once.
           </p>
-          <div className="mt-4 space-y-3 rounded-lg border border-slate-200/30 bg-white/30 p-4 text-sm">
+          <div className="mt-4 space-y-3 rounded-xl border border-slate-200/30 bg-white/30 p-4 text-sm">
             <div className="flex items-center justify-between gap-2">
               <span className="text-slate-400">Email</span>
               <span className="font-mono text-slate-800">{created.email}</span>
@@ -93,7 +93,7 @@ function InviteModal({ onClose, onCreated }: { onClose: () => void; onCreated: (
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-      <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200/30 bg-white p-6 shadow-xl">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-slate-800">Add User</h2>
@@ -186,7 +186,7 @@ function EditModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-      <div className="w-full max-w-md rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200/30 bg-white p-6 shadow-xl">
         <div className="flex items-start justify-between gap-4">
           <h2 className="text-lg font-semibold text-slate-800">Edit User</h2>
           <Button onClick={onClose} size="sm" variant="outline">

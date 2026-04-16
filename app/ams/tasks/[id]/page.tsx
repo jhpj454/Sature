@@ -59,7 +59,7 @@ export default async function TaskDetailPage({
         }
       />
 
-      <section className="rounded-lg border border-slate-200/30 bg-white p-4">
+      <section className="rounded-xl border border-slate-200/30 bg-white p-4">
         <dl className="space-y-3 text-sm">
           <div className="flex justify-between gap-4">
             <dt className="text-slate-400">Assigned To</dt>

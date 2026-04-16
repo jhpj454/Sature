@@ -103,7 +103,7 @@ export default async function CustomersPage({
         title="Customers"
       />
 
-      <form className="grid gap-3 rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 shadow-sm backdrop-blur-xl md:grid-cols-4">
+      <form className="grid gap-3 rounded-2xl border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 shadow-sm backdrop-blur-xl md:grid-cols-4">
         <label className="text-sm md:col-span-2">
           <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Search by customer name</span>
           <Input defaultValue={searchText} name="q" placeholder="Acme LLC" type="search" />
@@ -132,7 +132,7 @@ export default async function CustomersPage({
         </div>
       </form>
 
-      <div className="overflow-x-auto rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] shadow-sm backdrop-blur-xl">
+      <div className="overflow-x-auto rounded-2xl border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] shadow-sm backdrop-blur-xl">
         <table className="min-w-full text-sm">
           <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-[#9da5b4]">
             <tr>

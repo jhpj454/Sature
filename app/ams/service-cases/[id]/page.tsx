@@ -167,7 +167,7 @@ export default async function ServiceCaseDetailPage({
 
       {tab === "overview" ? (
         <section className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+          <div className="rounded-xl border border-slate-200/30 bg-white p-4">
             <h2 className="mb-3 font-medium">Overview</h2>
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between gap-4">
@@ -201,7 +201,7 @@ export default async function ServiceCaseDetailPage({
             </dl>
           </div>
 
-          <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+          <div className="rounded-xl border border-slate-200/30 bg-white p-4">
             <h2 className="mb-3 font-medium">Update Case</h2>
             <ServiceCaseOverviewEditor
               serviceCase={serviceCase}

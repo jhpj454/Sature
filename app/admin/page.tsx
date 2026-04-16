@@ -22,7 +22,7 @@ export default async function AdminDashboardPage() {
 
       <section className="grid gap-4 md:grid-cols-3">
         <Link
-          className="rounded-lg border border-slate-200/30 bg-white p-4 hover:border-slate-300/40 hover:bg-white/30 transition-colors"
+          className="rounded-2xl border border-slate-200/30 bg-white p-4 hover:border-slate-300/40 hover:bg-white/30 transition-colors"
           href="/admin/users"
         >
           <h2 className="text-sm font-medium text-slate-400">Active Users</h2>
@@ -30,13 +30,13 @@ export default async function AdminDashboardPage() {
           <p className="mt-1 text-xs text-slate-400">{stats.users.total} total · click to manage</p>
         </Link>
 
-        <article className="rounded-lg border border-slate-200/30 bg-white p-4">
+        <article className="rounded-2xl border border-slate-200/30 bg-white p-4">
           <h2 className="text-sm font-medium text-slate-400">Active Policies</h2>
           <p className="mt-2 text-3xl font-semibold text-slate-800">{stats.policies.active}</p>
           <p className="mt-1 text-xs text-slate-400">in force</p>
         </article>
 
-        <article className="rounded-lg border border-slate-200/30 bg-white p-4">
+        <article className="rounded-2xl border border-slate-200/30 bg-white p-4">
           <h2 className="text-sm font-medium text-slate-400">Accounts</h2>
           <p className="mt-2 text-3xl font-semibold text-slate-800">{stats.accounts.total}</p>
           <p className="mt-1 text-xs text-slate-400">total in book</p>

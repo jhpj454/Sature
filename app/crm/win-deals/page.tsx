@@ -180,7 +180,7 @@ export default async function CrmWinDealsPage({
         }
       />
 
-      <div className="flex flex-col gap-4 rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4 md:flex-row md:items-center md:justify-between">
         {view === "table" ? (
           <div className="space-y-1">
             <p className="text-sm font-medium text-slate-700 dark:text-[#e8eaf0]">Pipeline</p>

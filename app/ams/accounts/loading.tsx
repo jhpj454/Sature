@@ -6,11 +6,11 @@ export default function CustomersLoadingPage() {
         <p className="text-sm text-slate-400">Loading customers...</p>
       </div>
 
-      <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+      <div className="rounded-2xl border border-slate-200/30 bg-white p-4">
         <div className="h-10 animate-pulse rounded bg-white/30" />
       </div>
 
-      <div className="rounded-lg border border-slate-200/30 bg-white p-4">
+      <div className="rounded-2xl border border-slate-200/30 bg-white p-4">
         <div className="space-y-3">
           <div className="h-4 animate-pulse rounded bg-white/30" />
           <div className="h-4 animate-pulse rounded bg-white/30" />

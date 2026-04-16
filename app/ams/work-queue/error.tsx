@@ -14,7 +14,7 @@ export default function WorkQueueError({
   }, [error]);
 
   return (
-    <div className="space-y-4 rounded-lg border border-slate-200/30 bg-white p-6">
+    <div className="space-y-4 rounded-2xl border border-slate-200/30 bg-white p-6">
       <div className="space-y-1">
         <h2 className="text-lg font-semibold text-slate-800">Couldn’t load work queue.</h2>
         <p className="text-sm text-slate-500">

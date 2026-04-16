@@ -114,7 +114,7 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
   return (
     <aside className="space-y-4">
       {/* Metadata card */}
-      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
+      <div className="rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
         <div className="mb-3 flex items-start justify-between gap-2">
           {editingName ? (
             <form className="flex-1" onSubmit={handleSaveName}>
@@ -220,7 +220,7 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
       </div>
 
       {/* Stage selector */}
-      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
+      <div className="rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
         <h3 className="mb-3 text-sm font-medium text-slate-700 dark:text-[#e8eaf0]">Move Stage</h3>
         {stageError ? <p className="mb-2 text-xs text-rose-500">{stageError}</p> : null}
         <ol className="space-y-1.5">
@@ -250,7 +250,7 @@ export function DealSidebar({ deal, stages }: { deal: Deal; stages: Stage[] }) {
       {/* Confirmation modal for won/lost */}
       {confirmStage ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-sm rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(30,35,50,0.95)] p-6 shadow-xl">
+          <div className="w-full max-w-sm rounded-2xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(30,35,50,0.95)] p-6 shadow-xl">
             <h3 className="mb-2 font-semibold text-slate-800 dark:text-[#e8eaf0]">
               Mark as {confirmStage.stage_type === "won" ? "Won" : "Lost"}?
             </h3>

@@ -171,7 +171,7 @@ export function EndorsementsPanel({
         <p className="text-sm text-rose-500">{error}</p>
       ) : null}
 
-      <div className="overflow-x-auto rounded-lg border border-slate-200/30 bg-white">
+      <div className="overflow-x-auto rounded-xl border border-slate-200/30 bg-white">
         <table className="min-w-full text-sm">
           <thead className="bg-white/30 text-left text-slate-500">
             <tr>
@@ -230,7 +230,7 @@ export function EndorsementsPanel({
 
       {modal.mode !== "closed" ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+          <div className="w-full max-w-lg rounded-2xl border border-slate-200/30 bg-white p-6 shadow-xl">
             <div className="mb-5 flex items-center justify-between">
               <h3 className="font-semibold text-slate-800">
                 {modal.mode === "create" ? "Add Endorsement" : "Edit Endorsement"}

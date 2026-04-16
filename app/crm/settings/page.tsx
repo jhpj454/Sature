@@ -13,7 +13,7 @@ export default async function CrmSettingsPage() {
         user={user}
         workspaceLabel="Sature CRM"
       />
-      <div className="rounded-lg border border-slate-200/30 dark:border-white/10 bg-white dark:bg-slate-800/60 p-6">
+      <div className="rounded-2xl border border-slate-200/30 dark:border-white/10 bg-white dark:bg-slate-800/60 p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-base font-medium text-slate-800 dark:text-slate-100">Pipelines</h2>

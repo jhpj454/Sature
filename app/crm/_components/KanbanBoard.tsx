@@ -210,7 +210,7 @@ export function KanbanBoard({
             return (
               <div
                 key={col.stage.id}
-                className={`flex w-72 flex-none flex-col rounded-lg border transition-all ${
+                className={`flex w-72 flex-none flex-col rounded-xl border transition-all ${
                   isDragOver
                     ? "border-blue-400 bg-blue-50 ring-2 ring-blue-200"
                     : `${borderStyle} bg-white dark:bg-[#252528]`
@@ -233,7 +233,7 @@ export function KanbanBoard({
                 }}
               >
                 {/* Column header */}
-                <div className={`rounded-t-lg px-4 py-3 ${headerStyle}`}>
+                <div className={`rounded-t-xl px-4 py-3 ${headerStyle}`}>
                   <div className="flex items-center justify-between gap-2">
                     <span className={`text-sm font-semibold ${titleStyle}`}>
                       {col.stage.name}
@@ -319,7 +319,7 @@ export function KanbanBoard({
       {/* Won / Lost confirmation dialog */}
       {confirmMove ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-lg border border-slate-200/20 dark:border-white/[0.08] bg-white dark:bg-[rgba(30,35,50,0.95)] p-6 shadow-xl">
+          <div className="w-full max-w-sm rounded-2xl border border-slate-200/20 dark:border-white/[0.08] bg-white dark:bg-[rgba(30,35,50,0.95)] p-6 shadow-xl">
             <h3 className="mb-2 font-semibold text-slate-800 dark:text-[#e8eaf0]">
               Mark as {confirmMove.toStage.stage_type === "won" ? "Won" : "Lost"}?
             </h3>

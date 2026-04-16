@@ -96,7 +96,7 @@ export function LeadSidebar({
   return (
     <aside className="space-y-4">
       {/* Metadata card */}
-      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
+      <div className="rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
         <div className="mb-3">
           <h2 className="text-lg font-semibold text-slate-800 dark:text-[#e8eaf0]">{displayName}</h2>
           {lead.company_name && (lead.first_name || lead.last_name) ? (
@@ -152,7 +152,7 @@ export function LeadSidebar({
 
       {/* Actions */}
       {!isTerminal ? (
-        <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
+        <div className="rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
           <h3 className="mb-3 text-sm font-medium text-slate-700 dark:text-[#e8eaf0]">Actions</h3>
           {statusError ? (
             <p className="mb-2 text-xs text-rose-500">{statusError}</p>

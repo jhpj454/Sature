@@ -71,7 +71,7 @@ export function LeadActivityPanel({
   return (
     <div className="space-y-4">
       {/* Log activity form */}
-      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
+      <div className="rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4">
         <h2 className="mb-3 font-medium text-slate-800 dark:text-[#e8eaf0]">Log Activity</h2>
         <form className="space-y-3" onSubmit={handleSubmit}>
           <div>
@@ -111,7 +111,7 @@ export function LeadActivityPanel({
       </div>
 
       {/* Activity timeline */}
-      <div className="rounded-lg border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
+      <div className="rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
         <div className="border-b border-slate-200/30 dark:border-white/[0.08] px-4 py-3">
           <h2 className="font-medium text-slate-800 dark:text-[#e8eaf0]">Activity Timeline</h2>
         </div>

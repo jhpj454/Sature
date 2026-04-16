@@ -16,7 +16,7 @@ type DataTableProps<T> = {
 
 export function DataTable<T>({ columns, rows, rowKey, emptyMessage = "No records." }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-white/50 dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] backdrop-blur-xl dark:backdrop-blur-none">
+    <div className="overflow-x-auto rounded-2xl border border-white/50 dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] backdrop-blur-xl dark:backdrop-blur-none">
       <table className="min-w-full text-sm">
         <thead>
           <tr className="border-b border-slate-200/30 dark:border-white/[0.08]">

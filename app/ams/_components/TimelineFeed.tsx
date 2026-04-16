@@ -17,7 +17,7 @@ type TimelineFeedProps = {
 export function TimelineFeed({ items, emptyMessage = "No timeline entries." }: TimelineFeedProps) {
   return (
     <div
-      className="rounded-lg border border-white/50 bg-white/45 backdrop-blur-xl"
+      className="rounded-2xl border border-white/50 bg-white/45 backdrop-blur-xl"
       style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
     >
       <ul className="divide-y divide-slate-200/30">

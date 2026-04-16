@@ -147,7 +147,7 @@ export default async function WorkQueuePage({
             retryHref={retryHref}
           />
           {showDebug ? (
-            <div className="rounded-lg border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 text-sm text-slate-700 dark:text-[#e8eaf0] backdrop-blur-xl">
+            <div className="rounded-2xl border border-white/50 dark:border dark:border-white/[0.06] bg-white/45 dark:bg-[#252528] p-4 text-sm text-slate-700 dark:text-[#e8eaf0] backdrop-blur-xl">
               <p>
                 <span className="font-medium">Request:</span> {queueRes.requestUrl}
               </p>

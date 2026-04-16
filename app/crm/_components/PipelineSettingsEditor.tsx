@@ -112,7 +112,7 @@ export function PipelineSettingsEditor({
         <CardContent className="space-y-4">
           {stages.map((stage) => (
             <form
-              className="grid gap-3 rounded-lg border border-slate-200/30 p-4"
+              className="grid gap-3 rounded-xl border border-slate-200/30 p-4"
               key={stage.id}
               onSubmit={async (event) => {
                 event.preventDefault();
@@ -202,7 +202,7 @@ export function PipelineSettingsEditor({
 
       {stageModalOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-lg rounded-lg border border-slate-200/30 bg-white p-6 shadow-xl">
+          <div className="w-full max-w-lg rounded-2xl border border-slate-200/30 bg-white p-6 shadow-xl">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-lg font-semibold text-slate-800">Add Stage</h2>
