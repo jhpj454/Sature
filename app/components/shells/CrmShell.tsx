@@ -182,21 +182,20 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "12px",
-        padding: "10px 12px",
+        gap: "9px",
+        padding: "7px 10px",
         borderRadius: "8px",
-        fontSize: "14px",
+        fontSize: "13px",
         fontWeight: 500,
         fontFamily: "var(--font-instrument-sans, sans-serif)",
         textDecoration: "none",
         color: isActive ? tokens.textPrimary : tokens.textMuted,
-        background: isActive ? tokens.inputBg : "transparent",
-        borderLeft: isActive ? `2px solid ${tokens.accent}` : "2px solid transparent",
+        background: isActive ? "rgba(255,255,255,0.08)" : "transparent",
         transition: "background 0.15s, color 0.15s",
       }}
       onMouseEnter={(e) => {
         if (!isActive) {
-          e.currentTarget.style.background = tokens.inputBg
+          e.currentTarget.style.background = "rgba(255,255,255,0.06)"
           e.currentTarget.style.color = tokens.textSecondary
         }
       }}
@@ -309,8 +308,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
           top: 0,
           bottom: 0,
           width: "220px",
-          background: tokens.sidebar,
-          borderRight: `1px solid ${tokens.sidebarBorder}`,
+          background: "transparent",
           display: "flex",
           flexDirection: "column",
           zIndex: 40,
@@ -320,7 +318,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
         className="hidden md:flex"
       >
         {/* Logo */}
-        <div style={{ padding: "20px 16px 16px" }}>
+        <div style={{ padding: "20px 16px 32px" }}>
           <Link href="/crm">
             <img
               src="/Saturelogowhite.svg"
@@ -334,10 +332,10 @@ export function CrmShell({ children }: { children: ReactNode }) {
         <nav
           style={{
             flex: 1,
-            padding: "8px 12px",
+            padding: "0 10px",
             display: "flex",
             flexDirection: "column",
-            gap: "2px",
+            gap: "1px",
             overflowY: "auto",
           }}
         >
@@ -347,7 +345,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
         </nav>
 
         {/* Bottom-pinned settings */}
-        <div style={{ padding: "12px" }}>
+        <div style={{ padding: "10px" }}>
           <NavLink item={settingsNavItem} pathname={pathname} />
         </div>
       </aside>
@@ -360,8 +358,8 @@ export function CrmShell({ children }: { children: ReactNode }) {
           top: 0,
           bottom: 0,
           width: "220px",
-          background: tokens.sidebar,
-          borderRight: `1px solid ${tokens.sidebarBorder}`,
+          background: "rgba(10,12,20,0.92)",
+          backdropFilter: "blur(16px)",
           display: "flex",
           flexDirection: "column",
           zIndex: 40,
@@ -370,7 +368,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
         }}
         className="flex md:hidden"
       >
-        <div style={{ padding: "20px 16px 16px" }}>
+        <div style={{ padding: "20px 16px 32px" }}>
           <Link href="/crm">
             <img
               src="/Saturelogowhite.svg"
@@ -382,10 +380,10 @@ export function CrmShell({ children }: { children: ReactNode }) {
         <nav
           style={{
             flex: 1,
-            padding: "8px 12px",
+            padding: "0 10px",
             display: "flex",
             flexDirection: "column",
-            gap: "2px",
+            gap: "1px",
             overflowY: "auto",
           }}
         >
