@@ -3,6 +3,9 @@
 import { useRef, useState } from "react";
 import { apiFetch } from "@/app/lib/apiClient";
 import { ConvertToCustomerModal } from "@/app/crm/_components/ConvertToCustomerModal";
+import { CreateLeadModal } from "@/app/crm/_components/CreateLeadModal";
+import { ImportFromLeadsModal } from "@/app/crm/_components/ImportFromLeadsModal";
+import type { ActiveFilters } from "@/app/crm/_components/WinDealsControls";
 
 export type KanbanLead = {
   id: string;
@@ -18,6 +21,7 @@ export type KanbanLead = {
   assigned_producer_id: string | null;
   assigned_producer_display_name: string | null;
   status: string;
+  created_at: string | null;
 };
 
 type KanbanStage = {
@@ -37,6 +41,9 @@ type Props = {
   pipelines: { id: string; name: string }[];
   initialPipelineId: string;
   csrUsers: { id: string; display_name: string }[];
+  stages?: KanbanStage[];
+  pipelineId?: string;
+  activeFilters?: ActiveFilters;
 };
 
 function formatRevenue(value: string | number | null | undefined): string {
@@ -60,9 +67,49 @@ function totalRevenue(leads: KanbanLead[]): number {
   return leads.reduce((sum, l) => sum + Number(l.estimated_revenue ?? 0), 0);
 }
 
+function applyFilters(
+  leads: KanbanLead[],
+  search: string,
+  filters: ActiveFilters,
+): KanbanLead[] {
+  return leads.filter((lead) => {
+    if (
+      search &&
+      !leadDisplayName(lead).toLowerCase().includes(search.toLowerCase()) &&
+      !(lead.email ?? "").toLowerCase().includes(search.toLowerCase())
+    ) {
+      return false;
+    }
+    if (filters.producerId && lead.assigned_producer_id !== filters.producerId) return false;
+    if (filters.revenueMin !== "" && filters.revenueMin !== undefined) {
+      if (Number(lead.estimated_revenue ?? 0) < Number(filters.revenueMin)) return false;
+    }
+    if (filters.revenueMax !== "" && filters.revenueMax !== undefined) {
+      if (Number(lead.estimated_revenue ?? 0) > Number(filters.revenueMax)) return false;
+    }
+    if (filters.industry) {
+      if (!lead.industry?.toLowerCase().includes(filters.industry.toLowerCase())) return false;
+    }
+    if (filters.source) {
+      if (!lead.source?.toLowerCase().includes(filters.source.toLowerCase())) return false;
+    }
+    if (filters.status && lead.status !== filters.status) return false;
+    if (filters.dateFrom && lead.created_at) {
+      if (lead.created_at < filters.dateFrom) return false;
+    }
+    if (filters.dateTo && lead.created_at) {
+      if (lead.created_at > filters.dateTo + "T23:59:59") return false;
+    }
+    return true;
+  });
+}
+
 export function LeadKanbanBoard({
   initialColumns,
   csrUsers,
+  stages = [],
+  pipelineId = "",
+  activeFilters = {},
 }: Props) {
   const [columns, setColumns] = useState<KanbanColumn[]>(initialColumns);
   const [dragOverStageId, setDragOverStageId] = useState<string | null>(null);
@@ -73,15 +120,21 @@ export function LeadKanbanBoard({
     wonStageId: string;
     fromStageId: string;
   } | null>(null);
+  const [search, setSearch] = useState("");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
 
   const draggingRef = useRef<{ leadId: string; fromStageId: string } | null>(null);
+
+  // First open stage for import
+  const firstOpenStageId =
+    stages.find((s) => s.stage_type === "open")?.id ?? columns[0]?.stage.id ?? "";
 
   async function executeMoveStage(
     lead: KanbanLead,
     fromStageId: string,
     toStage: KanbanStage,
   ) {
-    // Optimistic update
     setColumns((prev) =>
       prev.map((col) => {
         if (col.stage.id === fromStageId) {
@@ -107,7 +160,6 @@ export function LeadKanbanBoard({
         body: JSON.stringify({ pipeline_stage_id: toStage.id }),
       });
     } catch (err) {
-      // Revert on failure
       setColumns((prev) =>
         prev.map((col) => {
           if (col.stage.id === fromStageId) {
@@ -144,7 +196,6 @@ export function LeadKanbanBoard({
   }
 
   function handleConvertSuccess(leadId: string) {
-    // Remove the lead from all columns
     setColumns((prev) =>
       prev.map((col) => ({
         ...col,
@@ -158,36 +209,159 @@ export function LeadKanbanBoard({
     setConvertModal(null);
   }
 
+  function handleCreateSuccess(lead: KanbanLead, stageId: string) {
+    setColumns((prev) =>
+      prev.map((col) => {
+        if (col.stage.id === stageId) {
+          return { ...col, leads: [lead, ...col.leads] };
+        }
+        return col;
+      }),
+    );
+    setShowCreateModal(false);
+  }
+
+  function handleImportSuccess(imported: KanbanLead[]) {
+    setColumns((prev) =>
+      prev.map((col) => {
+        const toAdd = imported.filter((l) => l.pipeline_stage_id === col.stage.id);
+        if (toAdd.length === 0) return col;
+        return { ...col, leads: [...toAdd, ...col.leads] };
+      }),
+    );
+    setShowImportModal(false);
+  }
+
   return (
-    <div className="space-y-4">
+    <div
+      style={{
+        background: "rgba(22, 27, 44, 0.85)",
+        backdropFilter: "blur(12px)",
+        border: "1px solid rgba(255,255,255,0.07)",
+        borderRadius: "16px",
+        overflow: "hidden",
+      }}
+    >
+      {/* Toolbar */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          padding: "16px 16px 0 16px",
+          flexWrap: "wrap",
+        }}
+      >
+        {/* Search */}
+        <div style={{ position: "relative", flex: "1 1 200px", maxWidth: "480px" }}>
+          <svg
+            style={{
+              position: "absolute",
+              left: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: "hsl(0,0%,40%)",
+              pointerEvents: "none",
+            }}
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+          >
+            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.4" />
+            <path d="M10 10L12.5 12.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search Deals"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              width: "100%",
+              background: "hsl(220, 8%, 18%)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: "8px",
+              padding: "8px 12px 8px 32px",
+              color: "hsl(0,0%,100%)",
+              fontSize: "13px",
+              fontFamily: "var(--font-instrument-sans)",
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
+
+        <div style={{ display: "flex", gap: "8px", marginLeft: "auto" }}>
+          {/* Create New Deal */}
+          <button
+            onClick={() => setShowCreateModal(true)}
+            style={{
+              background: "#3762e3",
+              color: "hsl(0,0%,100%)",
+              border: "none",
+              borderRadius: "8px",
+              padding: "8px 16px",
+              fontSize: "13px",
+              fontFamily: "var(--font-instrument-sans)",
+              fontWeight: 600,
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              transition: "background 0.12s",
+            }}
+          >
+            Create New Deal
+          </button>
+
+          {/* Import */}
+          <button
+            onClick={() => setShowImportModal(true)}
+            style={{
+              background: "transparent",
+              color: "hsl(0,0%,80%)",
+              border: "1px solid rgba(255,255,255,0.14)",
+              borderRadius: "8px",
+              padding: "8px 16px",
+              fontSize: "13px",
+              fontFamily: "var(--font-instrument-sans)",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              transition: "background 0.12s, border-color 0.12s",
+            }}
+          >
+            Import
+          </button>
+        </div>
+      </div>
+
       {moveError ? (
-        <p className="text-sm" style={{ color: "hsl(0, 72%, 60%)" }}>
+        <p
+          className="text-sm"
+          style={{ color: "hsl(0, 72%, 60%)", padding: "8px 16px 0", fontSize: "13px", fontFamily: "var(--font-instrument-sans)" }}
+        >
           {moveError}
         </p>
       ) : null}
 
-      {/* Horizontal scrolling board */}
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      {/* Kanban columns */}
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          overflowX: "auto",
+          padding: "16px",
+          paddingBottom: "20px",
+        }}
+      >
         {columns.length === 0 ? (
-          <p style={{ color: "hsl(0,0%,50%)", fontSize: "14px" }}>
+          <p style={{ color: "hsl(0,0%,50%)", fontSize: "14px", fontFamily: "var(--font-instrument-sans)" }}>
             No stages configured for this pipeline.
           </p>
         ) : (
           columns.map((col) => {
             const stageType = col.stage.stage_type;
             const isDragOver = dragOverStageId === col.stage.id;
-            const colRevenue = totalRevenue(col.leads);
-
-            let headerAccent = "";
-            if (stageType === "won") {
-              headerAccent =
-                "background: rgba(16, 185, 129, 0.12); border-bottom: 1px solid rgba(16, 185, 129, 0.25);";
-            } else if (stageType === "lost") {
-              headerAccent =
-                "background: rgba(239, 68, 68, 0.12); border-bottom: 1px solid rgba(239, 68, 68, 0.2);";
-            } else {
-              headerAccent = "border-bottom: 1px solid rgba(255,255,255,0.06);";
-            }
+            const filteredLeads = applyFilters(col.leads, search, activeFilters);
+            const colRevenue = totalRevenue(filteredLeads);
 
             const stageNameColor =
               stageType === "won"
@@ -225,7 +399,7 @@ export function LeadKanbanBoard({
                   border: isDragOver
                     ? "1px solid rgba(55, 98, 227, 0.6)"
                     : "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: "16px",
+                  borderRadius: "12px",
                   minHeight: "400px",
                   transition: "border-color 0.15s, background 0.15s",
                 }}
@@ -234,7 +408,7 @@ export function LeadKanbanBoard({
                 <div
                   style={{
                     padding: "12px 16px",
-                    borderRadius: "16px 16px 0 0",
+                    borderRadius: "12px 12px 0 0",
                     ...(stageType === "won"
                       ? {
                           background: "rgba(16, 185, 129, 0.12)",
@@ -276,7 +450,7 @@ export function LeadKanbanBoard({
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {col.leads.length} &middot; {formatRevenue(colRevenue)}
+                      {filteredLeads.length} &middot; {formatRevenue(colRevenue)}
                     </span>
                   </div>
                 </div>
@@ -291,7 +465,7 @@ export function LeadKanbanBoard({
                     gap: "0",
                   }}
                 >
-                  {col.leads.length === 0 ? (
+                  {filteredLeads.length === 0 ? (
                     <div
                       style={{
                         display: "flex",
@@ -305,10 +479,12 @@ export function LeadKanbanBoard({
                         fontFamily: "var(--font-instrument-sans)",
                       }}
                     >
-                      No leads in this stage
+                      {search || Object.values(activeFilters).some(Boolean)
+                        ? "No matching leads"
+                        : "No leads in this stage"}
                     </div>
                   ) : (
-                    col.leads.map((lead) => {
+                    filteredLeads.map((lead) => {
                       const isMoving = movingLeadId === lead.id;
                       const displayName = leadDisplayName(lead);
                       const pill = lead.industry ?? lead.source ?? null;
@@ -419,7 +595,7 @@ export function LeadKanbanBoard({
         )}
       </div>
 
-      {/* Convert to Customer Modal */}
+      {/* Modals */}
       {convertModal ? (
         <ConvertToCustomerModal
           csrUsers={csrUsers}
@@ -428,6 +604,25 @@ export function LeadKanbanBoard({
           wonStageId={convertModal.wonStageId}
           onCancel={handleConvertCancel}
           onSuccess={handleConvertSuccess}
+        />
+      ) : null}
+
+      {showCreateModal && pipelineId && stages.length > 0 ? (
+        <CreateLeadModal
+          pipelineId={pipelineId}
+          stages={stages}
+          csrUsers={csrUsers}
+          onSuccess={handleCreateSuccess}
+          onClose={() => setShowCreateModal(false)}
+        />
+      ) : null}
+
+      {showImportModal && pipelineId ? (
+        <ImportFromLeadsModal
+          pipelineId={pipelineId}
+          firstOpenStageId={firstOpenStageId}
+          onSuccess={handleImportSuccess}
+          onClose={() => setShowImportModal(false)}
         />
       ) : null}
     </div>
