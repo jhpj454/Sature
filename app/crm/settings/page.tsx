@@ -11,7 +11,7 @@ export default async function CrmSettingsPage() {
       <SettingsContent
         placeholderTitle="Sales preferences coming soon"
         user={user}
-        workspaceLabel="Sature CRM"
+        workspaceLabel="Producer Settings"
       />
       <div className="rounded-2xl border border-slate-200/30 dark:border-white/10 bg-white dark:bg-slate-800/60 p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">

@@ -1,25 +1,13 @@
-import Link from "next/link";
-import { DataTable } from "@/app/ams/_components/DataTable";
-import { FilterBar } from "@/app/ams/_components/FilterBar";
-import { InlineError } from "@/app/ams/_components/InlineError";
-import { PageHeader } from "@/app/ams/_components/PageHeader";
-import { formatCurrency, formatDate, formatDateTime } from "@/app/ams/_lib/format";
-import { Button } from "@/app/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
-import { Input } from "@/app/components/ui/input";
-import { Select } from "@/app/components/ui/select";
-import { Tabs } from "@/app/components/ui/tabs";
-import { CreateDealModal } from "@/app/crm/_components/CreateDealModal";
-import { KanbanBoard } from "@/app/crm/_components/KanbanBoard";
-import { PipelineSwitcher } from "@/app/crm/_components/PipelineSwitcher";
 import { buildCrmQuery, requireSession, safeApiFetchJson } from "@/app/crm/_lib/api";
+import { InlineError } from "@/app/ams/_components/InlineError";
+import { LeadKanbanBoard, type KanbanLead } from "@/app/crm/_components/LeadKanbanBoard";
+import { ManagePipelinesModalTrigger } from "@/app/crm/_components/ManagePipelinesModalTrigger";
 
 type Pipeline = {
   id: string;
   name: string;
   visibility_type: string;
   owner_user_id: string | null;
-  owner_display_name?: string | null;
 };
 
 type Stage = {
@@ -32,41 +20,14 @@ type Stage = {
   sort_order: number;
 };
 
-type Deal = {
-  id: string;
-  pipeline_id: string;
-  pipeline_name: string;
-  pipeline_stage_id: string;
-  stage_name: string;
-  stage_type: string;
-  account_name: string | null;
-  producer_display_name: string | null;
-  producer_user_id: string;
-  name: string;
-  estimated_revenue: string | number;
-  expected_close_date: string | null;
-  next_step: string | null;
-  updated_at: string;
-};
-
-type UserOption = {
+type CsrUser = {
   id: string;
   display_name: string;
   role: string;
 };
 
-type AccountOption = {
-  id: string;
-  account_name: string;
-};
-
 function firstString(value: string | string[] | undefined) {
   return typeof value === "string" ? value : undefined;
-}
-
-function buildWinDealsHref(search: Record<string, string | undefined>) {
-  const query = buildCrmQuery(search);
-  return `/crm/win-deals${query}`;
 }
 
 export default async function CrmWinDealsPage({
@@ -77,31 +38,33 @@ export default async function CrmWinDealsPage({
   const resolvedSearch = await searchParams;
   await requireSession();
 
-  const view = firstString(resolvedSearch.view) === "table" ? "table" : "board";
   const filters = {
     pipeline_id: firstString(resolvedSearch.pipeline_id),
-    q: firstString(resolvedSearch.q),
-    pipeline_stage_id: firstString(resolvedSearch.pipeline_stage_id),
-    producer_user_id: firstString(resolvedSearch.producer_user_id),
-    expected_close_from: firstString(resolvedSearch.expected_close_from),
-    expected_close_to: firstString(resolvedSearch.expected_close_to),
   };
 
+  // 1. Fetch pipelines
   const pipelinesRes = await safeApiFetchJson<{ ok: true; data: Pipeline[] }>(
     "/api/crm/pipelines?page_size=100",
   );
 
   if (!pipelinesRes.ok) {
     return (
-      <div className="space-y-6">
-        <PageHeader
-          title="Win Deals"
-          description="Producer workspace for pipeline movement and revenue-first deal tracking."
-        />
+      <div className="space-y-6 p-6">
+        <h1
+          style={{
+            fontFamily: "var(--font-lora)",
+            fontSize: "28px",
+            fontWeight: 400,
+            color: "hsl(0,0%,100%)",
+            margin: 0,
+          }}
+        >
+          Win Deals
+        </h1>
         <InlineError
           details={`Status ${pipelinesRes.status || 500}: ${pipelinesRes.errorMessage}`}
           retryHref="/crm/win-deals"
-          title="Couldn’t load pipelines."
+          title="Couldn't load pipelines."
         />
       </div>
     );
@@ -109,259 +72,187 @@ export default async function CrmWinDealsPage({
 
   const pipelines = pipelinesRes.data.data;
   const selectedPipelineId =
-    filters.pipeline_id && pipelines.some((pipeline) => pipeline.id === filters.pipeline_id)
+    filters.pipeline_id && pipelines.some((p) => p.id === filters.pipeline_id)
       ? filters.pipeline_id
-      : pipelines[0]?.id ?? null;
+      : (pipelines[0]?.id ?? null);
 
-  const [usersRes, accountsRes, stagesRes, dealsRes] = await Promise.all([
-    safeApiFetchJson<{ ok: true; data: UserOption[] }>("/api/users"),
-    safeApiFetchJson<{ ok: true; data: AccountOption[] }>("/api/accounts?page_size=100"),
+  // 2. Fetch stages, leads, and CSR users in parallel
+  const emptyResult = {
+    ok: true as const,
+    status: 200,
+    data: { ok: true as const, data: [] as never[] },
+    requestUrl: "",
+    responsePreview: "",
+  };
+
+  const [stagesRes, leadsRes, usersRes] = await Promise.all([
     selectedPipelineId
       ? safeApiFetchJson<{ ok: true; data: Stage[] }>(
           `/api/crm/pipelines/${selectedPipelineId}/stages`,
         )
-      : Promise.resolve({ ok: true as const, status: 200, data: { ok: true as const, data: [] }, requestUrl: "", responsePreview: "" }),
+      : Promise.resolve(emptyResult),
     selectedPipelineId
-      ? safeApiFetchJson<{ ok: true; data: Deal[] }>(
-          `/api/crm/deals${buildCrmQuery({
-            pipeline_id: selectedPipelineId,
-            q: filters.q,
-            pipeline_stage_id: filters.pipeline_stage_id,
-            producer_user_id: filters.producer_user_id,
-            expected_close_from: filters.expected_close_from,
-            expected_close_to: filters.expected_close_to,
-            page_size: "100",
-          })}`,
+      ? safeApiFetchJson<{ ok: true; data: KanbanLead[] }>(
+          `/api/crm/leads/pipeline${buildCrmQuery({ pipeline_id: selectedPipelineId, page_size: "200" })}`,
         )
-      : Promise.resolve({ ok: true as const, status: 200, data: { ok: true as const, data: [] }, requestUrl: "", responsePreview: "" }),
+      : Promise.resolve(emptyResult),
+    safeApiFetchJson<{ ok: true; data: CsrUser[] }>("/api/users"),
   ]);
 
-  const stageOptions = stagesRes.ok ? stagesRes.data.data : [];
-  const dealRows = dealsRes.ok ? dealsRes.data.data : [];
-  const producerOptions = usersRes.ok
-    ? usersRes.data.data.filter((user) => user.role === "producer" || user.role === "admin")
+  const stages = stagesRes.ok ? stagesRes.data.data : [];
+  const leads = leadsRes.ok ? leadsRes.data.data : [];
+  const csrUsers = usersRes.ok
+    ? usersRes.data.data.filter((u) => u.role === "csr" || u.role === "admin")
     : [];
-  const accountOptions = accountsRes.ok ? accountsRes.data.data : [];
-  const retryHref = buildWinDealsHref({
-    view,
-    pipeline_id: selectedPipelineId ?? undefined,
-    q: filters.q,
-    pipeline_stage_id: filters.pipeline_stage_id,
-    producer_user_id: filters.producer_user_id,
-    expected_close_from: filters.expected_close_from,
-    expected_close_to: filters.expected_close_to,
-  });
 
-  const boardColumns = stageOptions.map((stage) => {
-    const deals = dealRows.filter((deal) => deal.pipeline_stage_id === stage.id);
-    const totalRevenue = deals.reduce((sum, deal) => sum + Number(deal.estimated_revenue || 0), 0);
-    return { stage, deals, totalRevenue };
-  });
+  const boardColumns = stages
+    .slice()
+    .sort((a, b) => a.sort_order - b.sort_order)
+    .map((stage) => ({
+      stage: {
+        id: stage.id,
+        name: stage.name,
+        stage_type: stage.stage_type,
+        sort_order: stage.sort_order,
+      },
+      leads: leads.filter((l) => l.pipeline_stage_id === stage.id),
+    }));
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Win Deals"
-        description="Manage producer pipelines, move deals forward, and keep revenue expectations visible."
-        actions={
-          <>
-            <CreateDealModal
-              accounts={accountOptions}
-              pipelineId={selectedPipelineId ?? ""}
-              producers={producerOptions}
-              stages={stageOptions.map((stage) => ({ id: stage.id, name: stage.name }))}
-            />
-            <Link href="/crm/settings/pipelines">
-              <Button size="sm" variant="outline">
-                Manage Pipelines
-              </Button>
-            </Link>
-          </>
-        }
-      />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "24px",
+        padding: "24px",
+      }}
+    >
+      {/* Page heading */}
+      <h1
+        style={{
+          fontFamily: "var(--font-lora)",
+          fontSize: "28px",
+          fontWeight: 400,
+          color: "hsl(0,0%,100%)",
+          margin: 0,
+        }}
+      >
+        Win Deals
+      </h1>
 
-      <div className="flex flex-col gap-4 rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)] p-4 md:flex-row md:items-center md:justify-between">
-        {view === "table" ? (
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-slate-700 dark:text-[#e8eaf0]">Pipeline</p>
-            {pipelines.length > 0 ? (
-              <PipelineSwitcher
-                pipelines={pipelines.map((pipeline) => ({ id: pipeline.id, name: pipeline.name }))}
-                selectedPipelineId={selectedPipelineId}
-              />
-            ) : (
-              <p className="text-sm text-slate-400 dark:text-[#9da5b4]">No visible pipelines yet.</p>
-            )}
+      {/* Top controls row */}
+      <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+        {/* Pipeline selector */}
+        {pipelines.length > 0 ? (
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              style={{
+                fontFamily: "var(--font-instrument-sans)",
+                fontSize: "12px",
+                color: "hsl(0,0%,50%)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Pipeline
+            </span>
+            <div
+              style={{
+                display: "flex",
+                gap: "4px",
+                background: "rgba(30, 35, 50, 0.70)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: "10px",
+                padding: "4px",
+              }}
+            >
+              {pipelines.map((p) => {
+                const isSelected = p.id === selectedPipelineId;
+                const href = `/crm/win-deals?pipeline_id=${p.id}`;
+                return (
+                  <a
+                    key={p.id}
+                    href={href}
+                    style={{
+                      fontFamily: "var(--font-instrument-sans)",
+                      fontSize: "13px",
+                      fontWeight: isSelected ? 600 : 400,
+                      color: isSelected ? "hsl(0,0%,100%)" : "hsl(0,0%,50%)",
+                      background: isSelected ? "rgba(55, 98, 227, 0.25)" : "transparent",
+                      border: isSelected ? "1px solid rgba(55, 98, 227, 0.4)" : "1px solid transparent",
+                      borderRadius: "7px",
+                      padding: "5px 12px",
+                      textDecoration: "none",
+                      transition: "background 0.12s, color 0.12s",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {p.name}
+                  </a>
+                );
+              })}
+            </div>
           </div>
         ) : null}
-        <Tabs
-          active={view}
-          items={[
-            {
-              label: "Board",
-              value: "board",
-              href: buildWinDealsHref({
-                ...filters,
-                pipeline_id: selectedPipelineId ?? undefined,
-                view: "board",
-              }),
-            },
-            {
-              label: "Table",
-              value: "table",
-              href: buildWinDealsHref({
-                ...filters,
-                pipeline_id: selectedPipelineId ?? undefined,
-                view: "table",
-              }),
-            },
-          ]}
-        />
+
+        {/* Manage Pipelines button */}
+        <ManagePipelinesModalTrigger />
       </div>
 
+      {/* No pipelines state */}
       {pipelines.length === 0 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>No pipelines yet</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-sm text-slate-500 dark:text-[#9da5b4]">
-              Create your first pipeline to start tracking producer deals in Win Deals.
-            </p>
-            <Link href="/crm/settings/pipelines">
-              <Button size="sm">Create Pipeline</Button>
-            </Link>
-          </CardContent>
-        </Card>
+        <div
+          style={{
+            background: "rgba(30, 35, 50, 0.70)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.06)",
+            borderRadius: "16px",
+            padding: "40px 32px",
+            textAlign: "center",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-lora)",
+              fontSize: "18px",
+              color: "hsl(0,0%,80%)",
+              marginBottom: "8px",
+            }}
+          >
+            No pipelines yet
+          </p>
+          <p
+            style={{
+              fontFamily: "var(--font-instrument-sans)",
+              fontSize: "13px",
+              color: "hsl(0,0%,50%)",
+              marginBottom: "20px",
+            }}
+          >
+            Create your first pipeline to start tracking leads through Win Deals.
+          </p>
+          <ManagePipelinesModalTrigger label="Create Pipeline" />
+        </div>
       ) : (
         <>
-          <FilterBar resetHref={selectedPipelineId ? `/crm/win-deals?pipeline_id=${selectedPipelineId}&view=${view}` : `/crm/win-deals?view=${view}`}>
-            <label className="text-sm md:col-span-2">
-              <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Search</span>
-              <Input defaultValue={filters.q ?? ""} name="q" placeholder="Deal or customer name" />
-            </label>
-            <input name="pipeline_id" type="hidden" value={selectedPipelineId ?? ""} />
-            <input name="view" type="hidden" value={view} />
-            <label className="text-sm">
-              <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Stage</span>
-              <Select defaultValue={filters.pipeline_stage_id ?? ""} name="pipeline_stage_id">
-                <option value="">All stages</option>
-                {stageOptions.map((stage) => (
-                  <option key={stage.id} value={stage.id}>
-                    {stage.name}
-                  </option>
-                ))}
-              </Select>
-            </label>
-            <label className="text-sm">
-              <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Owner</span>
-              <Select defaultValue={filters.producer_user_id ?? ""} name="producer_user_id">
-                <option value="">All owners</option>
-                {producerOptions.map((producer) => (
-                  <option key={producer.id} value={producer.id}>
-                    {producer.display_name}
-                  </option>
-                ))}
-              </Select>
-            </label>
-            <label className="text-sm">
-              <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Close from</span>
-              <Input defaultValue={filters.expected_close_from ?? ""} name="expected_close_from" type="date" />
-            </label>
-            <label className="text-sm">
-              <span className="mb-1 block text-slate-400 dark:text-[#9da5b4]">Close to</span>
-              <Input defaultValue={filters.expected_close_to ?? ""} name="expected_close_to" type="date" />
-            </label>
-          </FilterBar>
-
+          {/* Stage or lead load errors */}
           {!stagesRes.ok ? (
             <InlineError
               details={`Status ${stagesRes.status || 500}: ${stagesRes.errorMessage}`}
-              retryHref={retryHref}
-              title="Couldn’t load pipeline stages."
+              retryHref={selectedPipelineId ? `/crm/win-deals?pipeline_id=${selectedPipelineId}` : "/crm/win-deals"}
+              title="Couldn't load pipeline stages."
             />
-          ) : !dealsRes.ok ? (
+          ) : !leadsRes.ok ? (
             <InlineError
-              details={`Status ${dealsRes.status || 500}: ${dealsRes.errorMessage}`}
-              retryHref={retryHref}
-              title="Couldn’t load deals."
-            />
-          ) : dealRows.length === 0 ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>No deals match these filters</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-slate-500 dark:text-[#9da5b4]">
-                  Adjust your filters or create a deal to start tracking revenue in this pipeline.
-                </p>
-              </CardContent>
-            </Card>
-          ) : view === "board" ? (
-            <KanbanBoard
-              initialColumns={boardColumns.map(({ stage, deals }) => ({
-                stage: {
-                  id: stage.id,
-                  name: stage.name,
-                  sort_order: stage.sort_order,
-                  stage_type: stage.stage_type,
-                },
-                deals: deals.map((deal) => ({
-                  id: deal.id,
-                  name: deal.name,
-                  estimated_revenue: deal.estimated_revenue,
-                  expected_close_date: deal.expected_close_date,
-                  account_name: deal.account_name,
-                  account_id: null,
-                })),
-              }))}
-              initialPipelineId={selectedPipelineId ?? ""}
-              pipelines={pipelines.map((p) => ({ id: p.id, name: p.name }))}
+              details={`Status ${leadsRes.status || 500}: ${leadsRes.errorMessage}`}
+              retryHref={selectedPipelineId ? `/crm/win-deals?pipeline_id=${selectedPipelineId}` : "/crm/win-deals"}
+              title="Couldn't load leads."
             />
           ) : (
-            <DataTable
-              columns={[
-                {
-                  key: "name",
-                  header: "Name",
-                  render: (deal) => (
-                    <div>
-                      <p className="font-medium text-slate-800 dark:text-[#e8eaf0]">{deal.name}</p>
-                      <p className="text-xs text-slate-400 dark:text-[#9da5b4]">{deal.account_name ?? "No linked customer"}</p>
-                    </div>
-                  ),
-                },
-                { key: "pipeline", header: "Pipeline", render: (deal) => deal.pipeline_name },
-                { key: "stage", header: "Stage", render: (deal) => deal.stage_name },
-                {
-                  key: "revenue",
-                  header: "Estimated Revenue",
-                  render: (deal) => <span className="font-medium text-slate-800 dark:text-[#e8eaf0]">{formatCurrency(deal.estimated_revenue)}</span>,
-                },
-                {
-                  key: "close",
-                  header: "Expected Close Date",
-                  render: (deal) => formatDate(deal.expected_close_date),
-                },
-                {
-                  key: "next",
-                  header: "Next Step",
-                  render: (deal) => deal.next_step ?? "-",
-                },
-                {
-                  key: "owner",
-                  header: "Owner",
-                  render: (deal) => deal.producer_display_name ?? "-",
-                },
-                {
-                  key: "updated",
-                  header: "Updated At",
-                  render: (deal) => formatDateTime(deal.updated_at),
-                },
-              ]}
-              emptyMessage="No deals in this view."
-              rowKey={(deal) => deal.id}
-              rows={dealRows}
+            <LeadKanbanBoard
+              csrUsers={csrUsers}
+              initialColumns={boardColumns}
+              initialPipelineId={selectedPipelineId ?? ""}
+              pipelines={pipelines.map((p) => ({ id: p.id, name: p.name }))}
             />
           )}
         </>

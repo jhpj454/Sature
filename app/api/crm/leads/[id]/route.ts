@@ -26,6 +26,11 @@ const updateLeadSchema = z
     status: z.enum(CRM_LEAD_STATUSES).optional(),
     assigned_producer_id: z.string().uuid().nullable().optional(),
     assignment_status: z.enum(CRM_LEAD_ASSIGNMENT_STATUSES).optional(),
+    pipeline_id: z.string().uuid().nullable().optional(),
+    pipeline_stage_id: z.string().uuid().nullable().optional(),
+    notes: z.string().trim().nullable().optional(),
+    estimated_revenue: z.coerce.number().min(0).nullable().optional(),
+    industry: z.string().trim().nullable().optional(),
   })
   .refine((value) => Object.keys(value).length > 0, { message: "At least one field is required." });
 
@@ -118,7 +123,13 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
             source = $7,
             status = $8,
             assigned_producer_id = $9,
-            assignment_status = $10
+            assignment_status = $10,
+            pipeline_id = $12,
+            pipeline_stage_id = $13,
+            notes = $14,
+            estimated_revenue = $15,
+            industry = $16,
+            updated_at = now()
           WHERE id = $1
             AND agency_id = $11
           RETURNING *
@@ -135,6 +146,11 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
           assignedProducerId,
           nextAssignmentStatus,
           session.agency_id,
+          parsed.data.pipeline_id !== undefined ? parsed.data.pipeline_id : before.pipeline_id ?? null,
+          parsed.data.pipeline_stage_id !== undefined ? parsed.data.pipeline_stage_id : before.pipeline_stage_id ?? null,
+          parsed.data.notes !== undefined ? normalizeOptionalText(parsed.data.notes) : before.notes ?? null,
+          parsed.data.estimated_revenue !== undefined ? parsed.data.estimated_revenue : before.estimated_revenue ?? null,
+          parsed.data.industry !== undefined ? normalizeOptionalText(parsed.data.industry) : before.industry ?? null,
         ],
       );
 

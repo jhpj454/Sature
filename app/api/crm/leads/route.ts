@@ -24,6 +24,11 @@ const createLeadSchema = z
     assigned_producer_id: z.string().uuid().nullable().optional(),
     assignment_status: z.enum(CRM_LEAD_ASSIGNMENT_STATUSES).optional(),
     lead_list_id: z.string().uuid().nullable().optional(),
+    pipeline_id: z.string().uuid().nullable().optional(),
+    pipeline_stage_id: z.string().uuid().nullable().optional(),
+    notes: z.string().trim().nullable().optional(),
+    estimated_revenue: z.coerce.number().min(0).nullable().optional(),
+    industry: z.string().trim().nullable().optional(),
   })
   .refine(
     (value) =>
@@ -233,8 +238,13 @@ export async function POST(request: NextRequest) {
             status,
             assigned_producer_id,
             assignment_status,
-            lead_list_id
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            lead_list_id,
+            pipeline_id,
+            pipeline_stage_id,
+            notes,
+            estimated_revenue,
+            industry
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
           RETURNING *
         `,
         [
@@ -249,6 +259,11 @@ export async function POST(request: NextRequest) {
           assignedProducerId,
           assignmentStatus,
           parsed.data.lead_list_id ?? null,
+          parsed.data.pipeline_id ?? null,
+          parsed.data.pipeline_stage_id ?? null,
+          normalizeOptionalText(parsed.data.notes) ?? null,
+          parsed.data.estimated_revenue ?? null,
+          normalizeOptionalText(parsed.data.industry) ?? null,
         ],
       );
 

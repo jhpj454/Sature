@@ -4,6 +4,7 @@ import { settingsRouteForRole, type AppRole } from "@/app/lib/auth";
 export type NavItem = {
   label: string;
   href: string;
+  icon?: string;
 };
 
 export const csrNav: NavItem[] = [
