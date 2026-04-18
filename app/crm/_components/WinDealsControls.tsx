@@ -71,7 +71,7 @@ export function WinDealsControls({
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    background: "hsl(220, 8%, 20%)",
+    background: "rgb(41, 41, 41)",
     border: "1px solid rgba(255,255,255,0.08)",
     borderRadius: "8px",
     padding: "7px 10px",
@@ -101,7 +101,7 @@ export function WinDealsControls({
               router.push(`/crm/win-deals?pipeline_id=${e.target.value}`);
             }}
             style={{
-              background: "hsl(220, 8%, 20%)",
+              background: "rgb(41, 41, 41)",
               border: "1px solid rgba(255,255,255,0.12)",
               borderRadius: "8px",
               padding: "7px 32px 7px 12px",
@@ -154,7 +154,7 @@ export function WinDealsControls({
             display: "flex",
             alignItems: "center",
             gap: "6px",
-            background: hasFilters ? "#3762e3" : "hsl(220, 8%, 20%)",
+            background: hasFilters ? "#3762e3" : "rgb(41, 41, 41)",
             border: hasFilters
               ? "1px solid rgba(55, 98, 227, 0.6)"
               : "1px solid rgba(255,255,255,0.12)",
@@ -188,7 +188,7 @@ export function WinDealsControls({
               top: "calc(100% + 8px)",
               left: 0,
               zIndex: 30,
-              background: "rgba(18, 22, 38, 0.98)",
+              background: "rgba(31, 31, 31, 0.98)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.12)",
               borderRadius: "12px",

@@ -235,7 +235,7 @@ export function LeadKanbanBoard({
   return (
     <div
       style={{
-        background: "rgba(22, 27, 44, 0.85)",
+        background: "rgba(31, 31, 31, 0.28)",
         backdropFilter: "blur(12px)",
         border: "1px solid rgba(255,255,255,0.07)",
         borderRadius: "16px",
@@ -278,7 +278,7 @@ export function LeadKanbanBoard({
             onChange={(e) => setSearch(e.target.value)}
             style={{
               width: "100%",
-              background: "hsl(220, 8%, 18%)",
+              background: "rgb(41, 41, 41)",
               border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: "8px",
               padding: "8px 12px 8px 32px",
@@ -395,7 +395,7 @@ export function LeadKanbanBoard({
                   flexDirection: "column",
                   background: isDragOver
                     ? "rgba(55, 98, 227, 0.15)"
-                    : "rgba(30, 35, 50, 0.50)",
+                    : "rgba(51, 51, 51, 0.60)",
                   border: isDragOver
                     ? "1px solid rgba(55, 98, 227, 0.6)"
                     : "1px solid rgba(255,255,255,0.08)",
@@ -506,7 +506,7 @@ export function LeadKanbanBoard({
                             setDragOverStageId(null);
                           }}
                           style={{
-                            background: "rgba(30, 35, 50, 0.85)",
+                            background: "rgba(51, 51, 51, 0.60)",
                             border: "1px solid rgba(255,255,255,0.08)",
                             borderRadius: "8px",
                             margin: "8px 0",

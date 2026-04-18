@@ -15,7 +15,7 @@ const ACTIVITY_TYPE_LABEL: Record<string, string> = {
 };
 
 const GLASS_CARD: React.CSSProperties = {
-  background: "rgba(30,35,50,0.70)",
+  background: "rgba(31, 31, 31, 0.28)",
   backdropFilter: "blur(12px)",
   border: "1px solid rgba(255,255,255,0.06)",
   borderRadius: 16,
@@ -31,7 +31,7 @@ const LABEL_STYLE: React.CSSProperties = {
 
 const BIG_NUMBER_STYLE: React.CSSProperties = {
   fontFamily: "var(--font-lora)",
-  fontSize: "2.5rem",
+  fontSize: "3.5rem",
   color: "hsl(0,0%,100%)",
   fontWeight: 400,
   margin: 0,
@@ -58,7 +58,7 @@ export default async function CrmDashboardPage() {
       <h1
         style={{
           fontFamily: "var(--font-lora)",
-          fontSize: "2.5rem",
+          fontSize: "3.5rem",
           color: "hsl(0,0%,100%)",
           fontWeight: 400,
           margin: 0,
