@@ -95,13 +95,7 @@ function renderLinkedText(href: string, text: string) {
         display: "block",
         color: "hsl(0,0%,90%)",
         textDecoration: "none",
-        borderRadius: "4px",
-        margin: "-2px -6px",
-        padding: "2px 6px",
-        transition: "background 0.12s",
       }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)" }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
     >
       {text}
     </Link>
@@ -179,8 +173,6 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
           <Link
             href="/ams/accounts"
             style={{ fontSize: "13px", color: "hsl(0,0%,55%)", textDecoration: "none", fontFamily: "var(--font-instrument-sans, sans-serif)" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "hsl(0,0%,80%)" }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "hsl(0,0%,55%)" }}
           >
             ← Back to Customers
           </Link>
