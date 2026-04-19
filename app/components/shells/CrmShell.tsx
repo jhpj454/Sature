@@ -481,7 +481,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
             display: "flex",
             alignItems: "center",
             gap: "16px",
-            padding: "0 24px",
+            padding: "0 32px",
             zIndex: 30,
           }}
         >
@@ -507,7 +507,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
           <div
             ref={searchRef}
             style={{
-              maxWidth: "512px",
+              flex: 1,
               position: "relative",
             }}
           >
@@ -537,9 +537,9 @@ export function CrmShell({ children }: { children: ReactNode }) {
                   width: "100%",
                   background: tokens.inputBg,
                   border: `1px solid ${tokens.inputBorder}`,
-                  borderRadius: "8px",
-                  padding: "8px 12px 8px 36px",
-                  fontSize: "14px",
+                  borderRadius: "999px",
+                  padding: "6px 16px 6px 34px",
+                  fontSize: "13px",
                   color: tokens.textPrimary,
                   fontFamily: "var(--font-instrument-sans, sans-serif)",
                   outline: "none",
