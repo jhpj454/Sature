@@ -89,7 +89,20 @@ function displayContactName(contact: ContactRow) {
 
 function renderLinkedText(href: string, text: string) {
   return (
-    <Link className="block rounded px-2 py-1 -mx-2 -my-1 hover:bg-white/30 dark:hover:bg-white/[0.06] dark:text-[#e8eaf0]" href={href}>
+    <Link
+      href={href}
+      style={{
+        display: "block",
+        color: "hsl(0,0%,90%)",
+        textDecoration: "none",
+        borderRadius: "4px",
+        margin: "-2px -6px",
+        padding: "2px 6px",
+        transition: "background 0.12s",
+      }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)" }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent" }}
+    >
       {text}
     </Link>
   );
@@ -163,8 +176,13 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
     <div className="space-y-6">
       <DetailHeader
         actions={
-          <Link className="text-sm text-blue-700 dark:text-[#5a8fcf] dark:hover:text-[#7aaad9] hover:underline" href="/ams/accounts">
-            Back to Customers
+          <Link
+            href="/ams/accounts"
+            style={{ fontSize: "13px", color: "hsl(0,0%,55%)", textDecoration: "none", fontFamily: "var(--font-instrument-sans, sans-serif)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "hsl(0,0%,80%)" }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "hsl(0,0%,55%)" }}
+          >
+            ← Back to Customers
           </Link>
         }
         meta={
@@ -195,27 +213,21 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
         <div className="space-y-4">
           <div className="grid gap-4 md:grid-cols-3">
             <Card>
-              <CardHeader>
-                <CardTitle>Contacts</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Contacts</CardTitle></CardHeader>
               <CardContent>
-                <p className="text-2xl font-semibold text-slate-800 dark:text-[#e8eaf0]">{contactsTotal}</p>
+                <p style={{ fontSize: "1.75rem", fontWeight: 600, color: "hsl(0,0%,100%)" }}>{contactsTotal}</p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader>
-                <CardTitle>Policies</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Policies</CardTitle></CardHeader>
               <CardContent>
-                <p className="text-2xl font-semibold text-slate-800 dark:text-[#e8eaf0]">{policiesTotal}</p>
+                <p style={{ fontSize: "1.75rem", fontWeight: 600, color: "hsl(0,0%,100%)" }}>{policiesTotal}</p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader>
-                <CardTitle>Service Cases</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Service Cases</CardTitle></CardHeader>
               <CardContent>
-                <p className="text-2xl font-semibold text-slate-800 dark:text-[#e8eaf0]">{casesTotal}</p>
+                <p style={{ fontSize: "1.75rem", fontWeight: 600, color: "hsl(0,0%,100%)" }}>{casesTotal}</p>
               </CardContent>
             </Card>
           </div>
@@ -225,38 +237,19 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
               <CardTitle>Overview</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-3 text-sm md:grid-cols-2">
-              <div className="flex justify-between gap-4">
-                <span className="text-slate-400 dark:text-[#9da5b4]">Customer Type</span>
-                <span>{customer.account_type}</span>
-              </div>
-              <div className="flex justify-between gap-4">
-                <span className="text-slate-400 dark:text-[#9da5b4]">Status</span>
-                <span>{customer.status}</span>
-              </div>
-              <div className="flex justify-between gap-4">
-                <span className="text-slate-400 dark:text-[#9da5b4]">Assigned Producer</span>
-                <span>
-                  {customer.assigned_producer_id
-                    ? userById.get(customer.assigned_producer_id) ?? customer.assigned_producer_id.slice(0, 8)
-                    : "-"}
-                </span>
-              </div>
-              <div className="flex justify-between gap-4">
-                <span className="text-slate-400 dark:text-[#9da5b4]">Assigned CSR</span>
-                <span>
-                  {customer.assigned_csr_id
-                    ? userById.get(customer.assigned_csr_id) ?? customer.assigned_csr_id.slice(0, 8)
-                    : "-"}
-                </span>
-              </div>
-              <div className="flex justify-between gap-4">
-                <span className="text-slate-400 dark:text-[#9da5b4]">Industry Segment</span>
-                <span>{customer.industry_segment ?? "-"}</span>
-              </div>
-              <div className="flex justify-between gap-4">
-                <span className="text-slate-400 dark:text-[#9da5b4]">Updated At</span>
-                <span>{formatDateTime(customer.updated_at)}</span>
-              </div>
+              {[
+                ["Customer Type", customer.account_type],
+                ["Status", customer.status],
+                ["Assigned Producer", customer.assigned_producer_id ? userById.get(customer.assigned_producer_id) ?? customer.assigned_producer_id.slice(0, 8) : "-"],
+                ["Assigned CSR", customer.assigned_csr_id ? userById.get(customer.assigned_csr_id) ?? customer.assigned_csr_id.slice(0, 8) : "-"],
+                ["Industry Segment", customer.industry_segment ?? "-"],
+                ["Updated At", formatDateTime(customer.updated_at)],
+              ].map(([label, value]) => (
+                <div key={label} style={{ display: "flex", justifyContent: "space-between", gap: "16px" }}>
+                  <span style={{ color: "hsl(0,0%,50%)" }}>{label}</span>
+                  <span style={{ color: "hsl(0,0%,90%)" }}>{value}</span>
+                </div>
+              ))}
             </CardContent>
           </Card>
 
@@ -266,9 +259,9 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
             </CardHeader>
             <CardContent>
               {customer.notes ? (
-                <p className="whitespace-pre-wrap text-sm text-slate-700 dark:text-[#e8eaf0]">{customer.notes}</p>
+                <p style={{ whiteSpace: "pre-wrap", fontSize: "13px", color: "hsl(0,0%,85%)" }}>{customer.notes}</p>
               ) : (
-                <p className="text-sm text-slate-400 dark:text-[#9da5b4]">No notes recorded for this customer.</p>
+                <p style={{ fontSize: "13px", color: "hsl(0,0%,50%)" }}>No notes recorded for this customer.</p>
               )}
             </CardContent>
           </Card>
@@ -310,30 +303,28 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
               ) : null}
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
-              <table className="min-w-full text-sm">
-                <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-slate-500 dark:text-[#9da5b4]">
-                  <tr>
-                    <th className="px-3 py-2">Name</th>
-                    <th className="px-3 py-2">Email</th>
-                    <th className="px-3 py-2">Phone</th>
-                    <th className="px-3 py-2">Preferred Contact Method</th>
-                    <th className="px-3 py-2">Do Not Contact</th>
+            <div style={{ overflowX: "auto", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)" }}>
+              <table style={{ minWidth: "100%", fontSize: "13px", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ background: "rgba(255,255,255,0.04)" }}>
+                    {["Name","Email","Phone","Preferred Contact Method","Do Not Contact"].map((h) => (
+                      <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "hsl(0,0%,50%)", fontWeight: 500, whiteSpace: "nowrap" }}>{h}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {contactsRequest.data.data.map((contact) => (
-                    <tr className="border-t border-slate-200/30 dark:border-white/[0.06]" key={contact.id}>
-                      <td className="px-3 py-2">{displayContactName(contact)}</td>
-                      <td className="px-3 py-2">{contact.email ?? "-"}</td>
-                      <td className="px-3 py-2">{contact.phone ?? "-"}</td>
-                      <td className="px-3 py-2">{contact.preferred_contact_method ?? "-"}</td>
-                      <td className="px-3 py-2">{contact.do_not_contact ? "Yes" : "No"}</td>
+                    <tr key={contact.id} style={{ borderTop: "1px solid rgba(255,255,255,0.06)", color: "hsl(0,0%,85%)" }}>
+                      <td style={{ padding: "10px 14px" }}>{displayContactName(contact)}</td>
+                      <td style={{ padding: "10px 14px" }}>{contact.email ?? "-"}</td>
+                      <td style={{ padding: "10px 14px" }}>{contact.phone ?? "-"}</td>
+                      <td style={{ padding: "10px 14px" }}>{contact.preferred_contact_method ?? "-"}</td>
+                      <td style={{ padding: "10px 14px" }}>{contact.do_not_contact ? "Yes" : "No"}</td>
                     </tr>
                   ))}
                   {contactsRequest.data.data.length === 0 ? (
                     <tr>
-                      <td className="px-3 py-8 text-center text-slate-400 dark:text-[#9da5b4]" colSpan={5}>
+                      <td colSpan={5} style={{ padding: "32px", textAlign: "center", color: "hsl(0,0%,50%)" }}>
                         No contacts found for this customer.
                       </td>
                     </tr>
@@ -353,43 +344,33 @@ export default async function CustomerDetailPage({ params, searchParams }: Route
             title="Couldn't load policies."
           />
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-slate-200/30 dark:border-white/[0.08] bg-white dark:bg-[rgba(255,255,255,0.10)]">
-            <table className="min-w-full text-sm">
-              <thead className="bg-white/30 dark:bg-white/[0.06] text-left text-slate-500 dark:text-[#9da5b4]">
-                <tr>
-                  <th className="px-3 py-2">Policy Number</th>
-                  <th className="px-3 py-2">Carrier</th>
-                  <th className="px-3 py-2">LOB</th>
-                  <th className="px-3 py-2">Status</th>
-                  <th className="px-3 py-2">Effective Date</th>
-                  <th className="px-3 py-2">Expiration Date</th>
-                  <th className="px-3 py-2">Revenue Estimate</th>
+          <div style={{ overflowX: "auto", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)" }}>
+            <table style={{ minWidth: "100%", fontSize: "13px", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ background: "rgba(255,255,255,0.04)" }}>
+                  {["Policy Number","Carrier","LOB","Status","Effective Date","Expiration Date","Revenue Estimate"].map((h) => (
+                    <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: "hsl(0,0%,50%)", fontWeight: 500, whiteSpace: "nowrap" }}>{h}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
                 {policiesRequest.data.data.map((policy) => {
                   const href = `/ams/policies/${policy.id}`;
-
                   return (
-                    <tr className="border-t border-slate-200/30 dark:border-white/[0.06]" key={policy.id}>
-                      <td className="px-3 py-2">{renderLinkedText(href, policy.policy_number)}</td>
-                      <td className="px-3 py-2">{renderLinkedText(href, policy.carrier_name ?? "-")}</td>
-                      <td className="px-3 py-2">{renderLinkedText(href, policy.lob)}</td>
-                      <td className="px-3 py-2">{renderLinkedText(href, policy.status)}</td>
-                      <td className="px-3 py-2">{renderLinkedText(href, formatDate(policy.effective_date))}</td>
-                      <td className="px-3 py-2">{renderLinkedText(href, formatDate(policy.expiration_date))}</td>
-                      <td className="px-3 py-2">
-                        {renderLinkedText(
-                          href,
-                          formatCurrency(policy.agency_revenue_estimate_amount),
-                        )}
-                      </td>
+                    <tr key={policy.id} style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                      <td style={{ padding: "10px 14px" }}>{renderLinkedText(href, policy.policy_number)}</td>
+                      <td style={{ padding: "10px 14px" }}>{renderLinkedText(href, policy.carrier_name ?? "-")}</td>
+                      <td style={{ padding: "10px 14px" }}>{renderLinkedText(href, policy.lob)}</td>
+                      <td style={{ padding: "10px 14px" }}>{renderLinkedText(href, policy.status)}</td>
+                      <td style={{ padding: "10px 14px" }}>{renderLinkedText(href, formatDate(policy.effective_date))}</td>
+                      <td style={{ padding: "10px 14px" }}>{renderLinkedText(href, formatDate(policy.expiration_date))}</td>
+                      <td style={{ padding: "10px 14px" }}>{renderLinkedText(href, formatCurrency(policy.agency_revenue_estimate_amount))}</td>
                     </tr>
                   );
                 })}
                 {policiesRequest.data.data.length === 0 ? (
                   <tr>
-                    <td className="px-3 py-8 text-center text-slate-400 dark:text-[#9da5b4]" colSpan={7}>
+                    <td colSpan={7} style={{ padding: "32px", textAlign: "center", color: "hsl(0,0%,50%)" }}>
                       No policies found for this customer.
                     </td>
                   </tr>

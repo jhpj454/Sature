@@ -10,16 +10,49 @@ type DetailHeaderProps = {
 export function DetailHeader({ title, subtitle, meta, actions }: DetailHeaderProps) {
   return (
     <div
-      className="rounded-2xl border border-white/50 bg-white/45 p-5 backdrop-blur-xl"
-      style={{ boxShadow: "0 8px 32px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)" }}
+      style={{
+        background: "rgba(255,255,255,0.04)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        borderRadius: "16px",
+        padding: "20px 24px",
+      }}
     >
-      <div className="flex flex-wrap items-start justify-between gap-3">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: "12px",
+          flexWrap: "wrap",
+        }}
+      >
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-800">{title}</h1>
-          {subtitle ? <p className="mt-1 text-sm text-slate-400">{subtitle}</p> : null}
-          {meta ? <div className="mt-2 text-sm text-slate-500">{meta}</div> : null}
+          <h1
+            style={{
+              fontSize: "1.75rem",
+              fontWeight: 600,
+              color: "hsl(0,0%,100%)",
+              margin: 0,
+              fontFamily: "var(--font-lora, serif)",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {title}
+          </h1>
+          {subtitle ? (
+            <p style={{ marginTop: "4px", fontSize: "13px", color: "hsl(0,0%,50%)", fontFamily: "var(--font-instrument-sans, sans-serif)" }}>
+              {subtitle}
+            </p>
+          ) : null}
+          {meta ? (
+            <div style={{ marginTop: "10px", fontSize: "13px", color: "hsl(0,0%,65%)", fontFamily: "var(--font-instrument-sans, sans-serif)" }}>
+              {meta}
+            </div>
+          ) : null}
         </div>
-        {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
+        {actions ? (
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>{actions}</div>
+        ) : null}
       </div>
     </div>
   );
