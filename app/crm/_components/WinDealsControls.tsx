@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ManagePipelinesModalTrigger } from "@/app/crm/_components/ManagePipelinesModalTrigger";
+import Link from "next/link";
 
 export type ActiveFilters = {
   producerId?: string;
@@ -372,7 +372,24 @@ export function WinDealsControls({
       </div>
 
       {/* Manage Pipelines */}
-      <ManagePipelinesModalTrigger />
+      <Link
+        href="/crm/settings/pipelines"
+        style={{
+          background: "rgba(51, 51, 51, 0.60)",
+          backdropFilter: "blur(12px)",
+          border: "1px solid rgba(255,255,255,0.10)",
+          borderRadius: "8px",
+          padding: "7px 16px",
+          color: "hsl(0,0%,80%)",
+          fontSize: "13px",
+          fontFamily: "var(--font-instrument-sans)",
+          whiteSpace: "nowrap",
+          textDecoration: "none",
+          display: "inline-block",
+        }}
+      >
+        Manage Pipelines
+      </Link>
     </div>
   );
 }

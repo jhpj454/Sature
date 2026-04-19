@@ -105,6 +105,16 @@ function IconLightning() {
   )
 }
 
+function IconLogout() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M10.5 11L14 8l-3.5-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 8H6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function IconGear() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -209,6 +219,57 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       <span style={{ flexShrink: 0, display: "flex" }}>{item.icon}</span>
       {item.label}
     </Link>
+  )
+}
+
+// ─── Logout item ─────────────────────────────────────────────────────────────
+function LogoutItem() {
+  const [pending, setPending] = useState(false)
+
+  async function handleLogout() {
+    setPending(true)
+    try {
+      const res = await fetch("/api/auth/logout", { method: "POST", credentials: "include" })
+      if (res.ok) window.location.href = "/login"
+    } finally {
+      setPending(false)
+    }
+  }
+
+  return (
+    <button
+      onClick={handleLogout}
+      disabled={pending}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "9px",
+        padding: "7px 10px",
+        borderRadius: "8px",
+        fontSize: "13px",
+        fontWeight: 500,
+        fontFamily: "var(--font-instrument-sans, sans-serif)",
+        color: tokens.textMuted,
+        background: "transparent",
+        border: "none",
+        cursor: "pointer",
+        width: "100%",
+        textAlign: "left",
+        transition: "background 0.15s, color 0.15s",
+        opacity: pending ? 0.5 : 1,
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = "rgba(255,255,255,0.06)"
+        e.currentTarget.style.color = tokens.textSecondary
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = "transparent"
+        e.currentTarget.style.color = tokens.textMuted
+      }}
+    >
+      <span style={{ flexShrink: 0, display: "flex" }}><IconLogout /></span>
+      {pending ? "Signing out…" : "Logout"}
+    </button>
   )
 }
 
@@ -344,9 +405,10 @@ export function CrmShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
 
-        {/* Bottom-pinned settings */}
-        <div style={{ padding: "10px" }}>
+        {/* Bottom-pinned settings + logout */}
+        <div style={{ padding: "10px", display: "flex", flexDirection: "column", gap: "1px" }}>
           <NavLink item={settingsNavItem} pathname={pathname} />
+          <LogoutItem />
         </div>
       </aside>
 
@@ -391,8 +453,9 @@ export function CrmShell({ children }: { children: ReactNode }) {
             <NavLink key={item.href} item={item} pathname={pathname} />
           ))}
         </nav>
-        <div style={{ padding: "12px" }}>
+        <div style={{ padding: "12px", display: "flex", flexDirection: "column", gap: "1px" }}>
           <NavLink item={settingsNavItem} pathname={pathname} />
+          <LogoutItem />
         </div>
       </aside>
 
@@ -414,7 +477,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
             height: "56px",
             background: `${tokens.headerBg}e8`,
             backdropFilter: "blur(8px)",
-            borderBottom: `1px solid ${tokens.sidebarBorder}`,
+            borderBottom: "none",
             display: "flex",
             alignItems: "center",
             gap: "16px",
@@ -444,9 +507,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
           <div
             ref={searchRef}
             style={{
-              flex: 1,
               maxWidth: "512px",
-              margin: "0 auto",
               position: "relative",
             }}
           >
