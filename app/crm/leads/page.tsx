@@ -19,7 +19,7 @@ export default async function CrmLeadsPage() {
         <h1
           style={{
             fontFamily: "var(--font-lora)",
-            fontSize: "2rem",
+            fontSize: "3.5rem",
             color: "hsl(0,0%,100%)",
             margin: 0,
           }}

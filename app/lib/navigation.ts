@@ -20,6 +20,7 @@ export const producerNav: NavItem[] = [
   { label: "Dashboard", href: "/crm" },
   { label: "Leads", href: "/crm/leads" },
   { label: "Win Deals", href: "/crm/win-deals" },
+  { label: "Customers", href: "/crm/customers" },
   { label: "Tasks", href: "/crm/tasks" },
   { label: "Calendar", href: "/crm/calendar" },
   { label: "Activity", href: "/crm/activity" },
