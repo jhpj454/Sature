@@ -41,6 +41,238 @@ type TaskModalState = {
   accountName: string | null;
 };
 
+type CreateCustomerFormData = {
+  account_name: string;
+  account_type: "commercial" | "personal";
+  status: "prospect" | "client" | "lost";
+  industry_segment: string;
+  notes: string;
+};
+
+function CreateCustomerModal({ onClose, onCreated }: { onClose: () => void; onCreated: (customer: Customer) => void }) {
+  const [form, setForm] = useState<CreateCustomerFormData>({
+    account_name: "",
+    account_type: "commercial",
+    status: "prospect",
+    industry_segment: "",
+    notes: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!form.account_name.trim()) {
+      setError("Account name is required.");
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/crm/customers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          account_name: form.account_name.trim(),
+          account_type: form.account_type,
+          status: form.status,
+          industry_segment: form.industry_segment.trim() || null,
+          notes: form.notes.trim() || null,
+        }),
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        setError(data.error ?? "Failed to create customer.");
+        return;
+      }
+      onCreated(data.data);
+      onClose();
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 8,
+    padding: "10px 14px",
+    color: "hsl(0,0%,90%)",
+    fontFamily: "var(--font-instrument-sans)",
+    fontSize: 14,
+    outline: "none",
+    boxSizing: "border-box",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: "block",
+    fontFamily: "var(--font-instrument-sans)",
+    fontSize: 12,
+    color: "hsl(0,0%,50%)",
+    textTransform: "uppercase",
+    letterSpacing: "0.05em",
+    marginBottom: 6,
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.6)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+      }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        style={{
+          background: "rgb(18,22,34)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 16,
+          padding: 28,
+          width: 500,
+          maxWidth: "90vw",
+          maxHeight: "90vh",
+          overflowY: "auto",
+        }}
+      >
+        <h2
+          style={{
+            fontFamily: "var(--font-lora)",
+            fontSize: 22,
+            color: "hsl(0,0%,100%)",
+            margin: "0 0 24px",
+          }}
+        >
+          New Customer
+        </h2>
+
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div>
+            <label style={labelStyle}>Account Name *</label>
+            <input
+              type="text"
+              value={form.account_name}
+              onChange={(e) => setForm((f) => ({ ...f, account_name: e.target.value }))}
+              placeholder="e.g. Acme Corporation"
+              autoFocus
+              style={inputStyle}
+            />
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div>
+              <label style={labelStyle}>Type *</label>
+              <select
+                value={form.account_type}
+                onChange={(e) => setForm((f) => ({ ...f, account_type: e.target.value as "commercial" | "personal" }))}
+                style={{ ...inputStyle, cursor: "pointer" }}
+              >
+                <option value="commercial">Commercial</option>
+                <option value="personal">Personal</option>
+              </select>
+            </div>
+            <div>
+              <label style={labelStyle}>Status *</label>
+              <select
+                value={form.status}
+                onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as "prospect" | "client" | "lost" }))}
+                style={{ ...inputStyle, cursor: "pointer" }}
+              >
+                <option value="prospect">Prospect</option>
+                <option value="client">Client</option>
+                <option value="lost">Lost</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label style={labelStyle}>Industry Segment</label>
+            <input
+              type="text"
+              value={form.industry_segment}
+              onChange={(e) => setForm((f) => ({ ...f, industry_segment: e.target.value }))}
+              placeholder="e.g. Construction, Healthcare"
+              style={inputStyle}
+            />
+          </div>
+
+          <div>
+            <label style={labelStyle}>Notes</label>
+            <textarea
+              value={form.notes}
+              onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+              placeholder="Optional notes"
+              rows={3}
+              style={{ ...inputStyle, resize: "vertical" }}
+            />
+          </div>
+
+          {error && (
+            <div
+              style={{
+                background: "rgba(61,13,13,0.7)",
+                border: "1px solid rgba(224,82,82,0.3)",
+                borderRadius: 8,
+                padding: "10px 14px",
+                color: "#e05252",
+                fontFamily: "var(--font-instrument-sans)",
+                fontSize: 13,
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 4 }}>
+            <button
+              type="button"
+              onClick={onClose}
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                color: "hsl(0,0%,80%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 8,
+                padding: "10px 20px",
+                fontFamily: "var(--font-instrument-sans)",
+                fontSize: 14,
+                fontWeight: 500,
+                cursor: "pointer",
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              style={{
+                background: "#3762e3",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "10px 20px",
+                fontFamily: "var(--font-instrument-sans)",
+                fontSize: 14,
+                fontWeight: 500,
+                cursor: submitting ? "not-allowed" : "pointer",
+                opacity: submitting ? 0.7 : 1,
+              }}
+            >
+              {submitting ? "Creating..." : "Create Customer"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 type TaskFormData = {
   title: string;
   description: string;
@@ -361,6 +593,7 @@ export function CustomersTable({ customers: initialCustomers }: { customers: Cus
   const [accountType, setAccountType] = useState("");
   const [hasActivePolicies, setHasActivePolicies] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [taskModal, setTaskModal] = useState<TaskModalState>({
     open: false,
     accountId: null,
@@ -402,8 +635,8 @@ export function CustomersTable({ customers: initialCustomers }: { customers: Cus
 
   return (
     <>
-      {/* Filters */}
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 0 }}>
+      {/* Filters + New Customer */}
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 0, alignItems: "center" }}>
         <input
           type="search"
           value={search}
@@ -475,6 +708,26 @@ export function CustomersTable({ customers: initialCustomers }: { customers: Cus
             Loading...
           </span>
         )}
+
+        <div style={{ marginLeft: "auto" }}>
+          <button
+            onClick={() => setShowCreateModal(true)}
+            style={{
+              background: "#3762e3",
+              color: "#fff",
+              border: "none",
+              borderRadius: 8,
+              padding: "10px 20px",
+              fontFamily: "var(--font-instrument-sans)",
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            + New Customer
+          </button>
+        </div>
       </div>
 
       {/* Table card */}
@@ -661,6 +914,17 @@ export function CustomersTable({ customers: initialCustomers }: { customers: Cus
           accountId={taskModal.accountId}
           accountName={taskModal.accountName}
           onClose={() => setTaskModal({ open: false, accountId: null, accountName: null })}
+        />
+      )}
+
+      {/* Create Customer Modal */}
+      {showCreateModal && (
+        <CreateCustomerModal
+          onClose={() => setShowCreateModal(false)}
+          onCreated={(customer) => {
+            setCustomers((prev) => [customer, ...prev]);
+            setShowCreateModal(false);
+          }}
         />
       )}
     </>

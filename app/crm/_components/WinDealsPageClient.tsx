@@ -38,9 +38,11 @@ export function WinDealsPageClient({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      {/* Pipeline control card */}
+      {/* Pipeline control card — position:relative + zIndex ensures filter dropdown paints above the kanban */}
       <div
         style={{
+          position: "relative",
+          zIndex: 2,
           background: "rgba(31, 31, 31, 0.28)",
           backdropFilter: "blur(12px)",
           border: "1px solid rgba(255,255,255,0.08)",

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { assertCrmUser, ForbiddenError } from "@/src/server/crm";
 import { UnauthorizedError, withTenantClientFromRequest } from "@/src/server/tenant";
+import { logAudit } from "@/src/server/audit";
+import { emitEvent } from "@/src/server/events";
 
 const listCustomersQuerySchema = z.object({
   q: z.string().trim().min(1).optional(),
@@ -161,5 +163,72 @@ export async function GET(request: NextRequest) {
     if (error instanceof ForbiddenError) return jsonError(403, "Forbidden");
     console.error("GET /api/crm/customers failed", error);
     return jsonError(500, "Unable to load customers.");
+  }
+}
+
+const createCustomerSchema = z.object({
+  account_name: z.string().trim().min(1).max(255),
+  account_type: z.enum(["commercial", "personal"]),
+  status: z.enum(["prospect", "client", "lost"]).default("prospect"),
+  industry_segment: z.string().trim().min(1).max(255).optional().nullable(),
+  notes: z.string().trim().max(5000).optional().nullable(),
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const parsed = createCustomerSchema.safeParse(body);
+    if (!parsed.success) {
+      return jsonError(400, "Invalid request body.");
+    }
+
+    const { account_name, account_type, status, industry_segment, notes } = parsed.data;
+
+    const result = await withTenantClientFromRequest(request, async (client, session) => {
+      assertCrmUser(session);
+
+      const insertRes = await client.query(
+        `
+        INSERT INTO accounts (agency_id, account_name, account_type, status, industry_segment, notes)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING id, account_name, account_type, status, industry_segment, notes, created_at, updated_at
+        `,
+        [
+          session.agency_id,
+          account_name,
+          account_type,
+          status,
+          industry_segment ?? null,
+          notes ?? null,
+        ],
+      );
+
+      const account = insertRes.rows[0];
+
+      await logAudit(client, {
+        agencyId: session.agency_id,
+        actorUserId: session.user_id,
+        action: "account.created",
+        entityType: "account",
+        entityId: account.id,
+        afterJson: account,
+      });
+
+      await emitEvent(client, {
+        agencyId: session.agency_id,
+        eventType: "account.created",
+        entityType: "account",
+        entityId: account.id,
+      });
+
+      return account;
+    });
+
+    return NextResponse.json({ ok: true, data: result }, { status: 201 });
+  } catch (error) {
+    if (error instanceof UnauthorizedError) return jsonError(401, "Unauthorized");
+    if (error instanceof ForbiddenError) return jsonError(403, "Forbidden");
+    console.error("POST /api/crm/customers failed", error);
+    return jsonError(500, "Unable to create customer.");
   }
 }

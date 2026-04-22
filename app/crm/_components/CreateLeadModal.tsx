@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { apiFetch } from "@/app/lib/apiClient";
 import type { KanbanLead } from "@/app/crm/_components/LeadKanbanBoard";
 
@@ -85,16 +86,16 @@ export function CreateLeadModal({ pipelineId, stages, csrUsers, onSuccess, onClo
     marginBottom: "4px",
   };
 
-  return (
+  const modal = (
     <div
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 50,
+        zIndex: 1000,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "rgba(0, 0, 0, 0.5)",
+        background: "rgba(0, 0, 0, 0.6)",
         backdropFilter: "blur(4px)",
         padding: "16px",
       }}
@@ -102,9 +103,8 @@ export function CreateLeadModal({ pipelineId, stages, csrUsers, onSuccess, onClo
     >
       <div
         style={{
-          background: "rgba(20, 25, 40, 0.97)",
-          backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255,255,255,0.12)",
+          background: "rgb(18, 22, 34)",
+          border: "1px solid rgba(255,255,255,0.1)",
           borderRadius: "16px",
           maxWidth: "480px",
           width: "100%",
@@ -314,4 +314,6 @@ export function CreateLeadModal({ pipelineId, stages, csrUsers, onSuccess, onClo
       </div>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }

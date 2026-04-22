@@ -187,7 +187,7 @@ export function WinDealsControls({
               position: "absolute",
               top: "calc(100% + 8px)",
               left: 0,
-              zIndex: 200,
+              zIndex: 1000,
               background: "rgba(31, 31, 31, 0.98)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.12)",
