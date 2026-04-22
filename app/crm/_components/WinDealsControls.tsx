@@ -91,7 +91,7 @@ export function WinDealsControls({
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", minWidth: 0 }}>
       {/* Pipeline dropdown */}
       {pipelines.length > 0 ? (
         <div style={{ position: "relative" }}>
@@ -187,7 +187,7 @@ export function WinDealsControls({
               position: "absolute",
               top: "calc(100% + 8px)",
               left: 0,
-              zIndex: 30,
+              zIndex: 200,
               background: "rgba(31, 31, 31, 0.98)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.12)",

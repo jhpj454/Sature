@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Task } from "../page";
+import { CustomerSearch } from "@/app/crm/_components/CustomerSearch";
 
 const INPUT_STYLE: React.CSSProperties = {
   width: "100%",
@@ -37,8 +38,7 @@ export function CreateTaskModal({
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [assignedToUserId, setAssignedToUserId] = useState("");
-  const [linkedEntityType, setLinkedEntityType] = useState("");
-  const [linkedEntityId, setLinkedEntityId] = useState("");
+  const [linkedAccountId, setLinkedAccountId] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,8 +57,8 @@ export function CreateTaskModal({
           description: description.trim() || null,
           due_date: dueDate || null,
           assigned_to_user_id: assignedToUserId.trim() || null,
-          linked_entity_type: linkedEntityType.trim() || null,
-          linked_entity_id: linkedEntityId.trim() || null,
+          linked_entity_type: linkedAccountId ? "account" : null,
+          linked_entity_id: linkedAccountId || null,
         }),
       });
 
@@ -206,27 +206,14 @@ export function CreateTaskModal({
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-            <div>
-              <label style={LABEL_STYLE}>Linked Entity Type</label>
-              <input
-                type="text"
-                value={linkedEntityType}
-                onChange={(e) => setLinkedEntityType(e.target.value)}
-                placeholder="e.g. policy, account"
-                style={INPUT_STYLE}
-              />
-            </div>
-            <div>
-              <label style={LABEL_STYLE}>Linked Entity ID</label>
-              <input
-                type="text"
-                value={linkedEntityId}
-                onChange={(e) => setLinkedEntityId(e.target.value)}
-                placeholder="UUID"
-                style={INPUT_STYLE}
-              />
-            </div>
+          <div>
+            <label style={LABEL_STYLE}>Link to Customer (optional)</label>
+            <CustomerSearch
+              value={linkedAccountId}
+              onChange={setLinkedAccountId}
+              inputStyle={INPUT_STYLE}
+              placeholder="Search customer name…"
+            />
           </div>
 
           <div

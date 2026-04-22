@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import type { CalendarEvent } from "./CalendarClient";
+import { CustomerSearch } from "@/app/crm/_components/CustomerSearch";
 
 type Category = "meeting" | "call" | "personal" | "renewal" | "task" | "other";
 type RecurrencePreset = "none" | "daily" | "weekly" | "monthly" | "custom";
@@ -396,12 +397,12 @@ export function CreateEventModal({
 
         {/* Link to account */}
         <div style={FIELD_GAP}>
-          <label style={LABEL}>Link to Account (optional — enter Account ID)</label>
-          <input
-            style={INPUT}
+          <label style={LABEL}>Link to Customer (optional)</label>
+          <CustomerSearch
             value={entityId}
-            onChange={(e) => setEntityId(e.target.value)}
-            placeholder="Account UUID"
+            onChange={setEntityId}
+            inputStyle={INPUT}
+            placeholder="Search customer name…"
           />
         </div>
 

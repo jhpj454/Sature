@@ -15,23 +15,15 @@ export default async function CrmCalendarPage() {
   const initialEvents = result.ok && result.data?.data ? result.data.data : [];
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "hsl(226,25%,8%)",
-        padding: "32px 32px 64px",
-      }}
-    >
-      {/* Page heading */}
-      <div style={{ marginBottom: 28 }}>
+    <div className="space-y-6 p-6">
+      <div>
         <h1
           style={{
             fontFamily: "var(--font-lora)",
-            fontSize: 28,
-            fontWeight: 600,
-            color: "hsl(0,0%,96%)",
+            fontSize: "3.5rem",
+            fontWeight: 400,
+            color: "hsl(0,0%,100%)",
             margin: 0,
-            letterSpacing: "-0.01em",
           }}
         >
           Calendar

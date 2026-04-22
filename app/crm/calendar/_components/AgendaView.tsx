@@ -70,7 +70,7 @@ export function AgendaView({
     return (
       <div
         style={{
-          background: "rgba(30,35,50,0.70)",
+          background: "rgba(31, 31, 31, 0.28)",
           backdropFilter: "blur(12px)",
           border: "1px solid rgba(255,255,255,0.06)",
           borderRadius: 16,
@@ -89,7 +89,7 @@ export function AgendaView({
   return (
     <div
       style={{
-        background: "rgba(30,35,50,0.70)",
+        background: "rgba(31, 31, 31, 0.28)",
         backdropFilter: "blur(12px)",
         border: "1px solid rgba(255,255,255,0.06)",
         borderRadius: 16,
