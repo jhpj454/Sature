@@ -158,8 +158,8 @@ export function ImportFromLeadsModal({ pipelineId, firstOpenStageId, onSuccess, 
     >
       <div
         style={{
-          background: "rgb(18, 22, 34)",
-          border: "1px solid rgba(255,255,255,0.1)",
+          background: "rgba(37, 37, 40, 0.97)",
+          border: "1px solid rgba(255,255,255,0.10)",
           borderRadius: "16px",
           maxWidth: "520px",
           width: "100%",
@@ -249,9 +249,9 @@ export function ImportFromLeadsModal({ pipelineId, firstOpenStageId, onSuccess, 
                     gap: "12px",
                     padding: "10px 12px",
                     borderRadius: "8px",
-                    background: isSelected ? "rgba(55, 98, 227, 0.12)" : "transparent",
+                    background: isSelected ? "rgba(255,255,255,0.08)" : "transparent",
                     border: isSelected
-                      ? "1px solid rgba(55, 98, 227, 0.3)"
+                      ? "1px solid rgba(255,255,255,0.18)"
                       : "1px solid transparent",
                     cursor: "pointer",
                     marginBottom: "4px",

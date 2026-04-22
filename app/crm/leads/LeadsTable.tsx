@@ -4,6 +4,7 @@ import { useState } from "react";
 import { formatCurrency, formatDateTime } from "@/app/ams/_lib/format";
 import { LeadDetailPanel } from "./LeadDetailPanel";
 import { AddLeadPanel } from "./AddLeadPanel";
+import { ImportLeadsPanel } from "./ImportLeadsPanel";
 
 export type Lead = {
   id: string;
@@ -183,36 +184,91 @@ function LeadRow({
   );
 }
 
+type ViewTab = "all" | "mine" | "unassigned";
+
 export function LeadsTable({
   leads,
   pipelines,
+  currentUserId,
 }: {
   leads: Lead[];
   pipelines: Pipeline[];
+  currentUserId: string;
 }) {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showAddPanel, setShowAddPanel] = useState(false);
+  const [showImportPanel, setShowImportPanel] = useState(false);
+  const [view, setView] = useState<ViewTab>("all");
+
+  const visibleLeads = leads.filter((lead) => {
+    if (view === "mine") return lead.assigned_producer_id === currentUserId;
+    if (view === "unassigned") return lead.assigned_producer_id === null;
+    return true;
+  });
 
   return (
     <>
-      {/* Add Lead button */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 0 }}>
-        <button
-          onClick={() => setShowAddPanel(true)}
-          style={{
-            background: "#3762e3",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            padding: "10px 20px",
-            fontFamily: "var(--font-instrument-sans)",
-            fontSize: 14,
-            fontWeight: 500,
-            cursor: "pointer",
-          }}
-        >
-          + Add Lead
-        </button>
+      {/* Toolbar: tabs + buttons */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        {/* View tabs */}
+        <div style={{ display: "flex", gap: 2, background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: 3 }}>
+          {(["all", "mine", "unassigned"] as ViewTab[]).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setView(tab)}
+              style={{
+                background: view === tab ? "rgba(255,255,255,0.12)" : "transparent",
+                color: view === tab ? "hsl(0,0%,100%)" : "hsl(0,0%,50%)",
+                border: "none",
+                borderRadius: 6,
+                padding: "6px 14px",
+                fontFamily: "var(--font-instrument-sans)",
+                fontSize: 13,
+                fontWeight: view === tab ? 500 : 400,
+                cursor: "pointer",
+                textTransform: "capitalize",
+                transition: "background 0.15s, color 0.15s",
+              }}
+            >
+              {tab === "all" ? "All Leads" : tab === "mine" ? "My Leads" : "Unassigned"}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
+          <button
+            onClick={() => setShowImportPanel(true)}
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              color: "hsl(0,0%,80%)",
+              border: "1px solid rgba(255,255,255,0.10)",
+              borderRadius: 8,
+              padding: "8px 16px",
+              fontFamily: "var(--font-instrument-sans)",
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            Import CSV/Excel
+          </button>
+          <button
+            onClick={() => setShowAddPanel(true)}
+            style={{
+              background: "#3762e3",
+              color: "#fff",
+              border: "none",
+              borderRadius: 8,
+              padding: "8px 16px",
+              fontFamily: "var(--font-instrument-sans)",
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            + Add Lead
+          </button>
+        </div>
       </div>
 
       {/* Table card */}
@@ -225,7 +281,7 @@ export function LeadsTable({
           overflow: "hidden",
         }}
       >
-        {leads.length === 0 ? (
+        {visibleLeads.length === 0 ? (
           <div
             style={{
               padding: 48,
@@ -235,7 +291,9 @@ export function LeadsTable({
               color: "hsl(0,0%,50%)",
             }}
           >
-            No leads yet. Add your first lead to get started.
+            {leads.length === 0
+              ? "No leads yet. Add your first lead to get started."
+              : "No leads match this filter."}
           </div>
         ) : (
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -252,7 +310,7 @@ export function LeadsTable({
               </tr>
             </thead>
             <tbody>
-              {leads.map((lead) => (
+              {visibleLeads.map((lead) => (
                 <LeadRow
                   key={lead.id}
                   lead={lead}
@@ -278,6 +336,13 @@ export function LeadsTable({
         <AddLeadPanel
           pipelines={pipelines}
           onClose={() => setShowAddPanel(false)}
+        />
+      )}
+
+      {/* Import CSV/Excel panel */}
+      {showImportPanel && (
+        <ImportLeadsPanel
+          onClose={() => setShowImportPanel(false)}
         />
       )}
     </>

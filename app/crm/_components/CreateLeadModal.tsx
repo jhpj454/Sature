@@ -103,8 +103,8 @@ export function CreateLeadModal({ pipelineId, stages, csrUsers, onSuccess, onClo
     >
       <div
         style={{
-          background: "rgb(18, 22, 34)",
-          border: "1px solid rgba(255,255,255,0.1)",
+          background: "rgba(37, 37, 40, 0.97)",
+          border: "1px solid rgba(255,255,255,0.10)",
           borderRadius: "16px",
           maxWidth: "480px",
           width: "100%",

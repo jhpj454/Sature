@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { apiFetch } from "@/app/lib/apiClient";
 import type { KanbanLead } from "@/app/crm/_components/LeadKanbanBoard";
 
@@ -87,31 +88,33 @@ export function ConvertToCustomerModal({
     marginBottom: "4px",
   };
 
-  return (
+  const modal = (
     <div
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 50,
+        zIndex: 1000,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "rgba(0, 0, 0, 0.5)",
+        background: "rgba(0, 0, 0, 0.6)",
         backdropFilter: "blur(4px)",
         padding: "16px",
       }}
     >
       <div
         style={{
-          background: "rgba(20, 25, 40, 0.95)",
-          backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255,255,255,0.12)",
+          background: "rgba(37, 37, 40, 0.97)",
+          border: "1px solid rgba(255,255,255,0.10)",
           borderRadius: "16px",
           maxWidth: "480px",
           width: "100%",
           padding: "28px",
-          boxShadow: "0 24px 64px rgba(0, 0, 0, 0.6)",
+          boxShadow: "0 24px 64px rgba(0, 0, 0, 0.7)",
+          maxHeight: "90vh",
+          overflowY: "auto",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {success ? (
           <div style={{ textAlign: "center", padding: "24px 0" }}>
@@ -171,14 +174,14 @@ export function ConvertToCustomerModal({
             {/* Info banner */}
             <div
               style={{
-                background: "rgba(55, 98, 227, 0.12)",
-                border: "1px solid rgba(55, 98, 227, 0.25)",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.10)",
                 borderRadius: "8px",
                 padding: "10px 14px",
                 marginBottom: "20px",
                 fontFamily: "var(--font-instrument-sans)",
                 fontSize: "12px",
-                color: "hsl(220, 60%, 75%)",
+                color: "hsl(0,0%,65%)",
               }}
             >
               Policy details will be set up by your CSR team after account creation.
@@ -328,4 +331,6 @@ export function ConvertToCustomerModal({
       </div>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }

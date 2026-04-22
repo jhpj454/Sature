@@ -2,15 +2,16 @@ import { safeApiFetchJson, requireSession } from "@/app/crm/_lib/api";
 import { LeadsTable, type Lead, type Pipeline } from "./LeadsTable";
 
 export default async function CrmLeadsPage() {
-  await requireSession();
+  const session = await requireSession();
 
   const [leadsRes, pipelinesRes] = await Promise.all([
-    safeApiFetchJson<{ ok: true; data: Lead[] }>("/api/crm/leads?view=mine&page_size=100"),
+    safeApiFetchJson<{ ok: true; data: Lead[] }>("/api/crm/leads?view=all&page_size=100"),
     safeApiFetchJson<{ ok: true; data: Pipeline[] }>("/api/crm/pipelines?page_size=100"),
   ]);
 
   const leads = leadsRes.ok ? leadsRes.data.data : [];
   const pipelines = pipelinesRes.ok ? pipelinesRes.data.data : [];
+  const currentUserId: string = (session as { user_id?: string }).user_id ?? "";
 
   return (
     <div className="space-y-6 p-6">
@@ -44,7 +45,7 @@ export default async function CrmLeadsPage() {
         </div>
       )}
 
-      <LeadsTable leads={leads} pipelines={pipelines} />
+      <LeadsTable leads={leads} pipelines={pipelines} currentUserId={currentUserId} />
     </div>
   );
 }
