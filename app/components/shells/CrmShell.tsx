@@ -420,7 +420,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
           top: 0,
           bottom: 0,
           width: "220px",
-          background: "rgba(10,12,20,0.92)",
+          background: "rgba(22,22,24,0.97)",
           backdropFilter: "blur(16px)",
           display: "flex",
           flexDirection: "column",

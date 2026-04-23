@@ -175,7 +175,7 @@ export function ManagePipelinesModal({ onClose }: Props) {
         style={{
           width: "min(520px, 100%)",
           height: "100%",
-          background: "rgba(20, 25, 40, 0.97)",
+          background: "rgba(30,30,32,0.98)",
           backdropFilter: "blur(20px)",
           borderLeft: "1px solid rgba(255,255,255,0.10)",
           display: "flex",

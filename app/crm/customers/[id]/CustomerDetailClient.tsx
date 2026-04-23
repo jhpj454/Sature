@@ -183,8 +183,8 @@ function CreateTaskModal({
     >
       <div
         style={{
-          background: "rgb(18,22,34)",
-          border: "1px solid rgba(255,255,255,0.1)",
+          background: "rgba(37,37,40,0.97)",
+          border: "1px solid rgba(255,255,255,0.10)",
           borderRadius: 16,
           padding: 28,
           width: 440,

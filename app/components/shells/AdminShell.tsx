@@ -237,7 +237,7 @@ export function AdminShell({ user, children }: { user: AuthMeResponse; children:
       <aside
         style={{
           position: "fixed", left: 0, top: 0, bottom: 0, width: "220px",
-          background: "rgba(10,12,20,0.92)", backdropFilter: "blur(16px)",
+          background: "rgba(22,22,24,0.97)", backdropFilter: "blur(16px)",
           display: "flex", flexDirection: "column", zIndex: 40,
           transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
           transition: "transform 0.2s",

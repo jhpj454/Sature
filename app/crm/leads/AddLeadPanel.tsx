@@ -170,7 +170,7 @@ export function AddLeadPanel({ pipelines, onClose }: Props) {
           top: 0,
           bottom: 0,
           width: 480,
-          background: "rgba(15,18,30,0.98)",
+          background: "rgba(30,30,32,0.98)",
           backdropFilter: "blur(24px)",
           borderLeft: "1px solid rgba(255,255,255,0.10)",
           zIndex: 50,

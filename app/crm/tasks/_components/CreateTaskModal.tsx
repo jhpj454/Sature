@@ -93,7 +93,7 @@ export function CreateTaskModal({
     >
       <div
         style={{
-          background: "rgba(20,24,36,0.98)",
+          background: "rgba(37,37,40,0.97)",
           border: "1px solid rgba(255,255,255,0.10)",
           borderRadius: 20,
           padding: 32,
