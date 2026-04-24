@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Task, TaskTemplate, TaskRule } from "../page";
 import { CreateTaskModal } from "./CreateTaskModal";
+import { EditTaskModal } from "./EditTaskModal";
 import { TemplatesManager } from "./TemplatesManager";
 import { RulesManager } from "./RulesManager";
 
@@ -68,9 +69,11 @@ function EmptyRow({ message }: { message: string }) {
 function MyTaskRow({
   task,
   onComplete,
+  onEdit,
 }: {
   task: Task;
   onComplete: (id: string) => void;
+  onEdit: (task: Task) => void;
 }) {
   const [completing, setCompleting] = useState(false);
 
@@ -137,6 +140,23 @@ function MyTaskRow({
           <span style={{ color: "hsl(0,0%,40%)" }}>—</span>
         )}
       </td>
+      <td style={{ ...TD_STYLE, width: 60, textAlign: "right" }}>
+        <button
+          onClick={() => onEdit(task)}
+          style={{
+            background: "rgba(255,255,255,0.06)",
+            color: "hsl(0,0%,60%)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: 6,
+            padding: "4px 10px",
+            fontFamily: "var(--font-instrument-sans)",
+            fontSize: 12,
+            cursor: "pointer",
+          }}
+        >
+          Edit
+        </button>
+      </td>
     </tr>
   );
 }
@@ -144,12 +164,25 @@ function MyTaskRow({
 function TaskListRow({
   task,
   isOverdue,
+  onEdit,
 }: {
   task: Task;
   isOverdue?: boolean;
+  onEdit: (task: Task) => void;
 }) {
+  const [hovered, setHovered] = useState(false);
   return (
-    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+    <tr
+      style={{
+        borderBottom: "1px solid rgba(255,255,255,0.05)",
+        cursor: "pointer",
+        background: hovered ? "rgba(255,255,255,0.03)" : "transparent",
+        transition: "background 0.12s",
+      }}
+      onClick={() => onEdit(task)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <td style={TD_STYLE}>
         <span style={{ fontFamily: "var(--font-lora)", fontSize: 14, color: "hsl(0,0%,100%)" }}>
           {task.title}
@@ -216,6 +249,7 @@ export function TasksPageClient({
 }) {
   const [myTasks, setMyTasks] = useState<Task[]>(initialMyTasks);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editTask, setEditTask] = useState<Task | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("templates");
   const [templates, setTemplates] = useState<TaskTemplate[]>(initialTemplates);
   const [rules, setRules] = useState<TaskRule[]>(initialRules);
@@ -228,6 +262,16 @@ export function TasksPageClient({
     setShowCreateModal(false);
     // If task is assigned to current user and open, prepend to my tasks
     setMyTasks((prev) => [task, ...prev]);
+  }
+
+  function handleTaskSaved(updated: Task) {
+    setMyTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
+    setEditTask(null);
+  }
+
+  function handleTaskDeleted(taskId: string) {
+    setMyTasks((prev) => prev.filter((t) => t.id !== taskId));
+    setEditTask(null);
   }
 
   return (
@@ -278,11 +322,12 @@ export function TasksPageClient({
                   <th style={TH_STYLE}>Title</th>
                   <th style={TH_STYLE}>Due Date</th>
                   <th style={TH_STYLE}>Entity</th>
+                  <th style={{ ...TH_STYLE, width: 60 }}></th>
                 </tr>
               </thead>
               <tbody>
                 {myTasks.map((task) => (
-                  <MyTaskRow key={task.id} task={task} onComplete={handleTaskComplete} />
+                  <MyTaskRow key={task.id} task={task} onComplete={handleTaskComplete} onEdit={setEditTask} />
                 ))}
               </tbody>
             </table>
@@ -311,7 +356,7 @@ export function TasksPageClient({
                 {upcomingTasks.length === 0 ? (
                   <EmptyRow message="No upcoming tasks in the next 14 days." />
                 ) : (
-                  upcomingTasks.map((task) => <TaskListRow key={task.id} task={task} />)
+                  upcomingTasks.map((task) => <TaskListRow key={task.id} task={task} onEdit={setEditTask} />)
                 )}
               </tbody>
             </table>
@@ -343,7 +388,7 @@ export function TasksPageClient({
                   <EmptyRow message="No overdue tasks." />
                 ) : (
                   overdueTasks.map((task) => (
-                    <TaskListRow key={task.id} task={task} isOverdue={true} />
+                    <TaskListRow key={task.id} task={task} isOverdue={true} onEdit={setEditTask} />
                   ))
                 )}
               </tbody>
@@ -414,6 +459,16 @@ export function TasksPageClient({
         <CreateTaskModal
           onClose={() => setShowCreateModal(false)}
           onCreated={handleTaskCreated}
+        />
+      )}
+
+      {/* Edit Task Modal */}
+      {editTask && (
+        <EditTaskModal
+          task={editTask}
+          onClose={() => setEditTask(null)}
+          onSaved={handleTaskSaved}
+          onDeleted={handleTaskDeleted}
         />
       )}
     </div>

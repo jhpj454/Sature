@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { apiFetch } from "@/app/lib/apiClient";
 import { ConvertToCustomerModal } from "@/app/crm/_components/ConvertToCustomerModal";
 import { CreateLeadModal } from "@/app/crm/_components/CreateLeadModal";
+import { EditLeadModal } from "@/app/crm/_components/EditLeadModal";
 import { ImportFromLeadsModal } from "@/app/crm/_components/ImportFromLeadsModal";
 import type { ActiveFilters } from "@/app/crm/_components/WinDealsControls";
 
@@ -123,6 +124,7 @@ export function LeadKanbanBoard({
   const [search, setSearch] = useState("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [editLead, setEditLead] = useState<KanbanLead | null>(null);
 
   const draggingRef = useRef<{ leadId: string; fromStageId: string } | null>(null);
 
@@ -230,6 +232,26 @@ export function LeadKanbanBoard({
       }),
     );
     setShowImportModal(false);
+  }
+
+  function handleEditSave(updated: KanbanLead) {
+    setColumns((prev) =>
+      prev.map((col) => ({
+        ...col,
+        leads: col.leads.map((l) => (l.id === updated.id ? updated : l)),
+      })),
+    );
+    setEditLead(null);
+  }
+
+  function handleEditDelete(leadId: string) {
+    setColumns((prev) =>
+      prev.map((col) => ({
+        ...col,
+        leads: col.leads.filter((l) => l.id !== leadId),
+      })),
+    );
+    setEditLead(null);
   }
 
   return (
@@ -572,18 +594,78 @@ export function LeadKanbanBoard({
                             {formatRevenue(lead.estimated_revenue)}
                           </div>
 
-                          {/* Producer */}
-                          {lead.assigned_producer_display_name ? (
-                            <div
+                          {/* Footer: producer + edit button */}
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              gap: "8px",
+                            }}
+                          >
+                            {lead.assigned_producer_display_name ? (
+                              <div
+                                style={{
+                                  fontFamily: "var(--font-instrument-sans)",
+                                  fontSize: "11px",
+                                  color: "hsl(0,0%,50%)",
+                                }}
+                              >
+                                {lead.assigned_producer_display_name}
+                              </div>
+                            ) : (
+                              <div />
+                            )}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditLead(lead);
+                              }}
+                              title="Edit deal"
                               style={{
-                                fontFamily: "var(--font-instrument-sans)",
-                                fontSize: "11px",
-                                color: "hsl(0,0%,50%)",
+                                background: "transparent",
+                                border: "none",
+                                padding: "2px 4px",
+                                cursor: "pointer",
+                                color: "hsl(0,0%,40%)",
+                                lineHeight: 1,
+                                borderRadius: "4px",
+                                flexShrink: 0,
+                                transition: "color 0.12s",
+                              }}
+                              onMouseEnter={(e) => {
+                                (e.currentTarget as HTMLButtonElement).style.color =
+                                  "hsl(0,0%,75%)";
+                              }}
+                              onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLButtonElement).style.color =
+                                  "hsl(0,0%,40%)";
                               }}
                             >
-                              {lead.assigned_producer_display_name}
-                            </div>
-                          ) : null}
+                              <svg
+                                width="13"
+                                height="13"
+                                viewBox="0 0 14 14"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M9.5 2.5L11.5 4.5L5 11H3V9L9.5 2.5Z"
+                                  stroke="currentColor"
+                                  strokeWidth="1.3"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M8 4L10 6"
+                                  stroke="currentColor"
+                                  strokeWidth="1.3"
+                                  strokeLinecap="round"
+                                />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       );
                     })
@@ -623,6 +705,16 @@ export function LeadKanbanBoard({
           firstOpenStageId={firstOpenStageId}
           onSuccess={handleImportSuccess}
           onClose={() => setShowImportModal(false)}
+        />
+      ) : null}
+
+      {editLead ? (
+        <EditLeadModal
+          lead={editLead}
+          csrUsers={csrUsers}
+          onClose={() => setEditLead(null)}
+          onSave={handleEditSave}
+          onDelete={handleEditDelete}
         />
       ) : null}
     </div>

@@ -157,7 +157,7 @@ type NavItem = {
 const mainNavItems: NavItem[] = [
   { label: "Dashboard", href: "/crm", icon: <IconDashboard />, exact: true },
   { label: "Win Deals", href: "/crm/win-deals", icon: <IconTrophy /> },
-  { label: "Customers", href: "/crm/accounts", icon: <IconPeople /> },
+  { label: "Customers", href: "/crm/customers", icon: <IconPeople /> },
   { label: "Tasks", href: "/crm/tasks", icon: <IconCheck /> },
   { label: "Calendar", href: "/crm/calendar", icon: <IconCalendar /> },
   { label: "Leads", href: "/crm/leads", icon: <IconLightning /> },
